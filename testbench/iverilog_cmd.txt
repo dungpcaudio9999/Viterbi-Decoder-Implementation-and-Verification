@@ -1,0 +1,1 @@
+iverilog -g2012 -o sim.out -I ../design/ tb_system_top.v ../design/system_top.v

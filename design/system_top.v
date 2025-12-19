@@ -12,6 +12,7 @@
  `include "sipo.v"
  */
  `include "viterbi_core.v"
+ `include "fifo.v"
 
 module system_top #(
     // Tham số có thể được override khi gọi module
@@ -35,6 +36,16 @@ module system_top #(
     // =================================================================
     // 1. TÍN HIỆU NỘI BỘ (Dây nối giữa các khối)
     // =================================================================
+
+    // Dây nối FIFO
+    wire [15:0] w_fifo_out_data;
+    wire        w_fifo_empty;
+    wire        w_fifo_full;
+    wire        w_fifo_rd_en;
+
+    // PISO sẽ nạp dữ liệu khi FIFO nhả hàng (delay 1 clock do rd_ptr của FIFO)
+    reg r_piso_load;
+    always @(posedge clk) r_piso_load <= w_fifo_rd_en;
 
     // Tín hiệu Handshake
     wire            w_piso_load;      // Xung 1-clock (từ FSM) báo PISO nạp 16-bit
@@ -89,12 +100,28 @@ module system_top #(
     // 3. KẾT NỐI (INSTANTIATION) CÁC KHỐI CON
     // =================================================================
 
+    // -----  KHỐI 0: FIFO (nhận dữ liệu hàng loạt từ ngoài)  ----- //
+    fifo #(.WIDTH(16), .DEPTH(32)) fifo_inst (
+        .clk    (clk),
+        .rst_n  (rst_n),
+        .wr_en  (dvalid_i),    // Cứ có dvalid_i từ ngoài là đẩy vào FIFO
+        .din    (data_i),
+        .full   (w_fifo_full), // Có thể nối ra cổng busy_o để báo "đầy, đừng gửi nữa"
+        .rd_en  (w_fifo_rd_en),
+        .dout   (w_fifo_out_data),
+        .empty  (w_fifo_empty),
+        .count  ()
+    );
+    
+
     // --- KHỐI 1: PISO (Nhận 16-bit) ---
-    piso piso_inst (
+    piso #(
+        .TBL(TBL)
+    ) piso_inst (
         .clk              (clk),
         .rst_n            (rst_n),
-        .load_i           (w_piso_load),      // Lệnh nạp (từ FSM)
-        .data_parallel_i  (data_i),           // 16-bit vào
+        .load_i           (r_piso_load),      // Lệnh nạp (từ FSM)
+        .data_parallel_i  (w_fifo_out_data),           // 16-bit vào
 
         .data_serial_o    (w_core_in_data),   // -> Gửi 2-bit cho CORE
         .valid_serial_o   (w_core_in_valid)   // -> Gửi valid cho CORE
@@ -124,6 +151,9 @@ module system_top #(
         .data_parallel_o  (data_o),           // -> Ra TOP
         .byte_ready_o     (w_sipo_byte_ready) // -> Báo cho FSM
     );
+
+    // Logic rút dữ liệu
+    assign w_fifo_rd_en = (!busy_o) && (!w_fifo_empty);
 
     // --- Gán cổng đầu ra cuối cùng ---
     assign valid_o = w_sipo_byte_ready;

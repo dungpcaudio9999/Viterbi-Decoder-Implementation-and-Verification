@@ -32,6 +32,20 @@ module pmu #(
     // Combinational read for zero latency
     assign read_data_o = dec_mem[read_addr_i];
 
+    // -----  Logic Find Min: Nomarlization  ----- //
+    reg [PM_WIDTH-1:0] min_pm;
+
+    always @(pm_new_s0_i, pm_new_s1_i, pm_new_s2_i, pm_new_s3_i) begin
+        min_pm = pm_new_s0_i;
+        if(pm_new_s1_i < min_pm) min_pm = pm_new_s1_i;
+        if(pm_new_s2_i < min_pm) min_pm = pm_new_s2_i;
+        if(pm_new_s3_i < min_pm) min_pm = pm_new_s3_i;
+    end
+
+    // -----  End Logic  ----- //
+    
+    
+
     integer i;
 
     always @(posedge clk or negedge rst_n) begin
@@ -44,14 +58,14 @@ module pmu #(
 
             // Clear decision memory
             for (i = 0; i < TBL; i = i + 1) begin
-                dec_mem[i] <= 4'b0000;
+                dec_mem[i] <= 4'b0;
             end
         end else if (valid_i) begin
-            // Update current PMs from new ones
-            pm_current_s0_o <= pm_new_s0_i;
-            pm_current_s1_o <= pm_new_s1_i;
-            pm_current_s2_o <= pm_new_s2_i;
-            pm_current_s3_o <= pm_new_s3_i;
+            // Update current PMs from new ones: subtract min value -> prevent overflow
+            pm_current_s0_o <= pm_new_s0_i - min_pm;
+            pm_current_s1_o <= pm_new_s1_i - min_pm;
+            pm_current_s2_o <= pm_new_s2_i - min_pm;
+            pm_current_s3_o <= pm_new_s3_i - min_pm;
 
             // Shift decision memory: Make room for new at newest position
             // Shift from newest to oldest: dec_mem[0] (oldest) gets dec_mem[1], ..., dec_mem[13] gets dec_mem[14], dec_mem[14] gets new

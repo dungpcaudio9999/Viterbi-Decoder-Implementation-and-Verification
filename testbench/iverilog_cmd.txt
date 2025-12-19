@@ -1,1 +1,4 @@
+# design simulation
+iverilog -o sim.out fifo.v && iverilog -o sim.out piso.v && iverilog -o sim.out bmu.v  && iverilog -o sim.out acsu.v && iverilog -o sim.out pmu.v && iverilog -o sim.out tbu.v  && iverilog -o sim.out sipo.v && iverilog -o sim.out viterbi_core.v && iverilog -o sim.out system_top.v
+
 iverilog -g2012 -o sim.out -I ../design/ tb_system_top.v ../design/system_top.v

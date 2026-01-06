@@ -62,11 +62,15 @@ module tbu #(
                 data_serial_o <= path_s2[TBL-1];
             else
                 data_serial_o <= path_s3[TBL-1];
+
+            // Debug
+            $display("%-10t | [DEBUG_TBU] Selected Bit: %b | Valid_Out: %b | Path_S0: %b", 
+             $time, data_serial_o, valid_serial_o, path_s0);
         end 
     end
 
     // Valid output logic
-    assign valid_serial_o = valid_pipe[PIPE_LEN-1] & valid_i; 
+    assign valid_serial_o = valid_pipe[PIPE_LEN-1] & valid_i;
 
     assign busy_o = 1'b0;
 

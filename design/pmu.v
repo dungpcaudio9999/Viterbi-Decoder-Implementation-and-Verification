@@ -32,14 +32,14 @@ module pmu #(
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            // --- [FIX QUAN TRỌNG] INITIALIZATION ---
-            // Encoder bắt đầu từ S0, nên Decoder cũng phải tin rằng S0 là điểm xuất phát.
-            pm_current_s0_o <= {PM_WIDTH{1'b0}}; // S0 = 0 (Rất tin tưởng)
+            // --- FIX FINAL: TRÁNH TRÀN SỐ ---
+            // S0 = 0 (Tốt nhất)
+            pm_current_s0_o <= 8'd0; 
             
-            // Các trạng thái khác set về Vô Cùng (MAX) để loại bỏ khả năng xuất phát từ đây
-            pm_current_s1_o <= {PM_WIDTH{1'b1}}; // S1 = 255 (Max)
-            pm_current_s2_o <= {PM_WIDTH{1'b1}}; // S2 = 255 (Max)
-            pm_current_s3_o <= {PM_WIDTH{1'b1}}; // S3 = 255 (Max)
+            // Các S khác = 128 (Đủ lớn để xấu, đủ nhỏ để cộng không tràn)
+            pm_current_s1_o <= 8'd128; 
+            pm_current_s2_o <= 8'd128;
+            pm_current_s3_o <= 8'd128;
             
         end else if (valid_i) begin
             // Cập nhật giá trị mới và TRỪ đi min_pm (Normalization)

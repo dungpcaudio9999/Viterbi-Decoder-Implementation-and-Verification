@@ -22,19 +22,24 @@ module piso #(
             valid_serial_o <= 1'b0;
             busy_o         <= 1'b0;
         end else begin
-            valid_serial_o <= 1'b0;
-
-            if (busy_o) begin
-                valid_serial_o <= 1'b1;
-                shift_reg <= {shift_reg[13:0], 2'b00}; // Shift Left
-                
-                if (bit_cnt == 4'd1) busy_o <= 1'b0;
-                else bit_cnt <= bit_cnt - 1'b1;
+            // Ưu tiên nạp dữ liệu mới ngay lập tức nếu có load_i
+            if (load_i) begin
+                shift_reg      <= data_parallel_i;
+                bit_cnt        <= 4'd8; 
+                busy_o         <= 1'b1;
+                valid_serial_o <= 1'b0; // Chưa valid ngay chu kỳ này vì mới nạp
             end 
-            else if (load_i) begin
-                shift_reg <= data_parallel_i;
-                bit_cnt   <= 4'd8; 
-                busy_o    <= 1'b1; 
+            else if (busy_o) begin
+                valid_serial_o <= 1'b1;
+                shift_reg      <= {shift_reg[13:0], 2'b00};
+                
+                if (bit_cnt == 4'd1) 
+                    busy_o <= 1'b0;
+                else 
+                    bit_cnt <= bit_cnt - 1'b1;
+            end 
+            else begin
+                valid_serial_o <= 1'b0;
             end
         end
     end

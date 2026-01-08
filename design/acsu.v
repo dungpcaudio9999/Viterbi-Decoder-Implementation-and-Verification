@@ -98,4 +98,10 @@ assign dec_bits_o[3] = (pm_23_sat <= pm_33_sat) ? 1'b0 : 1'b1; // 0 if from S2, 
 //     end
 // endfunction
 
+// Thay đoạn display cũ bằng đoạn này:
+always @(pm_s0_i or pm_s1_i) begin
+    // Chỉ cần in khi có thay đổi quan trọng hoặc theo Clock (tốt nhất là đưa vào always @(posedge clk) ở top)
+    $display("%t | DEBUG_ACSU | PM_In: S0=%d S1=%d S2=%d S3=%d | BM_S0S0=%d BM_S1S0=%d | Dec: %b", 
+             $time, pm_s0_i, pm_s1_i, pm_s2_i, pm_s3_i, bm_s0_s0_i, bm_s1_s0_i, dec_bits_o);
+end
 endmodule

@@ -1,7 +1,7 @@
 `include "sync_fifo.v"
 `include "viterbi_core.v"
 // Lưu ý: viterbi_core đã bao gồm các include con (piso, bmu, acsu, pmu, tbu, sipo)
-// Nếu trình biên dịch báo lỗi double include, đại ca hãy comment dòng include viterbi_core lại
+// Nếu trình biên dịch báo lỗi double include,  hãy comment dòng include viterbi_core lại
 // hoặc dùng guard ifndef trong các file con.
 
 module system_top #(
@@ -71,12 +71,16 @@ module system_top #(
     );
 
     // =================================================================
-    // 3. CONTROLLER (FSM: FIFO -> PISO)
+    // 3. CONTROLLER (FSM: FIFO -> WAIT -> PISO -> AUTO FLUSH)
     // =================================================================
-    // Cập nhật: Đã gỡ bỏ phanh "w_tbu_busy". Chạy Max Speed!
     
-    reg [1:0] fsm_state;
-    localparam S_CHECK = 0, S_LOAD = 1, S_FIRE = 2;
+    reg [2:0] fsm_state; 
+    reg [4:0] flush_cnt;
+
+    // Thêm trạng thái S_WAIT
+    // Thêm S_WAIT_BUSY vào danh sách
+    localparam S_CHECK = 0, S_WAIT = 1, S_LOAD = 2, S_FIRE = 3, S_WAIT_BUSY = 4;
+    localparam FLUSH_LIMIT = TBL + 5; // Tăng limit lên chút cho chắc
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
@@ -84,33 +88,52 @@ module system_top #(
             fifo_ren   <= 0;
             piso_start <= 0;
             piso_din   <= 0;
+            flush_cnt  <= 0;
         end else begin
             case (fsm_state)
                 S_CHECK: begin
-                    piso_start <= 0;
+                    piso_start <= 0; 
                     
-                    // --- [UPDATE QUAN TRỌNG] ---
-                    // Điều kiện cũ: if (!fifo_empty && !piso_busy && !w_tbu_busy)
-                    // Điều kiện mới: Bỏ w_tbu_busy vì Pipeline không bao giờ nghẽn
-                    if (!fifo_empty && !piso_busy) begin
-                        fifo_ren  <= 1;       // Kích hoạt đọc FIFO
-                        fsm_state <= S_LOAD;
+                    if (!piso_busy) begin
+                        if (!fifo_empty) begin
+                            // 1. CÓ HÀNG: Đọc FIFO
+                            fifo_ren  <= 1;
+                            flush_cnt <= 0;
+                            // Sửa lỗi: Không nhảy sang LOAD ngay, mà phải sang WAIT
+                            fsm_state <= S_WAIT; 
+                        end
+                        else if (flush_cnt < FLUSH_LIMIT) begin
+                            // 2. HẾT HÀNG: Auto Flush (Nạp số 0)
+                            piso_din  <= 16'd0; 
+                            fsm_state <= S_FIRE; // Flush thì không cần Wait
+                            flush_cnt <= flush_cnt + 1;
+                        end
                     end
                 end
 
+                S_WAIT: begin
+                    // Trạng thái này để chờ RAM của FIFO phản hồi
+                    fifo_ren  <= 0; // Tắt lệnh đọc (pulse 1 nhịp là đủ)
+                    fsm_state <= S_LOAD;
+                end
+
                 S_LOAD: begin
-                    fifo_ren <= 0;            // Tắt lệnh đọc
-                    // Dữ liệu từ FIFO đã sẵn sàng tại fifo_rdata
-                    piso_din  <= fifo_rdata;  // Nạp vào thanh ghi đệm
+                    // Lúc này fifo_rdata mới thực sự có dữ liệu đúng
+                    piso_din  <= fifo_rdata; 
                     fsm_state <= S_FIRE;
                 end
 
                 S_FIRE: begin
-                    piso_start <= 1;          // Bắn lệnh Start cho PISO
-                    fsm_state  <= S_CHECK;    // Quay lại kiểm tra ngay
+                    piso_start <= 1;        
+                    fsm_state  <= S_WAIT_BUSY;  
                 end
                 
-                default: fsm_state <= S_CHECK;
+                S_WAIT_BUSY: begin
+                    piso_start <= 0; // Hạ lệnh start xuống
+                    // Bây giờ PISO chắc chắn đã nhận lệnh và dựng busy lên rồi
+                    // Quay về CHECK để đợi nó làm xong việc
+                    fsm_state  <= S_CHECK;
+                end
             endcase
         end
     end

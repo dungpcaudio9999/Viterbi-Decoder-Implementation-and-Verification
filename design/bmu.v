@@ -50,4 +50,11 @@ assign bm_s2_s3_o = diff_s2_s3[1] + diff_s2_s3[0];
 assign bm_s3_s1_o = diff_s3_s1[1] + diff_s3_s1[0];
 assign bm_s3_s3_o = diff_s3_s3[1] + diff_s3_s3[0];
 
+// Thêm vào cuối file bmu.v
+always @(piso_data_i) begin
+    $display("%-10t | [DEBUG_BMU] Input: %b | BM_S0_S0: %d, BM_S0_S2: %d", 
+             $time, piso_data_i, bm_s0_s0_o, bm_s0_s2_o);
+end
+
 endmodule
+

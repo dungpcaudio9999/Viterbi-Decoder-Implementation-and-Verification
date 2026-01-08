@@ -1,10 +1,10 @@
 /*
  * MODULE: tbu
- * CHỨC NĂNG: Traceback Unit - REGISTERED OUTPUT ALIGNED
+ * CHỨC NĂNG: Traceback Unit - ROLLBACK TO GOLDEN VERSION
  * UPDATE: 
- * 1. Data dùng Reg (trễ 1 nhịp) để tín hiệu ổn định.
- * 2. Valid Pipe tăng lên TBL + 1 để khớp với độ trễ của Data.
- * 3. Giữ nguyên logic PAUSE và & valid_i để chống Timeout.
+ * 1. Quay lại dùng Output Register (always @posedge) để đồng bộ nhịp với Valid.
+ * 2. Giữ logic PAUSE để chống Timeout.
+ * 3. Giữ độ dài ống chuẩn TBL (15) -> Khớp bit 100%.
  */
 module tbu #(
     parameter TBL      = 15,
@@ -20,7 +20,7 @@ module tbu #(
     input  wire [PM_WIDTH-1:0] pm_s2_i,
     input  wire [PM_WIDTH-1:0] pm_s3_i,
 
-    output reg            data_serial_o,
+    output reg            data_serial_o, // Dùng REG (Flip-flop) để khớp nhịp
     output wire           valid_serial_o, 
     output wire           busy_o
 );
@@ -30,10 +30,8 @@ module tbu #(
     reg [TBL-1:0] path_s2;
     reg [TBL-1:0] path_s3;
 
-    // --- [FIX] CÂN BẰNG TIMING ---
-    // Vì Data Output là REG (trễ 1 nhịp), nên Valid Pipe phải dài thêm 1 nhịp (TBL + 1)
-    // Để Data và Valid cùng xuất hiện tại một thời điểm.
-    localparam PIPE_LEN = TBL + 1; 
+    // Độ dài chuẩn, không cộng trừ gì cả
+    localparam PIPE_LEN = TBL; 
     reg [PIPE_LEN-1:0] valid_pipe;
 
     always @(posedge clk or negedge rst_n) begin
@@ -44,17 +42,18 @@ module tbu #(
         end else if (valid_i) begin
             // --- LOGIC ĐỒNG BỘ (PAUSE) ---
             
-            // 1. Cập nhật đường đi (Shift)
+            // 1. Cập nhật đường đi
             path_s0 <= (dec_bits_i[0] == 0) ? {path_s0[TBL-2:0], 1'b0} : {path_s1[TBL-2:0], 1'b0};
             path_s1 <= (dec_bits_i[1] == 0) ? {path_s2[TBL-2:0], 1'b0} : {path_s3[TBL-2:0], 1'b0};
             path_s2 <= (dec_bits_i[2] == 0) ? {path_s0[TBL-2:0], 1'b1} : {path_s1[TBL-2:0], 1'b1};
             path_s3 <= (dec_bits_i[3] == 0) ? {path_s2[TBL-2:0], 1'b1} : {path_s3[TBL-2:0], 1'b1};
             
-            // 2. Cập nhật Valid Pipe (Shift)
+            // 2. Cập nhật Valid Pipe
             valid_pipe <= {valid_pipe[PIPE_LEN-2:0], 1'b1};
 
-            // 3. Cập nhật Data Output (Vote & Latch)
-            // Lệnh này tạo ra độ trễ 1 nhịp so với path_sX
+            // 3. Cập nhật Data Output (Vote)
+            // Vì nằm trong always @posedge nên nó sẽ có độ trễ 1 nhịp
+            // Khớp hoàn toàn với độ trễ 1 nhịp của valid_pipe
             if (pm_s0_i <= pm_s1_i && pm_s0_i <= pm_s2_i && pm_s0_i <= pm_s3_i)
                 data_serial_o <= path_s0[TBL-1];
             else if (pm_s1_i <= pm_s2_i && pm_s1_i <= pm_s3_i)
@@ -63,11 +62,15 @@ module tbu #(
                 data_serial_o <= path_s2[TBL-1];
             else
                 data_serial_o <= path_s3[TBL-1];
+
+            // Debug
+            $display("%-10t | [DEBUG_TBU] Selected Bit: %b | Valid_Out: %b | Path_S0: %b", 
+             $time, data_serial_o, valid_serial_o, path_s0);
         end 
     end
 
-    // Output Logic: Lấy ở cuối ống (PIPE_LEN-1) và Gate với valid_i
-    assign valid_serial_o = valid_pipe[PIPE_LEN-1] & valid_i; 
+    // Valid output logic
+    assign valid_serial_o = valid_pipe[PIPE_LEN-1] & valid_i;
 
     assign busy_o = 1'b0;
 

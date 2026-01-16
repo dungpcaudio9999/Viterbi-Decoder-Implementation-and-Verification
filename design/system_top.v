@@ -1,5 +1,3 @@
-`define DEBUG_TRACE  // Comment dòng này lại nếu muốn tắt debug
-
 `include "sync_fifo.v"
 `include "viterbi_core.v"
 // Lưu ý: viterbi_core đã bao gồm các include con (piso, bmu, acsu, pmu, tbu, sipo)
@@ -7,7 +5,7 @@
 // hoặc dùng guard ifndef trong các file con.
 
 module system_top #(
-    parameter TBL = 32
+    parameter TBL = 15
 )(
     input  wire        clk,
     input  wire        rst_n,
@@ -82,7 +80,7 @@ module system_top #(
     // Thêm trạng thái S_WAIT
     // Thêm S_WAIT_BUSY vào danh sách
     localparam S_CHECK = 0, S_WAIT = 1, S_LOAD = 2, S_FIRE = 3, S_WAIT_BUSY = 4;
-    localparam FLUSH_LIMIT = 32; // Tăng limit lên chút cho chắc
+    localparam FLUSH_LIMIT = TBL + 5; // Tăng limit lên chút cho chắc
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin

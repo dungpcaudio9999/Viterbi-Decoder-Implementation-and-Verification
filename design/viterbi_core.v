@@ -12,7 +12,7 @@
  `include "sipo.v"
  
 module viterbi_core #(
-    parameter TBL      = 32,
+    parameter TBL      = 15,
     parameter PM_WIDTH = 8
 )(
     input  wire           clk,
@@ -76,41 +76,26 @@ module viterbi_core #(
     acsu #(
         .PM_WIDTH       (PM_WIDTH)
     ) acsu_inst (
-        // --- BRANCH METRICS MAPPING (QUAN TRỌNG) ---
-        // Sơ đồ Shift Left (Poly 111, 101):
-        // S0 -> S0 (Out 00), S0 -> S1 (Out 11)
-        // S1 -> S2 (Out 10), S1 -> S3 (Out 01)
-        // S2 -> S0 (Out 11), S2 -> S1 (Out 00)
-        // S3 -> S2 (Out 01), S3 -> S3 (Out 10)
-
-        // Cổng của ACSU (Shift Left) -> Nối với dây BMU tương ứng
+        // Input Chi phí nhánh (từ BMU)
+        .bm_s0_s0_i     (w_bm_s0_s0),
+        .bm_s0_s2_i     (w_bm_s0_s2),
+        .bm_s1_s0_i     (w_bm_s1_s0),
+        .bm_s1_s2_i     (w_bm_s1_s2),
+        .bm_s2_s1_i     (w_bm_s2_s1),
+        .bm_s2_s3_i     (w_bm_s2_s3),
+        .bm_s3_s1_i     (w_bm_s3_s1),
+        .bm_s3_s3_i     (w_bm_s3_s3),
         
-        // 1. Nhóm tính S0 (Đến từ S0, S2)
-        .bm_s0_s0_i     (w_bm_s0_s0), // S0->S0 (Out 00) -> Đúng
-        .bm_s2_s3_i     (w_bm_s0_s2), // S2->S0 (Out 11) -> Nối vào dây w_bm_s0_s2 (vì w_bm_s0_s2 là khoảng cách với '11')
-                                      // Lưu ý: Tên dây w_bm_s0_s2 trong BMU thường ám chỉ BM với 11.
-                                      // Trong ACSU mới, cổng này tên là bm_s2_s3_i (do đệ mượn cổng).
-
-        // 2. Nhóm tính S1 (Đến từ S0, S2)
-        .bm_s0_s2_i     (w_bm_s0_s2), // S0->S1 (Out 11) -> Dùng w_bm_s0_s2
-        .bm_s2_s1_i     (w_bm_s0_s0), // S2->S1 (Out 00) -> Dùng w_bm_s0_s0 (Khoảng cách với 00)
-
-        // 3. Nhóm tính S2 (Đến từ S1, S3)
-        .bm_s1_s2_i     (w_bm_s1_s2), // S1->S2 (Out 10) -> Đúng
-        .bm_s3_s1_i     (w_bm_s2_s3), // S3->S2 (Out 01) -> Dùng w_bm_s2_s3 (Khoảng cách với 01)
-
-        // 4. Nhóm tính S3 (Đến từ S1, S3)
-        .bm_s1_s0_i     (w_bm_s2_s3), // S1->S3 (Out 01) -> Dùng w_bm_s2_s3
-        .bm_s3_s3_i     (w_bm_s1_s2), // S3->S3 (Out 10) -> Dùng w_bm_s1_s2
-
-        // --- CÁC CỔNG CÒN LẠI GIỮ NGUYÊN ---
+        // Input PM Cũ (từ PMU - Feedback)
         .pm_s0_i        (w_pm_current_s0),
         .pm_s1_i        (w_pm_current_s1),
         .pm_s2_i        (w_pm_current_s2),
         .pm_s3_i        (w_pm_current_s3),
         
+        // Output (Decision bits đi thẳng sang TBU)
         .dec_bits_o     (w_dec_bits),
         
+        // Output PM Mới (Gửi sang PMU để lưu)
         .pm_s0_o        (w_pm_new_s0),
         .pm_s1_o        (w_pm_new_s1),
         .pm_s2_o        (w_pm_new_s2),

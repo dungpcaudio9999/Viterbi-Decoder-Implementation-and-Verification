@@ -1,5 +1,5 @@
 module piso #(
-    parameter TBL = 32
+    parameter TBL = 15
 )(
     input  wire        clk,
     input  wire        rst_n,
@@ -43,19 +43,4 @@ module piso #(
             end
         end
     end
-
-`ifdef DEBUG_TRACE
-    always @(posedge clk) begin
-        // In mỗi khi PISO đang hoạt động (đang dịch bit ra serial)
-        if (valid_serial_o) begin 
-            $display("[TIME %0t][PISO_ACTIVE] Reg: %b | Out: %b | Busy: %b", 
-                     $time, shift_reg, data_serial_o, busy_o);
-        end
-        // In khi có lệnh nạp byte mới
-        if (load_i) begin
-            $display("[TIME %0t][PISO_LOAD] Loading new byte: %h", $time, data_parallel_i);
-        end
-    end
-`endif
 endmodule
-

@@ -1,5 +1,5 @@
 module pmu #(
-    parameter TBL      = 32,
+    parameter TBL      = 15,
     parameter PM_WIDTH = 8
 )(
     input  wire        clk,

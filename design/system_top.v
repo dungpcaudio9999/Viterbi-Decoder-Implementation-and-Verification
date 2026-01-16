@@ -1,131 +1,87 @@
-/*
- * MODULE: system_top
- * CHỨC NĂNG: Lõi IP giải mã Viterbi K=3, R=1/2 hoàn chỉnh.
- * KIẾN TRÚC: PISO -> Viterbi Core -> SIPO
- * Nhận 16-bit song song, trả về 8-bit song song.
- */
- /*
- `include "piso.v"
- `include "acsu.v"
- `include "pmu.v"
- `include "tbu.v"
- `include "sipo.v"
- */
- `include "viterbi_core.v"
+`include "sync_fifo.v"
+`include "piso.v"
+`include "sipo.v"
+`include "viterbi_core.v"
 
-module system_top #(
-    // Tham số có thể được override khi gọi module
-    parameter TBL      = 15, // Traceback Length
-    parameter PM_WIDTH = 8   // Độ rộng bit của Path Metric
-)(
-    // --- Cổng Hệ thống ---
-    input  wire           clk,
-    input  wire           rst_n,
-    
-    // --- Cổng Đầu vào (Parallel) ---
-    input  wire           dvalid_i, // Báo 16-bit data_i hợp lệ
-    input  wire [15:0]    data_i,
-    
-    // --- Cổng Đầu ra (Parallel) ---
-    output wire [7:0]     data_o,   // 8-bit kết quả
-    output wire           valid_o,  // Báo data_o hợp lệ (1-cycle pulse)
-    output wire           busy_o    // Báo hệ thống đang xử lý
+module system_top (
+    input  wire        clk,
+    input  wire        rst_n,
+    input  wire        dvalid_i,     // Input Valid (Write Enable cho FIFO)
+    input  wire [15:0] data_i,       // Input Data
+    output wire [7:0]  data_o,       // Output Data
+    output wire        valid_o,      // Output Valid
+    output wire        busy_o        // Báo bận (Khi FIFO đầy)
 );
 
-    // =================================================================
-    // 1. TÍN HIỆU NỘI BỘ (Dây nối giữa các khối)
-    // =================================================================
+    // --- Dây kết nối FIFO -> PISO ---
+    wire        fifo_full;
+    wire        fifo_empty;
+    wire        piso_rd_en;
+    wire [15:0] fifo_data_out;
 
-    // Tín hiệu Handshake
-    wire            w_piso_load;      // Xung 1-clock (từ FSM) báo PISO nạp 16-bit
-    wire            w_sipo_byte_ready; // Xung 1-clock (từ SIPO) báo đã xong 8-bit
+    // --- Dây kết nối PISO -> Core ---
+    wire [1:0]  piso_to_core_data;
+    wire        piso_to_core_valid;
 
-    // Luồng dữ liệu PISO -> CORE (Nối tiếp 2-bit)
-    wire [1:0]      w_core_in_data;
-    wire            w_core_in_valid;
+    // --- Dây kết nối Core -> SIPO ---
+    wire        core_to_sipo_data;
+    wire        core_to_sipo_valid;
 
-    // Luồng dữ liệu CORE -> SIPO (Nối tiếp 1-bit)
-    wire            w_core_out_data;
-    wire            w_core_out_valid;
-
-    // =================================================================
-    // 2. FSM ĐIỀU KHIỂN `busy_o`
-    // =================================================================
-    // FSM này quản lý trạng thái bận của TOÀN BỘ HỆ THỐNG.
-    
-    localparam S_IDLE = 1'b0;
-    localparam S_BUSY = 1'b1;
-    
-    reg r_busy_state;
-
-    // `busy_o` chính là trạng thái FSM
-    assign busy_o = r_busy_state; 
-    
-    // Chỉ "nạp" (load) khi rảnh VÀ có lệnh
-    assign w_piso_load = (r_busy_state == S_IDLE) && dvalid_i;
-
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            r_busy_state <= S_IDLE;
-        end
-        else begin
-            case (r_busy_state)
-                S_IDLE: begin
-                    if (w_piso_load) begin
-                        r_busy_state <= S_BUSY; // Bắt đầu bận
-                    end
-                end
-                
-                S_BUSY: begin
-                    if (w_sipo_byte_ready) begin
-                        r_busy_state <= S_IDLE; // Xong việc, quay về rảnh
-                    end
-                end
-            endcase
-        end
-    end
-
-    // =================================================================
-    // 3. KẾT NỐI (INSTANTIATION) CÁC KHỐI CON
-    // =================================================================
-
-    // --- KHỐI 1: PISO (Nhận 16-bit) ---
-    piso piso_inst (
-        .clk              (clk),
-        .rst_n            (rst_n),
-        .load_i           (w_piso_load),      // Lệnh nạp (từ FSM)
-        .data_parallel_i  (data_i),           // 16-bit vào
-
-        .data_serial_o    (w_core_in_data),   // -> Gửi 2-bit cho CORE
-        .valid_serial_o   (w_core_in_valid)   // -> Gửi valid cho CORE
+    // --- 1. FIFO Input Buffer ---
+    // Buffer đầu vào để tránh mất mát dữ liệu khi PISO đang bận
+    sync_fifo #(
+        .DATA_WIDTH(16),
+        .DEPTH(16)      // Chứa được 16 gói tin (16 * 16 bit)
+    ) u_input_fifo (
+        .clk(clk),
+        .rst_n(rst_n),
+        // Write side (Từ bên ngoài)
+        .wr_en_i(dvalid_i),
+        .wr_data_i(data_i),
+        .full_o(fifo_full),
+        // Read side (Tới PISO)
+        .rd_en_i(piso_rd_en),
+        .rd_data_o(fifo_data_out),
+        .empty_o(fifo_empty)
     );
 
-    // --- KHỐI 2: LÕI VITERBI (Bọc BMU, ACSU, PMU, TBU) ---
-    viterbi_core #(
-        .TBL              (TBL),
-        .PM_WIDTH         (PM_WIDTH)
-    ) core_inst (
-        .clk              (clk),
-        .rst_n            (rst_n),
-        .valid_i          (w_core_in_valid),  // <- Nhận valid từ PISO
-        .data_core_i           (w_core_in_data),   // <- Nhận 2-bit từ PISO
-
-        .data_serial_o    (w_core_out_data),  // -> Gửi 1-bit cho SIPO
-        .valid_serial_o   (w_core_out_valid)  // -> Gửi valid cho SIPO
+    // --- 2. PISO (Active Mode) ---
+    piso u_piso (
+        .clk(clk),
+        .rst_n(rst_n),
+        // Lấy dữ liệu từ FIFO
+        .fifo_data_i(fifo_data_out),
+        .fifo_empty_i(fifo_empty),
+        .fifo_rd_en_o(piso_rd_en),
+        // Đẩy ra Core
+        .data_serial_o(piso_to_core_data),
+        .valid_serial_o(piso_to_core_valid)
     );
 
-    // --- KHỐI 3: SIPO (Nhận 8 lần 1-bit, "xả" 1 lần 8-bit) ---
-    sipo sipo_inst (
-        .clk              (clk),
-        .rst_n            (rst_n),
-        .data_serial_i    (w_core_out_data),  // <- Nhận 1-bit từ CORE
-        .valid_serial_i   (w_core_out_valid), // <- Nhận valid từ CORE
-
-        .data_parallel_o  (data_o),           // -> Ra TOP
-        .byte_ready_o     (w_sipo_byte_ready) // -> Báo cho FSM
+    // --- 3. Viterbi Core (Phiên bản Pipeline/PMU_RE mới nhất) ---
+    // (Đại ca nhớ dùng file viterbi_core.v em viết ở bước trước nhé)
+    viterbi_core u_viterbi_core (
+        .clk(clk),
+        .rst_n(rst_n),
+        .piso_data_i(piso_to_core_data),
+        .valid_i(piso_to_core_valid),
+        .core_data_o(core_to_sipo_data),
+        .core_valid_o(core_to_sipo_valid)
     );
 
-    // --- Gán cổng đầu ra cuối cùng ---
-    assign valid_o = w_sipo_byte_ready;
+    // --- 4. SIPO ---
+    sipo u_sipo (
+        .clk(clk),
+        .rst_n(rst_n),
+        .data_serial_i(core_to_sipo_data),
+        .valid_serial_i(core_to_sipo_valid),
+        .data_parallel_o(data_o),
+        .byte_ready_o(valid_o)
+    );
 
-endmodule 
+    // Busy Logic:
+    // Bây giờ hệ thống chỉ "bận" thực sự (từ chối input) khi FIFO đã đầy.
+    // Nếu FIFO chưa đầy, bên ngoài vẫn có thể bắn data vào thoải mái.
+    assign busy_o = fifo_full;
+
+endmodule

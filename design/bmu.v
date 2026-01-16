@@ -1,53 +1,37 @@
-// bmu.v - Block Metric Unit
-// Tính toán Chi phí Hamming (Branch Metric)
 module bmu (
-    input  [1:0] piso_data_i,    // D? li?u nh?n ???c (2 bits)
+    input  wire [1:0] piso_data_i, // 2 bit lá»—i tá»« PISO [cite: 85]
     
-    // ??u ra Chi phí Hamming (2 bits)
-    output [1:0] bm_s0_s0_o,
-    output [1:0] bm_s0_s2_o,
-    output [1:0] bm_s1_s0_o,
-    output [1:0] bm_s1_s2_o,
-    output [1:0] bm_s2_s1_o,
-    output [1:0] bm_s2_s3_o,
-    output [1:0] bm_s3_s1_o,
-    output [1:0] bm_s3_s3_o
+    // CÃ¡c chi phÃ­ nhÃ¡nh (Branch Metrics) [cite: 85-86]
+    output wire [1:0] bm_s0_s0_o, // Exp: 00
+    output wire [1:0] bm_s0_s2_o, // Exp: 11
+    output wire [1:0] bm_s1_s0_o, // Exp: 11
+    output wire [1:0] bm_s1_s2_o, // Exp: 00
+    output wire [1:0] bm_s2_s1_o, // Exp: 10
+    output wire [1:0] bm_s2_s3_o, // Exp: 01
+    output wire [1:0] bm_s3_s1_o, // Exp: 01
+    output wire [1:0] bm_s3_s3_o  // Exp: 10
 );
 
-// --- Khai báo Codeword D? ki?n (Expected Codewords) ---
-parameter C00 = 2'b00; // Expected Codeword cho S0 -> S0
-parameter C02 = 2'b11; // Expected Codeword cho S0 -> S2
-parameter C10 = 2'b11; // Expected Codeword cho S1 -> S0
-parameter C12 = 2'b00; // Expected Codeword cho S1 -> S2
-parameter C21 = 2'b10; // Expected Codeword cho S2 -> S1
-parameter C23 = 2'b01; // Expected Codeword cho S2 -> S3
-parameter C31 = 2'b01; // Expected Codeword cho S3 -> S1
-parameter C33 = 2'b10; // Expected Codeword cho S3 -> S3
+    // HÃ m tÃ­nh Hamming Distance: Äáº¿m sá»‘ bit khÃ¡c nhau
+    function [1:0] hamming_dist;
+        input [1:0] in_bits;
+        input [1:0] exp_bits;
+        begin
+            hamming_dist = (in_bits[0] ^ exp_bits[0]) + (in_bits[1] ^ exp_bits[1]);
+        end
+    endfunction
 
-// --- Khai báo wire trung gian cho k?t qu? XOR (Hamming Distance) ---
-// M?i wire có ?? r?ng 2 bit
-wire [1:0] diff_s0_s0 = piso_data_i ^ C00;
-wire [1:0] diff_s0_s2 = piso_data_i ^ C02;
-wire [1:0] diff_s1_s0 = piso_data_i ^ C10;
-wire [1:0] diff_s1_s2 = piso_data_i ^ C12;
-wire [1:0] diff_s2_s1 = piso_data_i ^ C21;
-wire [1:0] diff_s2_s3 = piso_data_i ^ C23;
-wire [1:0] diff_s3_s1 = piso_data_i ^ C31;
-wire [1:0] diff_s3_s3 = piso_data_i ^ C33;
-
-// --- Hàm tính toán Chi phí Hamming (Hamming Weight) ---
-// S? d?ng phép c?ng các bit ??n, nh?ng v?i bi?n trung gian, giúp trình biên d?ch x? lı d? h?n.
-
-assign bm_s0_s0_o = diff_s0_s0[1] + diff_s0_s0[0];
-assign bm_s0_s2_o = diff_s0_s2[1] + diff_s0_s2[0];
-
-assign bm_s1_s0_o = diff_s1_s0[1] + diff_s1_s0[0];
-assign bm_s1_s2_o = diff_s1_s2[1] + diff_s1_s2[0];
-
-assign bm_s2_s1_o = diff_s2_s1[1] + diff_s2_s1[0];
-assign bm_s2_s3_o = diff_s2_s3[1] + diff_s2_s3[0];
-
-assign bm_s3_s1_o = diff_s3_s1[1] + diff_s3_s1[0];
-assign bm_s3_s3_o = diff_s3_s3[1] + diff_s3_s3[0];
+    // GÃ¡n giÃ¡ trá»‹ dá»±a trÃªn báº£ng [cite: 82-83]
+    assign bm_s0_s0_o = hamming_dist(piso_data_i, 2'b00);
+    assign bm_s0_s2_o = hamming_dist(piso_data_i, 2'b11);
+    
+    assign bm_s1_s0_o = hamming_dist(piso_data_i, 2'b11);
+    assign bm_s1_s2_o = hamming_dist(piso_data_i, 2'b00);
+    
+    assign bm_s2_s1_o = hamming_dist(piso_data_i, 2'b10);
+    assign bm_s2_s3_o = hamming_dist(piso_data_i, 2'b01);
+    
+    assign bm_s3_s1_o = hamming_dist(piso_data_i, 2'b01);
+    assign bm_s3_s3_o = hamming_dist(piso_data_i, 2'b10);
 
 endmodule

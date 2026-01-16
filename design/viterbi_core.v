@@ -1,7 +1,8 @@
 /*
  * MODULE: viterbi_core
- * CHỨC NĂNG: chứa 4 khối (BMU, ACSU, PMU, TBU)
- * KIẾN TRÚC: RAM-based
+ * CHỨC NĂNG: Chứa 4 khối lõi (BMU, ACSU, PMU, TBU)
+ * KIẾN TRÚC: Pipeline hoàn toàn (Register Exchange)
+ * TỐC ĐỘ: 1 bit input -> 1 bit output (sau độ trễ TBL)
  */
  `include "piso.v"
  `include "bmu.v"
@@ -16,18 +17,18 @@ module viterbi_core #(
 )(
     input  wire           clk,
     input  wire           rst_n,
-    input  wire           valid_i,  // valid_serial_o từ PISO
-    input  wire [1:0]     data_core_i,   // data_serial_o từ PISO
+    input  wire           valid_i,        // valid_serial_o từ PISO
+    input  wire [1:0]     data_core_i,    // data_serial_o từ PISO
     
-    output wire           data_serial_o, // Gửi cho SIPO
-    output wire           valid_serial_o // Gửi cho SIPO
+    output wire           data_serial_o,  // Gửi cho SIPO
+    output wire           valid_serial_o, // Gửi cho SIPO
+    output wire           busy_o          // Luôn bằng 0 trong kiến trúc mới
 );
-
     // =================================================================
     // 1. DÂY NỐI NỘI BỘ (Kết nối 4 khối)
     // =================================================================
 
-    // BMU -> ACSU (8 chi phí)
+    // --- BMU -> ACSU (8 giá trị chi phí nhánh) ---
     wire [1:0] w_bm_s0_s0;
     wire [1:0] w_bm_s0_s2;
     wire [1:0] w_bm_s1_s0;
@@ -37,118 +38,116 @@ module viterbi_core #(
     wire [1:0] w_bm_s3_s1;
     wire [1:0] w_bm_s3_s3;
 
-    // ACSU -> PMU (Ghi)
-    wire [3:0] w_dec_bits;
+    // --- ACSU -> TBU & PMU ---
+    wire [3:0] w_dec_bits;          // Bit quyết định: Nối THẲNG sang TBU
+    
+    // --- ACSU -> PMU (Path Metric mới cần lưu và chuẩn hóa) ---
     wire [PM_WIDTH-1:0] w_pm_new_s0;
     wire [PM_WIDTH-1:0] w_pm_new_s1;
     wire [PM_WIDTH-1:0] w_pm_new_s2;
     wire [PM_WIDTH-1:0] w_pm_new_s3;
 
-    // PMU -> ACSU (Đọc PM cũ)
+    // --- PMU -> ACSU & TBU (Path Metric hiện tại) ---
+    // Nối về ACSU: Để tính tiếp bước sau (Feedback loop)
+    // Nối sang TBU: Để chọn đường đi có metric nhỏ nhất làm kết quả
     wire [PM_WIDTH-1:0] w_pm_current_s0;
     wire [PM_WIDTH-1:0] w_pm_current_s1;
     wire [PM_WIDTH-1:0] w_pm_current_s2;
     wire [PM_WIDTH-1:0] w_pm_current_s3;
 
-    // TBU <-> PMU (Đọc Lịch sử)
-    wire [$clog2(TBL)-1:0] w_pm_read_addr;
-    wire [3:0]             w_pm_read_data;
-
-
     // =================================================================
     // 2. KẾT NỐI (INSTANTIATION) 4 KHỐI LÕI
     // =================================================================
 
-    // --- KHỐI 1: BMU (Tổ hợp) ---
+    // --- KHỐI 1: BMU (Tính khoảng cách Hamming) ---
     bmu bmu_inst (
-        .piso_data_i       (data_core_i), // 2-bit lỗi
-        .bm_s0_s0_o    (w_bm_s0_s0),
-        .bm_s0_s2_o    (w_bm_s0_s2),
-        .bm_s1_s0_o    (w_bm_s1_s0),
-        .bm_s1_s2_o    (w_bm_s1_s2),
-        .bm_s2_s1_o    (w_bm_s2_s1),
-        .bm_s2_s3_o    (w_bm_s2_s3),
-        .bm_s3_s1_o    (w_bm_s3_s1),
-        .bm_s3_s3_o    (w_bm_s3_s3)
+        .piso_data_i    (data_core_i),
+        .bm_s0_s0_o     (w_bm_s0_s0),
+        .bm_s0_s2_o     (w_bm_s0_s2),
+        .bm_s1_s0_o     (w_bm_s1_s0),
+        .bm_s1_s2_o     (w_bm_s1_s2),
+        .bm_s2_s1_o     (w_bm_s2_s1),
+        .bm_s2_s3_o     (w_bm_s2_s3),
+        .bm_s3_s1_o     (w_bm_s3_s1),
+        .bm_s3_s3_o     (w_bm_s3_s3)
     );
 
-    // --- KHỐI 2: ACSU (Tổ hợp) ---
+    // --- KHỐI 2: ACSU (Cộng - So sánh - Chọn) ---
     acsu #(
-        .PM_WIDTH         (PM_WIDTH)
+        .PM_WIDTH       (PM_WIDTH)
     ) acsu_inst (
-        // Đầu vào Chi phí (từ BMU)
-        .bm_s0_s0_i       (w_bm_s0_s0),
-        .bm_s0_s2_i       (w_bm_s0_s2),
-        .bm_s1_s0_i       (w_bm_s1_s0),
-        .bm_s1_s2_i       (w_bm_s1_s2),
-        .bm_s2_s1_i       (w_bm_s2_s1),
-        .bm_s2_s3_i       (w_bm_s2_s3),
-        .bm_s3_s1_i       (w_bm_s3_s1),
-        .bm_s3_s3_i       (w_bm_s3_s3),
+        // Input Chi phí nhánh (từ BMU)
+        .bm_s0_s0_i     (w_bm_s0_s0),
+        .bm_s0_s2_i     (w_bm_s0_s2),
+        .bm_s1_s0_i     (w_bm_s1_s0),
+        .bm_s1_s2_i     (w_bm_s1_s2),
+        .bm_s2_s1_i     (w_bm_s2_s1),
+        .bm_s2_s3_i     (w_bm_s2_s3),
+        .bm_s3_s1_i     (w_bm_s3_s1),
+        .bm_s3_s3_i     (w_bm_s3_s3),
         
-        // Đầu vào PM Cũ (từ PMU)
-        .pm_s0_i          (w_pm_current_s0),
-        .pm_s1_i          (w_pm_current_s1),
-        .pm_s2_i          (w_pm_current_s2),
-        .pm_s3_i          (w_pm_current_s3),
+        // Input PM Cũ (từ PMU - Feedback)
+        .pm_s0_i        (w_pm_current_s0),
+        .pm_s1_i        (w_pm_current_s1),
+        .pm_s2_i        (w_pm_current_s2),
+        .pm_s3_i        (w_pm_current_s3),
         
-        // Đầu ra (Gửi cho PMU)
-        .dec_bits_o  (w_dec_bits),
-        .pm_s0_o          (w_pm_new_s0),
-        .pm_s1_o          (w_pm_new_s1),
-        .pm_s2_o          (w_pm_new_s2),
-        .pm_s3_o          (w_pm_new_s3)
+        // Output (Decision bits đi thẳng sang TBU)
+        .dec_bits_o     (w_dec_bits),
+        
+        // Output PM Mới (Gửi sang PMU để lưu)
+        .pm_s0_o        (w_pm_new_s0),
+        .pm_s1_o        (w_pm_new_s1),
+        .pm_s2_o        (w_pm_new_s2),
+        .pm_s3_o        (w_pm_new_s3)
     );
 
-    // --- KHỐI 3: PMU (Tuần tự) ---
+    // --- KHỐI 3: PMU (Lưu trữ & Chuẩn hóa Metric) ---
+    // Khối này giờ nhẹ hơn nhiều, không còn lưu lịch sử bit
     pmu #(
-        .TBL              (TBL),
-        .PM_WIDTH         (PM_WIDTH)
+        .TBL            (TBL),
+        .PM_WIDTH       (PM_WIDTH)
     ) pmu_inst (
-        .clk              (clk),
-        .rst_n            (rst_n),
-        .valid_i          (valid_i),    // Cờ "Ghi"
+        .clk            (clk),
+        .rst_n          (rst_n),
+        .valid_i        (valid_i),
         
-        // Đầu vào (Ghi từ ACSU)
-        .dec_bits_i  (w_dec_bits),
-        .pm_new_s0_i      (w_pm_new_s0),
-        .pm_new_s1_i      (w_pm_new_s1),
-        .pm_new_s2_i      (w_pm_new_s2),
-        .pm_new_s3_i      (w_pm_new_s3),
+        // Input PM Mới (từ ACSU)
+        .pm_new_s0_i    (w_pm_new_s0),
+        .pm_new_s1_i    (w_pm_new_s1),
+        .pm_new_s2_i    (w_pm_new_s2),
+        .pm_new_s3_i    (w_pm_new_s3),
         
-        // Cổng Đọc Lịch sử (cho TBU)
-        .read_addr_i      (w_pm_read_addr), // Địa chỉ TBU muốn đọc
-        .read_data_o      (w_pm_read_data), // Dữ liệu lịch sử TBU nhận
-        
-        // Đầu ra PM Cũ (cho ACSU & TBU)
-        .pm_current_s0_o  (w_pm_current_s0),
-        .pm_current_s1_o  (w_pm_current_s1),
-        .pm_current_s2_o  (w_pm_current_s2),
-        .pm_current_s3_o  (w_pm_current_s3)
+        // Output PM Hiện tại (đã chuẩn hóa)
+        .pm_current_s0_o(w_pm_current_s0),
+        .pm_current_s1_o(w_pm_current_s1),
+        .pm_current_s2_o(w_pm_current_s2),
+        .pm_current_s3_o(w_pm_current_s3)
     );
 
-    // --- KHỐI 4: TBU (Tuần tự) ---
+    // --- KHỐI 4: TBU (Register Exchange Pipeline) ---
+    // Khối này giờ nhận trực tiếp bit từ ACSU và đẩy dữ liệu ra liên tục
     tbu #(
-        .TBL              (TBL),
-        .PM_WIDTH         (PM_WIDTH)
+        .TBL            (TBL),
+        .PM_WIDTH       (PM_WIDTH)
     ) tbu_inst (
-        .clk              (clk),
-        .rst_n            (rst_n),
-        .valid_i          (valid_i),    // Cờ "bắt đầu chặng mới"
+        .clk            (clk),
+        .rst_n          (rst_n),
+        .valid_i        (valid_i),
+        .busy_o         (busy_o), // Luôn = 0
         
-        // Đầu vào PM Hiện tại (từ PMU)
-        .pm_current_s0_i  (w_pm_current_s0),
-        .pm_current_s1_i  (w_pm_current_s1),
-        .pm_current_s2_i  (w_pm_current_s2),
-        .pm_current_s3_i  (w_pm_current_s3),
+        // Input Bit quyết định (Trực tiếp từ ACSU)
+        .dec_bits_i     (w_dec_bits),
         
-        // Cổng Đọc Lịch sử (từ PMU)
-        .pm_read_data_i   (w_pm_read_data),
-        .pm_read_addr_o   (w_pm_read_addr),
+        // Input PM Hiện tại (Từ PMU - để chọn kết quả tốt nhất)
+        .pm_s0_i        (w_pm_new_s0),
+        .pm_s1_i        (w_pm_new_s1),
+        .pm_s2_i        (w_pm_new_s2),
+        .pm_s3_i        (w_pm_new_s3),
         
-        // Đầu ra cuối cùng (gửi cho SIPO)
-        .data_serial_o    (data_serial_o),
-        .valid_serial_o   (valid_serial_o)
+        // Output Kết quả giải mã
+        .data_serial_o  (data_serial_o),
+        .valid_serial_o (valid_serial_o)
     );
 
 endmodule

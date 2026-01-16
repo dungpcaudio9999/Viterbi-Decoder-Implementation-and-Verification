@@ -1,64 +1,52 @@
 module pmu #(
-    parameter TBL      = 15,       // Traceback Length
-    parameter PM_WIDTH = 8         // Path Metric width
+    parameter TBL      = 15,
+    parameter PM_WIDTH = 8
 )(
-    input  wire                   clk,
-    input  wire                   rst_n,
-    input  wire                   valid_i,         // Write enable from PISO/ACSU valid
+    input  wire        clk,
+    input  wire        rst_n,
+    input  wire        valid_i,
 
-    // From ACSU: New decisions and PMs
-    input  wire [3:0]             dec_bits_i,
-    input  wire [PM_WIDTH-1:0]    pm_new_s0_i,
-    input  wire [PM_WIDTH-1:0]    pm_new_s1_i,
-    input  wire [PM_WIDTH-1:0]    pm_new_s2_i,
-    input  wire [PM_WIDTH-1:0]    pm_new_s3_i,
+    // Input từ ACSU (Metric mới chưa chuẩn hóa)
+    input  wire [PM_WIDTH-1:0] pm_new_s0_i,
+    input  wire [PM_WIDTH-1:0] pm_new_s1_i,
+    input  wire [PM_WIDTH-1:0] pm_new_s2_i,
+    input  wire [PM_WIDTH-1:0] pm_new_s3_i,
 
-    // From TBU: Read address
-    input  wire [$clog2(TBL)-1:0] read_addr_i,
-
-    // To ACSU & TBU: Current PMs
-    output reg  [PM_WIDTH-1:0]    pm_current_s0_o,
-    output reg  [PM_WIDTH-1:0]    pm_current_s1_o,
-    output reg  [PM_WIDTH-1:0]    pm_current_s2_o,
-    output reg  [PM_WIDTH-1:0]    pm_current_s3_o,
-
-    // To TBU: Read data (decision bits at addr)
-    output wire [3:0]             read_data_o
+    // Output về ACSU và TBU (Metric đã lưu và chuẩn hóa)
+    output reg  [PM_WIDTH-1:0] pm_current_s0_o,
+    output reg  [PM_WIDTH-1:0] pm_current_s1_o,
+    output reg  [PM_WIDTH-1:0] pm_current_s2_o,
+    output reg  [PM_WIDTH-1:0] pm_current_s3_o
 );
 
-    // Decision memory: Array as shift register (0: oldest, TBL-1: newest)
-    reg [3:0] dec_mem [0:TBL-1];
+    // Tìm giá trị nhỏ nhất để chuẩn hóa (Tránh tràn số)
+    reg [PM_WIDTH-1:0] min_pm;
 
-    // Combinational read for zero latency
-    assign read_data_o = dec_mem[read_addr_i];
-
-    integer i;
+    always @(*) begin
+        // Tìm min(pm_new_s0, pm_new_s1, pm_new_s2, pm_new_s3)
+        min_pm = pm_new_s0_i;
+        if (pm_new_s1_i < min_pm) min_pm = pm_new_s1_i;
+        if (pm_new_s2_i < min_pm) min_pm = pm_new_s2_i;
+        if (pm_new_s3_i < min_pm) min_pm = pm_new_s3_i;
+    end
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            // Reset PMs to 0 (or set S0=0, others=max for initial bias, but spec uses 0)
-            pm_current_s0_o <= {PM_WIDTH{1'b0}};
-            pm_current_s1_o <= {PM_WIDTH{1'b0}};
-            pm_current_s2_o <= {PM_WIDTH{1'b0}};
-            pm_current_s3_o <= {PM_WIDTH{1'b0}};
-
-            // Clear decision memory
-            for (i = 0; i < TBL; i = i + 1) begin
-                dec_mem[i] <= 4'b0000;
-            end
+            // --- FIX FINAL: TRÁNH TRÀN SỐ ---
+            // S0 = 0 (Tốt nhất)
+            pm_current_s0_o <= 8'd0; 
+            
+            // Các S khác = 128 (Đủ lớn để xấu, đủ nhỏ để cộng không tràn)
+            pm_current_s1_o <= 8'd128; 
+            pm_current_s2_o <= 8'd128;
+            pm_current_s3_o <= 8'd128;
+            
         end else if (valid_i) begin
-            // Update current PMs from new ones
-            pm_current_s0_o <= pm_new_s0_i;
-            pm_current_s1_o <= pm_new_s1_i;
-            pm_current_s2_o <= pm_new_s2_i;
-            pm_current_s3_o <= pm_new_s3_i;
-
-            // Shift decision memory: Make room for new at newest position
-            // Shift from newest to oldest: dec_mem[0] (oldest) gets dec_mem[1], ..., dec_mem[13] gets dec_mem[14], dec_mem[14] gets new
-            for (i = 0; i < TBL-1; i = i + 1) begin
-                dec_mem[i] <= dec_mem[i+1];
-            end
-            dec_mem[TBL-1] <= dec_bits_i;  // Insert newest decision at highest index
+            // Cập nhật giá trị mới và TRỪ đi min_pm (Normalization)
+            pm_current_s0_o <= pm_new_s0_i - min_pm;
+            pm_current_s1_o <= pm_new_s1_i - min_pm;
+            pm_current_s2_o <= pm_new_s2_i - min_pm;
+            pm_current_s3_o <= pm_new_s3_i - min_pm;
         end
     end
 

@@ -1,0 +1,365 @@
+\documentclass[12pt,a4paper]{report}
+
+% ================= CẤU HÌNH GÓI LỆNH =================
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{vietnamese}
+\setmainfont{Times New Roman}
+
+\usepackage{amsmath, amsfonts, amssymb} % Gói toán học
+\usepackage{graphicx}   % Chèn ảnh
+\usepackage{float}      % Định vị ảnh [H]
+\usepackage{tabularx}   % Bảng biểu
+\usepackage{longtable}  % Bảng dài qua trang
+\usepackage{geometry}   % Căn lề
+\usepackage{setspace}   % Giãn dòng
+\usepackage{indentfirst}% Thụt đầu dòng đoạn đầu tiên
+\usepackage{titlesec}   % Định dạng tiêu đề
+\usepackage{hyperref}   % Tạo link mục lục
+\usepackage{caption}    % Chú thích bảng/hình
+
+% Cấu hình lề trang
+\geometry{left=3cm, right=2cm, top=2.5cm, bottom=2.5cm}
+
+% Cấu hình Header/Footer
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{BTL Thiết kế VLSI}
+\fancyhead[R]{Viterbi Decoder}
+\fancyfoot[C]{\thepage}
+
+% Cấu hình tiêu đề chương
+\titleformat{\chapter}[block]{\bfseries\Large}{\chaptertitlename\ \thechapter:}{0.5em}{}
+\titlespacing*{\chapter}{0pt}{-20pt}{20pt}
+
+% Cấu hình Hyperlink
+\hypersetup{colorlinks=true, linkcolor=black, filecolor=magenta, urlcolor=blue}
+
+\onehalfspacing % Giãn dòng 1.5
+
+\begin{document}
+
+% ====================================================================
+% TRANG BÌA
+% ====================================================================
+\begin{titlepage}
+    \begin{center}
+        \textbf{\large ĐẠI HỌC BÁCH KHOA HÀ NỘI}\\
+        \textbf{\large TRƯỜNG ĐIỆN – ĐIỆN TỬ}
+        
+        \vspace{1cm}
+        % \includegraphics[width=3cm]{hust_logo.png} % [cite: 1]
+        \vspace{1cm}
+        
+        {\bfseries \Huge BÀI TẬP LỚN \par}
+        {\bfseries \Huge THIẾT KẾ VLSI \par}
+        
+        \vspace{1.5cm}
+        
+        {\bfseries \Large Đề tài: \\ THIẾT KẾ VÀ TỔNG HỢP VITERBI DECODER \\ TỪ RTL ĐẾN GDSII SỬ DỤNG CADENCE \par}
+        
+        \vspace{2cm}
+        
+        \begin{tabular}{ll}
+            \textbf{Giảng viên hướng dẫn:} & TS. Nguyễn Vũ Thắng \\
+            \textbf{Sinh viên thực hiện:}  & Phạm Chí Dũng – 20200106 \\
+                                           & Võ Ngọc Vinh – 20227447 \\
+                                           & Nguyễn Văn Dương – 20241713E \\
+            \textbf{Lớp:}                  & 163187 – ET4340
+        \end{tabular}
+        
+        \vfill
+        \textbf{Hà Nội, 2026}
+    \end{center}
+\end{titlepage}
+
+% ====================================================================
+% TÓM TẮT
+% ====================================================================
+\chapter*{TÓM TẮT NỘI DUNG}
+\addcontentsline{toc}{chapter}{TÓM TẮT NỘI DUNG}
+
+Báo cáo sẽ tập trung đặc tả các chỉ tiêu kỹ thuật và kiến trúc hoàn chỉnh cho một bộ giải mã Viterbi. Quá trình này sẽ bao gồm: mô tả nguyên lý hoạt động và các tham số đặc trưng của bộ giải mã Viterbi, các thuật toán sử dụng, phân rã và đặc tả kiến trúc chi tiết của thiết kế mức RTL cùng tổng quan tín hiệu vào ra, từ đó đưa ra Timing Diagram mô tả đầy đủ chức năng và các trường hợp xảy ra phục vụ triển khai chi tiết.
+
+Kết quả của giai đoạn mô tả các chỉ tiêu kỹ thuật (specifications) chi tiết đóng vai trò cốt lõi trong quy trình thiết kế để có thể tiếp tục thực hiện các quy trình thiết kế tiếp theo.
+
+\newpage
+\tableofcontents
+\newpage
+
+\listoffigures
+\listoftables
+\newpage
+
+% ====================================================================
+% CHƯƠNG 1
+% ====================================================================
+\chapter{TỔNG QUAN VITERBI DECODER}
+
+\section{Tổng quan về mã tích chập}
+Mã tích chập là một dạng mã tuyến tính, cấu trúc như một bộ lọc số - phép tích chập. Bộ mã hóa tích chập được coi như là tập hợp các bộ lọc số - hệ thống tuyến tính, bất biến theo thời gian.
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{hinh_1_1.png}
+%     \caption{Sơ đồ khối chức năng của hệ thống giải mã}
+% \end{figure}
+
+Các tham số của một mã tích chập $(n, k, m)$ [cite: 79-84]:
+\begin{itemize}
+    \item $m$: Số lượng phần tử bộ nhớ (thanh ghi dịch).
+    \item $k$: Số bit đầu vào.
+    \item $n$: Số bit đầu ra.
+    \item Tốc độ mã (code rate): $R = k/n$.
+    \item $K$: Độ dài giới hạn (constraint length) $= m+1$.
+\end{itemize}
+
+\textbf{Phân tích yêu cầu đề tài:}
+Thiết kế bộ giải mã Viterbi với các yêu cầu [cite: 89-91]:
+\begin{itemize}
+    \item Constraint length: $K=3 \Rightarrow m=2$.
+    \item Code rate: $R=1/2 \Rightarrow k=1, n=2$.
+    \item Đa thức sinh: $G1 = 1 + x + x^2$ và $G2 = 1 + x^2$.
+\end{itemize}
+
+\textbf{Công thức đệ quy sử dụng đa thức sinh:}
+\[ V1 = U0 \cdot G01 + U2 \cdot G21 \]
+\[ V2 = U0 \cdot G02 + U1 \cdot G12 + U2 \cdot G22 \]
+Trong đó chuỗi thông tin $U=(U0, U1, U2...)$ và chuỗi đầu ra $V=(V01, V02, V11, V12...)$.
+
+\textbf{Bảng trạng thái (State Table):}
+Xét bảng chân trị với S1, S2 là trạng thái hiện tại, S1', S2' là trạng thái kế tiếp[cite: 118]:
+
+\begin{table}[H]
+\centering
+\caption{Bảng trạng thái của bộ giải mã Viterbi (2,1,2)}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+\textbf{Input} & \textbf{S1} & \textbf{S2} & \textbf{V1} & \textbf{V2} & \textbf{S1'} & \textbf{S2'} \\ \hline
+0 & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+0 & 0 & 1 & 1 & 1 & 0 & 0 \\ \hline
+0 & 1 & 0 & 1 & 0 & 0 & 1 \\ \hline
+0 & 1 & 1 & 0 & 1 & 0 & 1 \\ \hline
+1 & 0 & 0 & 1 & 1 & 1 & 0 \\ \hline
+1 & 0 & 1 & 0 & 0 & 1 & 0 \\ \hline
+1 & 1 & 0 & 0 & 1 & 1 & 1 \\ \hline
+1 & 1 & 1 & 1 & 0 & 1 & 1 \\ \hline
+\end{tabular}
+\end{table}
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.6\textwidth]{hinh_1_3.png}
+%     \caption{FSM của bộ giải mã Viterbi}
+% \end{figure}
+
+\section{Thuật toán giải mã Viterbi}
+Thuật toán Viterbi là thuật toán tìm đường ngắn nhất (Maximum Likelihood), tính toán tổng khoảng cách Hamming của các nhánh trung gian.
+Nhóm đề xuất lưu lại từng trạng thái dịch chuyển và trạng thái đang xét dựa trên bit đầu vào.
+
+\textbf{Quy ước trạng thái:}
+\begin{table}[H]
+\centering
+\caption{Quy ước trạng thái và Hamming Distance lý thuyết}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Trạng thái hiện tại} & \textbf{Trạng thái kế tiếp} & \textbf{Ký hiệu (Đầu ra)} \\ \hline
+00 & 00 & hd1 (00) \\ \hline
+00 & 10 & hd2 (11) \\ \hline
+10 & 01 & hd3 (10) \\ \hline
+10 & 11 & hd4 (01) \\ \hline
+01 & 00 & hd5 (11) \\ \hline
+01 & 10 & hd6 (00) \\ \hline
+11 & 01 & hd7 (01) \\ \hline
+11 & 11 & hd8 (10) \\ \hline
+\end{tabular}
+\end{table}
+
+% ====================================================================
+% CHƯƠNG 2
+% ====================================================================
+\chapter{THIẾT KẾ CHI TIẾT}
+
+\section{Các khối chức năng của Viterbi Decoder}
+Hệ thống bao gồm các khối: Extract\_bit, Branch\_metric, Add\_comp\_slt, Memory, Traceback và Control.
+Đặc điểm mô hình: Logic về Hamming distance dựa hoàn toàn vào phép gán (không tính toán độ sai khác tự động), giúp độ trễ thấp hơn và dễ triển khai [cite: 144-145].
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.9\textwidth]{hinh_2_1.png}
+%     \caption{Mô hình Viterbi Decoder cơ bản}
+% \end{figure}
+
+\section{Đặc tả chi tiết các khối con}
+
+% ---------------- KHỐI TOP MODULE ----------------
+\subsection{Khối viterbi\_decoder (Top Module)}
+Khối top module điều khiển 6 khối con. Tín hiệu \texttt{en} kích hoạt khối Control, từ đó tạo ra các tín hiệu enable cho các khối thành phần.
+
+\begin{table}[H]
+\centering
+\caption{Bảng tín hiệu vào ra khối viterbi\_decoder}
+\begin{tabularx}{\textwidth}{|l|l|l|X|}
+\hline
+\textbf{Tín hiệu} & \textbf{Bit} & \textbf{I/O} & \textbf{Chức năng} \\ \hline
+clk & 1 & I & Xung đồng hồ, hoạt động sườn dương \\ \hline
+rst & 1 & I & Reset hệ thống (Active Low) \\ \hline
+en & 1 & I & Tín hiệu báo bắt đầu giải mã \\ \hline
+i\_data & 16 & I & Dữ liệu đầu vào \\ \hline
+o\_data & 8 & O & Dữ liệu sau giải mã \\ \hline
+o\_done & 1 & O & Báo hiệu kết thúc giải mã \\ \hline
+\end{tabularx}
+\end{table}
+
+% ---------------- KHỐI CONTROL ----------------
+\subsection{Khối Control}
+Điều khiển trạng thái, tạo tín hiệu enable cho các khối con.
+\textbf{Traceback depth:} Với $K=3$, traceback depth được chọn tối thiểu là 15 (gấp 5-7 lần K)[cite: 203].
+
+\begin{table}[H]
+\centering
+\caption{Bảng tín hiệu vào ra khối control}
+\begin{tabularx}{\textwidth}{|l|l|l|X|}
+\hline
+\textbf{Tín hiệu} & \textbf{Bit} & \textbf{I/O} & \textbf{Chức năng} \\ \hline
+clk, rst, en & 1 & I & Tín hiệu điều khiển chung \\ \hline
+en\_ext & 1 & O & Cho phép extract\_bit hoạt động \\ \hline
+en\_brch & 1 & O & Cho phép branch\_metric hoạt động \\ \hline
+en\_acs & 1 & O & Cho phép add\_comp\_slt hoạt động \\ \hline
+en\_mem & 1 & O & Cho phép memory hoạt động \\ \hline
+en\_trbk & 1 & O & Cho phép traceback hoạt động \\ \hline
+\end{tabularx}
+\end{table}
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{hinh_2_5.png}
+%     \caption{Lưu đồ thuật toán khối Control}
+% \end{figure}
+
+% ---------------- KHỐI EXTRACT BIT ----------------
+\subsection{Khối Extract\_bit}
+Trích xuất từng cặp 2 bit từ dữ liệu đầu vào 16 bit (từ MSB đến LSB).
+
+\begin{table}[H]
+\centering
+\caption{Bảng tín hiệu vào ra khối extract\_bit}
+\begin{tabularx}{\textwidth}{|l|l|l|X|}
+\hline
+\textbf{Tín hiệu} & \textbf{Bit} & \textbf{I/O} & \textbf{Chức năng} \\ \hline
+clk, rst & 1 & I & Tín hiệu điều khiển \\ \hline
+en\_ext & 1 & I & Cho phép hoạt động \\ \hline
+i\_data & 16 & I & Dữ liệu đầu vào \\ \hline
+o\_rx & 2 & O & Cặp 2 bit được trích xuất \\ \hline
+\end{tabularx}
+\end{table}
+
+% ---------------- KHỐI BRANCH METRIC ----------------
+\subsection{Khối Branch\_metric}
+Tính toán khoảng cách Hamming dựa trên đầu vào 2-bit và các giá trị tham chiếu.
+Kết quả: 8 giá trị khoảng cách (hd1 đến hd8) tương ứng với 8 nhánh chuyển đổi trạng thái.
+
+\begin{table}[H]
+\centering
+\caption{Bảng tín hiệu vào ra khối branch\_metric}
+\begin{tabularx}{\textwidth}{|l|l|l|X|}
+\hline
+\textbf{Tín hiệu} & \textbf{Bit} & \textbf{I/O} & \textbf{Chức năng} \\ \hline
+en\_brch & 1 & I & Cho phép hoạt động \\ \hline
+i\_rx & 2 & I & 2 bit đầu vào giải mã \\ \hline
+hd1 - hd8 & 2 & O & Hamming distance của các nhánh \\ \hline
+\end{tabularx}
+\end{table}
+
+% ---------------- KHỐI ACS ----------------
+\subsection{Khối Add\_comp\_slt (ACS)}
+Thực hiện: \textbf{Add} (Cộng path metric) $\rightarrow$ \textbf{Compare} (So sánh) $\rightarrow$ \textbf{Select} (Chọn đường ngắn nhất).
+
+\begin{table}[H]
+\centering
+\caption{Bảng tín hiệu vào ra khối add\_comp\_slt}
+\begin{tabularx}{\textwidth}{|l|l|l|X|}
+\hline
+\textbf{Tín hiệu} & \textbf{Bit} & \textbf{I/O} & \textbf{Chức năng} \\ \hline
+en\_acs & 1 & I & Cho phép hoạt động \\ \hline
+hd1 - hd8 & 2 & I & Hamming distance từ khối trước \\ \hline
+o\_prev\_st\_xx & 2 & O & Trạng thái trước đó (00, 01, 10, 11) \\ \hline
+o\_slt\_node & 2 & O & Nút có tổng khoảng cách Hamming bé nhất \\ \hline
+\end{tabularx}
+\end{table}
+
+% ---------------- KHỐI MEMORY ----------------
+\subsection{Khối Memory}
+Lưu trữ trạng thái trước đó vào mảng hai chiều \texttt{trellis\_diagr} để phục vụ truy vết.
+
+\begin{table}[H]
+\centering
+\caption{Bảng tín hiệu vào ra khối memory}
+\begin{tabularx}{\textwidth}{|l|l|l|X|}
+\hline
+\textbf{Tín hiệu} & \textbf{Bit} & \textbf{I/O} & \textbf{Chức năng} \\ \hline
+en\_mem & 1 & I & Cho phép hoạt động \\ \hline
+i\_prev\_st\_xx & 2 & I & Các trạng thái trước đó từ khối ACS \\ \hline
+o\_prev\_st\_xx & 2 & O & Trạng thái được truy xuất để Traceback \\ \hline
+\end{tabularx}
+\end{table}
+
+% ---------------- KHỐI TRACEBACK ----------------
+\subsection{Khối Traceback}
+Thực hiện truy vết ngược Trellis diagram để tìm ra chuỗi bit gốc.
+Sử dụng FSM 4 trạng thái để điều hướng dựa trên \texttt{i\_slt\_node}.
+
+\begin{table}[H]
+\centering
+\caption{Bảng tín hiệu vào ra khối traceback}
+\begin{tabularx}{\textwidth}{|l|l|l|X|}
+\hline
+\textbf{Tín hiệu} & \textbf{Bit} & \textbf{I/O} & \textbf{Chức năng} \\ \hline
+en\_trbk & 1 & I & Cho phép hoạt động \\ \hline
+i\_bck\_prev\_st & 2 & I & Các nút trạng thái từ Memory \\ \hline
+i\_slt\_node & 2 & I & Nút có Hamming distance nhỏ nhất \\ \hline
+o\_data & 8 & O & Dữ liệu đã giải mã xong \\ \hline
+o\_done & 1 & O & Báo hiệu đã traceback xong \\ \hline
+\end{tabularx}
+\end{table}
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.6\textwidth]{hinh_2_15.png}
+%     \caption{FSM của khối traceback}
+% \end{figure}
+
+% ====================================================================
+% CHƯƠNG 3
+% ====================================================================
+\chapter{KẾT QUẢ TRIỂN KHAI CODE RTL}
+
+\section{Kết quả mô phỏng}
+Công cụ sử dụng: \textbf{Incisive – Cadence}.
+Kết quả simulation testbench cho thấy các tín hiệu hoạt động đúng theo giản đồ thời gian thiết kế.
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=1.0\textwidth]{hinh_3_1.png}
+%     \caption{Kết quả mô phỏng dạng sóng trên Cadence}
+% \end{figure}
+
+Dữ liệu đầu ra cho 1025 chuỗi 16 bit đầu vào đã được ghi lại thành công vào file \texttt{output\_result.txt}.
+
+\section{Đánh giá độ chính xác}
+Nhóm thực hiện so sánh file output mô phỏng (\texttt{original}) với file kết quả chuẩn từ giảng viên (\texttt{changed}) bằng công cụ \textbf{Diffchecker}.
+Kết quả: "The two files are identical" - Không có sự sai khác nào giữa hai file[cite: 317].
+
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=1.0\textwidth]{hinh_3_3.png}
+%     \caption{Kết quả so sánh trùng khớp trên Diffchecker}
+% \end{figure}
+
+\chapter*{KẾT LUẬN}
+\addcontentsline{toc}{chapter}{KẾT LUẬN}
+
+Đề tài đã hoàn thành việc thiết kế chi tiết kiến trúc Viterbi Decoder với mã tích chập (2,1,2). Hệ thống được phân rã thành các khối chức năng rõ ràng, dễ kiểm soát và đã được kiểm chứng độ chính xác thông qua mô phỏng. Thiết kế này đáp ứng tốt các yêu cầu về độ trễ thấp và khả năng triển khai RTL.
+
+\end{document}

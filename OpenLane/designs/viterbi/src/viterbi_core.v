@@ -1,7 +1,7 @@
-`include "bmu.v"
-`include "acsu.v"
-`include "pmu.v"
-`include "tbu.v"
+// `include "bmu.v"
+// `include "acsu.v"
+// `include "pmu.v"
+// `include "tbu.v"
 
 module viterbi_core (
     input  wire       clk,

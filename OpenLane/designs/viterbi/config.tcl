@@ -49,5 +49,5 @@ set ::env(RUN_MAGIC_DRC) 1
 set ::env(RUN_LVS) 1
 
 # --- Output ---
-set ::env(TAKE_LAYOUT_SCROT) 1
+set ::env(TAKE_LAYOUT_SCROT) 0
 # Take screenshots of final layout

@@ -2,26 +2,26 @@ module sync_fifo #(
     parameter DATA_WIDTH = 16,
     parameter DEPTH      = 16
 )(
-    input  wire                  clk,
-    input  wire                  rst_n,
+    input  wire                    clk,
+    input  wire                    rst_n,
     
-    // Write Interface (Nối với Input bên ngoài)
-    input  wire                  wr_en_i,
+    // Write Interface
+    input  wire                    wr_en_i,
     input  wire [DATA_WIDTH-1:0] wr_data_i,
-    output wire                  full_o,
+    output wire                    full_o,
     
-    // Read Interface (Nối với PISO)
-    input  wire                  rd_en_i,
+    // Read Interface
+    input  wire                    rd_en_i,
     output reg  [DATA_WIDTH-1:0] rd_data_o,
-    output wire                  empty_o
+    output wire                    empty_o
 );
 
-    // Bộ nhớ RAM
+    // Bo nho RAM
     reg [DATA_WIDTH-1:0] mem [0:DEPTH-1];
     
     reg [$clog2(DEPTH)-1:0] wr_ptr;
     reg [$clog2(DEPTH)-1:0] rd_ptr;
-    reg [$clog2(DEPTH):0]   count; // Biến đếm số lượng phần tử
+    reg [$clog2(DEPTH):0]   count;
 
     assign full_o  = (count == DEPTH);
     assign empty_o = (count == 0);
@@ -33,6 +33,9 @@ module sync_fifo #(
         end else if (wr_en_i && !full_o) begin
             mem[wr_ptr] <= wr_data_i;
             wr_ptr <= wr_ptr + 1;
+        end else begin
+            // Giu nguyen gia tri khi khong ghi
+            wr_ptr <= wr_ptr;
         end
     end
 
@@ -42,8 +45,12 @@ module sync_fifo #(
             rd_ptr <= 0;
             rd_data_o <= 0;
         end else if (rd_en_i && !empty_o) begin
-            rd_data_o <= mem[rd_ptr]; // Đọc dữ liệu ra
+            rd_data_o <= mem[rd_ptr];
             rd_ptr <= rd_ptr + 1;
+        end else begin
+            // Giu nguyen gia tri khi khong doc
+            rd_ptr <= rd_ptr;
+            rd_data_o <= rd_data_o;
         end
     end
 
@@ -53,9 +60,11 @@ module sync_fifo #(
             count <= 0;
         end else begin
             case ({wr_en_i && !full_o, rd_en_i && !empty_o})
-                2'b10: count <= count + 1; // Chỉ Ghi
-                2'b01: count <= count - 1; // Chỉ Đọc
-                2'b11: count <= count;     // Vừa Ghi vừa Đọc
+                2'b10: count <= count + 1; // Chi Ghi
+                2'b01: count <= count - 1; // Chi Doc
+                2'b11: count <= count;     // Vua Ghi vua Doc
+                2'b00: count <= count;     // Khong Ghi khong Doc
+                default: count <= count;   // Dam bao cover moi truong hop (X, Z)
             endcase
         end
     end

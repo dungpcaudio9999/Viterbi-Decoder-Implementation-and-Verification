@@ -1,7 +1,7 @@
 module bmu (
-    input  wire [1:0] piso_data_i, // 2 bit lỗi từ PISO [cite: 85]
+    input  wire [1:0] piso_data_i, // 2 bit tu PISO
     
-    // Các chi phí nhánh (Branch Metrics) [cite: 85-86]
+    // Cac chi phi nhanh (Branch Metrics)
     output wire [1:0] bm_s0_s0_o, // Exp: 00
     output wire [1:0] bm_s0_s2_o, // Exp: 11
     output wire [1:0] bm_s1_s0_o, // Exp: 11
@@ -12,7 +12,7 @@ module bmu (
     output wire [1:0] bm_s3_s3_o  // Exp: 10
 );
 
-    // Hàm tính Hamming Distance: Đếm số bit khác nhau
+    // Ham tinh Hamming Distance: Dem so bit khac nhau
     function [1:0] hamming_dist;
         input [1:0] in_bits;
         input [1:0] exp_bits;
@@ -21,7 +21,7 @@ module bmu (
         end
     endfunction
 
-    // Gán giá trị dựa trên bảng [cite: 82-83]
+    // Gan gia tri dua tren bang
     assign bm_s0_s0_o = hamming_dist(piso_data_i, 2'b00);
     assign bm_s0_s2_o = hamming_dist(piso_data_i, 2'b11);
     

@@ -1,26 +1,26 @@
 module tbu (
-    input  wire       clk,
-    input  wire       rst_n,
-    input  wire       valid_i,
+    input  wire        clk,
+    input  wire        rst_n,
+    input  wire        valid_i,
     
-    // 4 bit quyết định từ ACSU (để cập nhật history)
+    // 4 bit quyet dinh tu ACSU (de cap nhat history)
     input  wire [3:0] dec_bits_i,
     
-    // Path Metrics MỚI từ ACSU (để chọn đường tốt nhất khi xuất output)
+    // Path Metrics MOI tu ACSU (de chon duong tot nhat khi xuat output)
     input  wire [7:0] pm_new_s0_i, pm_new_s1_i, pm_new_s2_i, pm_new_s3_i,
 
     // Outputs
-    output reg        decoded_bit_o,
-    output reg        valid_o
+    output reg         decoded_bit_o,
+    output reg         valid_o
 );
 
-    // Cấu hình: Độ dài truy vết
+    // Cau hinh: Do dai truy vet
     localparam TBL = 15;
 
-    // Các thanh ghi lịch sử (Register Exchange)
+    // Cac thanh ghi lich su (Register Exchange)
     reg [TBL-1:0] history_s0, history_s1, history_s2, history_s3;
     
-    // Quản lý độ trễ pipeline
+    // Quan ly do tre pipeline
     reg [3:0] latency_counter;
     reg       pipeline_full;
 
@@ -35,7 +35,7 @@ module tbu (
             valid_o <= 1'b0;
             decoded_bit_o <= 1'b0;
         end else if (valid_i) begin
-            // 1. Register Exchange Update (Cập nhật lịch sử)
+            // 1. Register Exchange Update (Cap nhat lich su)
             // S0
             if (dec_bits_i[0] == 0) history_s0 <= {history_s0[TBL-2:0], 1'b0};
             else                    history_s0 <= {history_s1[TBL-2:0], 1'b0};
@@ -56,7 +56,7 @@ module tbu (
                 valid_o <= 1'b0;
             end else begin
                 valid_o <= 1'b1;
-                // Tìm Min Path Metric để chọn bit đầu ra tin cậy nhất
+                // Tim Min Path Metric de chon bit dau ra tin cay nhat
                 if (pm_new_s0_i <= pm_new_s1_i && pm_new_s0_i <= pm_new_s2_i && pm_new_s0_i <= pm_new_s3_i)
                     decoded_bit_o <= history_s0[TBL-1];
                 else if (pm_new_s1_i <= pm_new_s0_i && pm_new_s1_i <= pm_new_s2_i && pm_new_s1_i <= pm_new_s3_i)

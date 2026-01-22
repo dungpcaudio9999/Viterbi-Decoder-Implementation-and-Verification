@@ -1,8 +1,8 @@
 # 🚀 HƯỚNG DẪN CHẠY OPENLANE CHO VITERBI DECODER
 
-**Dự án**: Viterbi Decoder RTL-to-GDSII  
-**PDK**: SKY130  
-**Top Module**: `system_top`  
+**Dự án**: Viterbi Decoder RTL-to-GDSII
+**PDK**: SKY130
+**Top Module**: `system_top`
 **Tần số mục tiêu**: 50 MHz
 
 ---
@@ -21,11 +21,13 @@
 ## 1. Yêu cầu hệ thống
 
 ### Phần cứng tối thiểu:
+
 - **RAM**: 8GB (khuyến nghị 16GB)
 - **Disk**: 50GB trống
 - **CPU**: 4 cores (khuyến nghị 8 cores)
 
 ### Phần mềm:
+
 - **OS**: Ubuntu 20.04/22.04 hoặc WSL2
 - **Docker**: Version 20.10+
 - **OpenLane**: Version 2 (khuyến nghị)
@@ -182,6 +184,7 @@ Trong quá trình chạy, bạn sẽ thấy các log như:
 ```
 
 **Thời gian ước tính**:
+
 - Synthesis: 2-5 phút
 - Floorplan: 1-2 phút
 - Placement: 5-10 phút
@@ -249,6 +252,7 @@ cat reports/signoff/system_top-sta-rcx_nom/max_ss_100C_1v60/checks.rpt
 ```
 
 **Kiểm tra các thông số**:
+
 - ✅ **Setup slack**: Phải > 0 (nếu âm = timing violation)
 - ✅ **Hold slack**: Phải > 0
 - ✅ **Clock period**: Đạt 20ns (50MHz)
@@ -294,6 +298,7 @@ cat reports/metrics.json
 ```
 
 **Các metrics quan trọng**:
+
 - `DIEAREA_mm^2`: Diện tích die
 - `CellPer_mm^2`: Mật độ cell
 - `OpenDP_Util`: Utilization thực tế
@@ -386,12 +391,12 @@ set ::env(RUN_HEURISTIC_DIODE_INSERTION) 1
 
 ### 🎯 Mục tiêu tối ưu
 
-| Mục tiêu | Tham số cần điều chỉnh |
-|----------|------------------------|
-| **Giảm diện tích** | `SYNTH_STRATEGY = AREA 0`, tăng `FP_CORE_UTIL` |
-| **Tăng tốc độ** | `SYNTH_STRATEGY = DELAY 0`, giảm `CLOCK_PERIOD` |
-| **Giảm công suất** | `SYNTH_STRATEGY = AREA 0`, giảm `CLOCK_PERIOD` |
-| **Cải thiện routing** | Tăng `DIE_AREA`, giảm `PL_TARGET_DENSITY` |
+| Mục tiêu                    | Tham số cần điều chỉnh                          |
+| ----------------------------- | ---------------------------------------------------- |
+| **Giảm diện tích**   | `SYNTH_STRATEGY = AREA 0`, tăng `FP_CORE_UTIL`  |
+| **Tăng tốc độ**     | `SYNTH_STRATEGY = DELAY 0`, giảm `CLOCK_PERIOD` |
+| **Giảm công suất**   | `SYNTH_STRATEGY = AREA 0`, giảm `CLOCK_PERIOD`  |
+| **Cải thiện routing** | Tăng `DIE_AREA`, giảm `PL_TARGET_DENSITY`      |
 
 ### 📈 Quy trình tối ưu
 
@@ -463,6 +468,7 @@ set ::env(ROUTING_OPT_ITERS) 64
 **Chúc bạn thành công! 🚀**
 
 Nếu gặp vấn đề, hãy kiểm tra:
+
 1. Log files trong `runs/*/logs/`
 2. Reports trong `runs/*/reports/`
 3. OpenLane GitHub Issues

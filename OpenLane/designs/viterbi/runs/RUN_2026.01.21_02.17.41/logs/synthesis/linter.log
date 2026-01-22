@@ -1,0 +1,65 @@
+%Warning-EOFNEWLINE: /openlane/designs/viterbi/src/tbu.v:74:10: Missing newline at end of file (POSIX 3.206).
+                                                              : ... Suggest add newline.
+   74 | endmodule
+      |          ^
+                     ... For warning description see https://verilator.org/warn/EOFNEWLINE?v=5.018
+                     ... Use "/* verilator lint_off EOFNEWLINE */" and lint_on around source to disable this message.
+%Warning-EOFNEWLINE: /openlane/designs/viterbi/src/viterbi_core.v:69:10: Missing newline at end of file (POSIX 3.206).
+                                                                       : ... Suggest add newline.
+   69 | endmodule
+      |          ^
+%Warning-EOFNEWLINE: /openlane/designs/viterbi/src/pmu.v:27:10: Missing newline at end of file (POSIX 3.206).
+                                                              : ... Suggest add newline.
+   27 | endmodule
+      |          ^
+%Warning-WIDTHEXPAND: /openlane/designs/viterbi/src/bmu.v:20:40: Operator XOR expects 2 bits on the LHS, but LHS's SEL generates 1 bits.
+                                                               : ... note: In instance 'system_top.u_viterbi_core.u_bmu'
+   20 |             hamming_dist = (in_bits[0] ^ exp_bits[0]) + (in_bits[1] ^ exp_bits[1]);
+      |                                        ^
+%Warning-WIDTHEXPAND: /openlane/designs/viterbi/src/bmu.v:20:40: Operator XOR expects 2 bits on the RHS, but RHS's SEL generates 1 bits.
+                                                               : ... note: In instance 'system_top.u_viterbi_core.u_bmu'
+   20 |             hamming_dist = (in_bits[0] ^ exp_bits[0]) + (in_bits[1] ^ exp_bits[1]);
+      |                                        ^
+%Warning-WIDTHEXPAND: /openlane/designs/viterbi/src/bmu.v:20:69: Operator XOR expects 2 bits on the LHS, but LHS's SEL generates 1 bits.
+                                                               : ... note: In instance 'system_top.u_viterbi_core.u_bmu'
+   20 |             hamming_dist = (in_bits[0] ^ exp_bits[0]) + (in_bits[1] ^ exp_bits[1]);
+      |                                                                     ^
+%Warning-WIDTHEXPAND: /openlane/designs/viterbi/src/bmu.v:20:69: Operator XOR expects 2 bits on the RHS, but RHS's SEL generates 1 bits.
+                                                               : ... note: In instance 'system_top.u_viterbi_core.u_bmu'
+   20 |             hamming_dist = (in_bits[0] ^ exp_bits[0]) + (in_bits[1] ^ exp_bits[1]);
+      |                                                                     ^
+%Warning-WIDTHEXPAND: /openlane/designs/viterbi/src/acsu.v:24:31: Operator ADD expects 8 bits on the RHS, but RHS's VARREF 'bm_s0_s0_i' generates 2 bits.
+                                                                : ... note: In instance 'system_top.u_viterbi_core.u_acsu'
+   24 |         path0_cand0 = pm_s0_i + bm_s0_s0_i;  
+      |                               ^
+%Warning-WIDTHEXPAND: /openlane/designs/viterbi/src/acsu.v:25:31: Operator ADD expects 8 bits on the RHS, but RHS's VARREF 'bm_s1_s0_i' generates 2 bits.
+                                                                : ... note: In instance 'system_top.u_viterbi_core.u_acsu'
+   25 |         path0_cand1 = pm_s1_i + bm_s1_s0_i;  
+      |                               ^
+%Warning-WIDTHEXPAND: /openlane/designs/viterbi/src/acsu.v:37:31: Operator ADD expects 8 bits on the RHS, but RHS's VARREF 'bm_s2_s1_i' generates 2 bits.
+                                                                : ... note: In instance 'system_top.u_viterbi_core.u_acsu'
+   37 |         path1_cand0 = pm_s2_i + bm_s2_s1_i;  
+      |                               ^
+%Warning-WIDTHEXPAND: /openlane/designs/viterbi/src/acsu.v:38:31: Operator ADD expects 8 bits on the RHS, but RHS's VARREF 'bm_s3_s1_i' generates 2 bits.
+                                                                : ... note: In instance 'system_top.u_viterbi_core.u_acsu'
+   38 |         path1_cand1 = pm_s3_i + bm_s3_s1_i;  
+      |                               ^
+%Warning-WIDTHEXPAND: /openlane/designs/viterbi/src/acsu.v:50:31: Operator ADD expects 8 bits on the RHS, but RHS's VARREF 'bm_s0_s2_i' generates 2 bits.
+                                                                : ... note: In instance 'system_top.u_viterbi_core.u_acsu'
+   50 |         path2_cand0 = pm_s0_i + bm_s0_s2_i;  
+      |                               ^
+%Warning-WIDTHEXPAND: /openlane/designs/viterbi/src/acsu.v:51:31: Operator ADD expects 8 bits on the RHS, but RHS's VARREF 'bm_s1_s2_i' generates 2 bits.
+                                                                : ... note: In instance 'system_top.u_viterbi_core.u_acsu'
+   51 |         path2_cand1 = pm_s1_i + bm_s1_s2_i;  
+      |                               ^
+%Warning-WIDTHEXPAND: /openlane/designs/viterbi/src/acsu.v:63:31: Operator ADD expects 8 bits on the RHS, but RHS's VARREF 'bm_s2_s3_i' generates 2 bits.
+                                                                : ... note: In instance 'system_top.u_viterbi_core.u_acsu'
+   63 |         path3_cand0 = pm_s2_i + bm_s2_s3_i;  
+      |                               ^
+%Warning-WIDTHEXPAND: /openlane/designs/viterbi/src/acsu.v:64:31: Operator ADD expects 8 bits on the RHS, but RHS's VARREF 'bm_s3_s3_i' generates 2 bits.
+                                                                : ... note: In instance 'system_top.u_viterbi_core.u_acsu'
+   64 |         path3_cand1 = pm_s3_i + bm_s3_s3_i;  
+      |                               ^
+%Warning-CASEINCOMPLETE: /openlane/designs/viterbi/src/sync_fifo.v:55:13: Case values incompletely covered (example pattern 0x0)
+   55 |             case ({wr_en_i && !full_o, rd_en_i && !empty_o})
+      |             ^~~~

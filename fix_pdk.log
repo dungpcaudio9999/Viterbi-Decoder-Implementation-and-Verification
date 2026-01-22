@@ -1,0 +1,22 @@
+----------------------------------------------------------------
+🚀 ĐANG TIẾN HÀNH FIX PDK VÀ CHẠY OPENLANE...
+----------------------------------------------------------------
+🔧 Đang kích hoạt PDK version trên host: bdc9412b3e468c102d01b7cf6337be06ec6e9c9a...
+Version bdc9412b3e468c102d01b7cf6337be06ec6e9c9a not found 
+locally, attempting to download…
+Downloading common.tar.zst… ━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00
+Downloading sky130_fd_io.tar.zst… ━━━━━━━━━━━━━━━ 100% 0:00:00
+Downloading sky130_fd_pr.tar.zst… ━━━━━━━━━━━━━━━ 100% 0:00:00
+Downloading sky130_fd_sc_hd.tar.zst… ━━━━━━━━━━━━ 100% 0:00:00
+Downloading sky130_fd_sc_hvl.tar.zst… ━━━━━━━━━━━ 100% 0:00:00
+Downloading sky130_ml_xx_hd.tar.zst… ━━━━━━━━━━━━ 100% 0:00:00
+Downloading sky130_sram_macros.tar.zst… ━━━━━━━━━ 100% 0:00:00
+Version bdc9412b3e468c102d01b7cf6337be06ec6e9c9a enabled for 
+the sky130 PDK.
+✅ PDK đã sẵn sàng trên host.
+🚀 Bắt đầu chạy OpenLane Flow trong container...
+OpenLane v1.1.1 ()
+All rights reserved. (c) 2020-2024 Efabless Corporation and contributors.
+Available under the Apache License, version 2.0. See the LICENSE file for more details.
+
+[ERROR]: Design viterbi not found.

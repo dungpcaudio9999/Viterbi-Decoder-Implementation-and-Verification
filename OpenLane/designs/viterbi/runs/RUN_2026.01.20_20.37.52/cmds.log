@@ -1,0 +1,38 @@
+Tue Jan 20 20:37:53 +0000 2026 - Executing "{openroad -exit -no_init -python /nix/store/xpc7xd67rslanlqh566s6jph53bn830w-openlane1-1.1.1/bin/scripts/odbpy/lefutil.py get_metal_layers -o /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/tmp/layers.list /home/iot/pdk/sky130A/libs.ref/sky130_fd_sc_hd/techlef/sky130_fd_sc_hd__nom.tlef}"
+
+Tue Jan 20 20:37:54 +0000 2026 - Executing "{/nix/store/xpc7xd67rslanlqh566s6jph53bn830w-openlane1-1.1.1/bin/scripts/mergeLef.py -o /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/tmp/merged.nom.lef -i /home/iot/pdk/sky130A/libs.ref/sky130_fd_sc_hd/techlef/sky130_fd_sc_hd__nom.tlef {/home/iot/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_ef_sc_hd.lef /home/iot/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef} |& tee /dev/null}"
+
+Tue Jan 20 20:37:54 +0000 2026 - Executing "{/nix/store/xpc7xd67rslanlqh566s6jph53bn830w-openlane1-1.1.1/bin/scripts/mergeLef.py -o /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/tmp/merged.min.lef -i /home/iot/pdk/sky130A/libs.ref/sky130_fd_sc_hd/techlef/sky130_fd_sc_hd__min.tlef {/home/iot/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_ef_sc_hd.lef /home/iot/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef} |& tee /dev/null}"
+
+Tue Jan 20 20:37:54 +0000 2026 - Executing "{/nix/store/xpc7xd67rslanlqh566s6jph53bn830w-openlane1-1.1.1/bin/scripts/mergeLef.py -o /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/tmp/merged.max.lef -i /home/iot/pdk/sky130A/libs.ref/sky130_fd_sc_hd/techlef/sky130_fd_sc_hd__max.tlef {/home/iot/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_ef_sc_hd.lef /home/iot/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lef/sky130_fd_sc_hd.lef} |& tee /dev/null}"
+
+Tue Jan 20 20:37:54 +0000 2026 - Executing "{python3 /nix/store/xpc7xd67rslanlqh566s6jph53bn830w-openlane1-1.1.1/bin/scripts/mergeLib.py --output /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/tmp/synthesis/merged.lib --name sky130A_merged /home/iot/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib}"
+
+Tue Jan 20 20:37:54 +0000 2026 - Executing "{python3 /nix/store/xpc7xd67rslanlqh566s6jph53bn830w-openlane1-1.1.1/bin/scripts/libtrim.py --cell-file /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/tmp/synthesis/trimmed.lib.exclude.list --output /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/tmp/synthesis/trimmed.lib /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/tmp/synthesis/merged.lib}"
+
+Tue Jan 20 20:37:55 +0000 2026 - Executing "{python3 /nix/store/xpc7xd67rslanlqh566s6jph53bn830w-openlane1-1.1.1/bin/scripts/libtrim.py --cell-file /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/tmp/cts/cts.lib.exclude.list --output /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/tmp/cts/cts.lib /home/iot/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib}"
+
+Tue Jan 20 20:37:55 +0000 2026 - Executing "{python3 /nix/store/xpc7xd67rslanlqh566s6jph53bn830w-openlane1-1.1.1/bin/scripts/libtrim.py --cell-file /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/tmp/cts/cts-fastest.lib.exclude.list --output /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/tmp/cts/cts-fastest.lib /home/iot/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__ff_n40C_1v95.lib}"
+
+Tue Jan 20 20:37:56 +0000 2026 - Executing "{python3 /nix/store/xpc7xd67rslanlqh566s6jph53bn830w-openlane1-1.1.1/bin/scripts/libtrim.py --cell-file /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/tmp/cts/cts-slowest.lib.exclude.list --output /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/tmp/cts/cts-slowest.lib /home/iot/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__ss_100C_1v60.lib}"
+
+Tue Jan 20 20:37:56 +0000 2026 - Executing "{python3 /nix/store/xpc7xd67rslanlqh566s6jph53bn830w-openlane1-1.1.1/bin/scripts/new_tracks.py -i /home/iot/pdk/sky130A/libs.tech/openlane/sky130_fd_sc_hd/tracks.info -o /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/tmp/routing/config.tracks}"
+
+Tue Jan 20 20:37:56 +0000 2026 - Executing "{echo {OpenLane } > /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/OPENLANE_COMMIT}"
+
+Tue Jan 20 20:37:57 +0000 2026 - Executing "{yosys -c /nix/store/xpc7xd67rslanlqh566s6jph53bn830w-openlane1-1.1.1/bin/scripts/yosys/blackbox.tcl}"
+
+Tue Jan 20 20:37:57 +0000 2026 - Executing "{verilator -Wall --lint-only --Wno-DECLFILENAME --top-module system_top /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/tmp/synthesis/blackbox/sky130_fd_sc_hd__blackbox.v /openlane/designs/viterbi/src/piso.v /openlane/designs/viterbi/src/tbu.v /openlane/designs/viterbi/src/viterbi_core.v /openlane/designs/viterbi/src/pmu.v /openlane/designs/viterbi/src/system_top.v /openlane/designs/viterbi/src/sipo.v /openlane/designs/viterbi/src/acsu.v /openlane/designs/viterbi/src/bmu.v /openlane/designs/viterbi/src/sync_fifo.v -Wno-fatal --relative-includes |& tee /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/logs/synthesis/linter.log /dev/null}"
+
+Tue Jan 20 20:37:57 +0000 2026 - Executing "{sed -E {s/^([[:space:]]+)pg_pin(.*)/\1pin\2\n\1    direction : "inout";/g} /home/iot/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib/sky130_fd_sc_hd__tt_025C_1v80.lib > /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/tmp/synthesis/1-sky130_fd_sc_hd__tt_025C_1v80.no_pg.lib}"
+
+Tue Jan 20 20:37:57 +0000 2026 - Executing "{sed -E {s/^([[:space:]]+)pg_pin(.*)/\1pin\2\n\1    direction : "inout";/g} /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/tmp/synthesis/trimmed.lib > /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/tmp/synthesis/1-trimmed.no_pg.lib}"
+
+Tue Jan 20 20:37:58 +0000 2026 - Executing "yosys -c /nix/store/xpc7xd67rslanlqh566s6jph53bn830w-openlane1-1.1.1/bin/scripts/yosys/synth.tcl |& tee /dev/null /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/logs/synthesis/1-synthesis.log"
+
+Tue Jan 20 20:37:58 +0000 2026 - Executing "{yosys -c /nix/store/xpc7xd67rslanlqh566s6jph53bn830w-openlane1-1.1.1/bin/scripts/yosys/synth.tcl |& tee /dev/null /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/logs/synthesis/1-synthesis.log}"
+
+Tue Jan 20 20:37:58 +0000 2026 - Executing "{python3 /nix/store/xpc7xd67rslanlqh566s6jph53bn830w-openlane1-1.1.1/bin/scripts/write_runtime.py --conclude --seconds --time-in 1768941478 {flow failed}}"
+
+Tue Jan 20 20:37:58 +0000 2026 - Executing "{python3 /nix/store/xpc7xd67rslanlqh566s6jph53bn830w-openlane1-1.1.1/bin/scripts/generate_reports.py -d /openlane/designs/viterbi --design_name system_top --tag RUN_2026.01.20_20.37.52 --output_file /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/reports/metrics.csv --man_report /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52/reports/manufacturability.rpt --run_path /openlane/designs/viterbi/runs/RUN_2026.01.20_20.37.52}"
+

@@ -1,0 +1,19 @@
+Design Name: system_top
+Run Directory: /openlane/designs/viterbi/runs/RUN_2026.01.20_20.44.17
+----------------------------------------
+
+Magic DRC Summary:
+Source: /openlane/designs/viterbi/runs/RUN_2026.01.20_20.44.17/reports/signoff/drc.rpt
+Total Magic DRC violations is 0
+----------------------------------------
+
+LVS Summary:
+Source: /openlane/designs/viterbi/runs/RUN_2026.01.20_20.44.17/logs/signoff/45-system_top.lef.lvs.log
+Number of nets: 2505                       |Number of nets: 2505                       
+Design is LVS clean.
+----------------------------------------
+
+Antenna Summary:
+Source: /openlane/designs/viterbi/runs/RUN_2026.01.20_20.44.17/logs/signoff/48-arc.log
+Pin violations: 0
+Net violations: 0

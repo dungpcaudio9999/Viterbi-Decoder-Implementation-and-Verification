@@ -1,0 +1,6 @@
+<< properties >>
+string FIXED_BBOX 0 0 80000 80000
+string GDS_END 7598088
+string GDS_FILE /openlane/designs/viterbi/runs/RUN_2026.01.20_20.40.20/results/signoff/system_top.magic.gds
+string GDS_START 757438
+<< end >>

@@ -1,0 +1,1 @@
+lvs {/openlane/designs/viterbi/runs/RUN_2026.01.21_02.17.41/results/signoff/system_top.spice system_top} {/openlane/designs/viterbi/runs/RUN_2026.01.21_02.17.41/tmp/signoff/42-system_top.pnl.v system_top} /home/iot/pdk/sky130A/libs.tech/netgen/sky130A_setup.tcl /openlane/designs/viterbi/runs/RUN_2026.01.21_02.17.41/logs/signoff/45-system_top.lef.lvs.log -json

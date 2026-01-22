@@ -1,0 +1,5 @@
+[WARNING]: SYNTH_MAX_FANOUT is now deprecated; use MAX_FANOUT_CONSTRAINT instead.
+[WARNING]: DIODE_INSERTION_STRATEGY is now deprecated; use GRT_REPAIR_ANTENNAS, DIODE_ON_PORTS and RUN_HEURISTIC_DIODE_INSERTION instead.
+[WARNING]: 16 warnings found by linter
+[WARNING]: VSRC_LOC_FILES was not given a value, which may make the results of IR drop analysis inaccurate. If you are not integrating a top-level chip for manufacture, you may ignore this warning, otherwise, see the documentation for VSRC_LOC_FILES.
+[WARNING]: There are max fanout violations in the design at the Typical corner. Please refer to 'designs/viterbi/runs/RUN_2026.01.20_20.40.20/reports/signoff/37-sta-rcx_nom/multi_corner_sta.checks.rpt'.

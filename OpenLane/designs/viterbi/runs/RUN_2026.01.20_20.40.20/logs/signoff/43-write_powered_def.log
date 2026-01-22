@@ -1,0 +1,18 @@
+OpenROAD b16bda7e82721d10566ff7e2b68f1ff0be9f9e38 
+Features included (+) or not (-): +Charts +GPU +GUI +Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ODB-0227] LEF file: /openlane/designs/viterbi/runs/RUN_2026.01.20_20.40.20/tmp/merged.nom.lef, created 13 layers, 25 vias, 441 library cells
+[INFO ODB-0127] Reading DEF file: /openlane/designs/viterbi/runs/RUN_2026.01.20_20.40.20/results/routing/system_top.def
+[INFO ODB-0128] Design: system_top
+[INFO ODB-0130]     Created 31 pins.
+[INFO ODB-0131]     Created 17961 components and 76566 component-terminals.
+[INFO ODB-0132]     Created 2 special nets and 67614 connections.
+[INFO ODB-0133]     Created 2462 nets and 8911 connections.
+[INFO ODB-0134] Finished DEF file: /openlane/designs/viterbi/runs/RUN_2026.01.20_20.40.20/results/routing/system_top.def
+Top-level design name: system_top
+Found default power net 'VPWR'
+Found default ground net 'VGND'
+Found 1 power ports.
+Found 1 ground ports.
+Modified power connections of 17961/17961 cells.

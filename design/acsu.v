@@ -18,7 +18,7 @@ module acsu (
     reg [7:0] path2_cand0, path2_cand1;
     reg [7:0] path3_cand0, path3_cand1;
 
-    always @(*) begin
+    always @(pm_s0_i or pm_s1_i or pm_s2_i or pm_s3_i or bm_s0_s0_i or bm_s0_s2_i or bm_s1_s0_i or bm_s1_s2_i or bm_s2_s1_i or bm_s2_s3_i or bm_s3_s1_i or bm_s3_s3_i or path0_cand0 or path0_cand1) begin
         // --- Tính toán cho State 0 ---
         // Đến S0 có thể từ S0 hoặc S1
         path0_cand0 = pm_s0_i + bm_s0_s0_i; // Từ S0

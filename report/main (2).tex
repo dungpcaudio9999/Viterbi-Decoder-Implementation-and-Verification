@@ -2,9 +2,9 @@
 
 % ================= CẤU HÌNH GÓI LỆNH =================
 \usepackage{fontspec}
-\usepackage{polyglossia}
-\setdefaultlanguage{vietnamese}
-\setmainfont{Liberation Serif}
+\usepackage[vietnamese]{babel}
+\setmainfont{Times New Roman}
+\setmonofont{Consolas}
 
 \usepackage{amsmath, amsfonts, amssymb} % Gói toán học
 \usepackage{graphicx}   % Chèn ảnh
@@ -29,7 +29,9 @@
     numbers=left,
     numberstyle=\tiny,
     tabsize=2,
-    captionpos=b
+    captionpos=b,
+    keepspaces=true,
+    commentstyle=\itshape\rmfamily
 }
 
 % Cấu hình lề trang
@@ -174,9 +176,9 @@ Bảng tín hiệu giao tiếp của khối Top-Level (\texttt{system\_top}):
 
 \begin{figure}[H]
     \centering
-    % Placeholder cho sơ đồ khối, bạn có thể thêm ảnh system_block.png sau
-    % \includegraphics[width=0.9\textwidth]{system_block.png}
-    \caption{Sơ đồ khối hệ thống System Top}
+    \includegraphics[width=1.0\textwidth]{so_do_khoi.drawio.png}
+    \caption{Sơ đồ khối chi tiết hệ thống Viterbi Decoder SoC}
+    \label{fig:system_block}
 \end{figure}
 
 Luồng dữ liệu di chuyển như sau:
@@ -189,7 +191,14 @@ Luồng dữ liệu di chuyển như sau:
 \end{enumerate}
 
 \section{Triển khai RTL (RTL Implementation)}
-Mã nguồn RTL được viết bằng Verilog HDL, tuân thủ các quy tắc thiết kế đồng bộ.
+Mã nguồn RTL được viết bằng Verilog HDL, tuân thủ các quy tắc thiết kế đồng bộ. Trước khi đi vào chi tiết từng khối, lưu đồ thuật toán dưới đây mô tả quá trình điều khiển luồng dữ liệu từ khi nhận tín hiệu Valid đến khi xuất dữ liệu giải mã:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{luu_do_thuat_toan.drawio.png}
+    \caption{Lưu đồ thuật toán điều khiển luồng dữ liệu hệ thống}
+    \label{fig:algo_flow}
+\end{figure}
 
 \subsection{Khối tính toán nhánh (BMU)}
 BMU (\texttt{bmu.v}) nhận cặp bit đầu vào và tính khoảng cách Hamming cho 8 trường hợp chuyển đổi của 4 trạng thái. Logic thực hiện hoàn toàn tổ hợp.
@@ -207,11 +216,11 @@ Thay vì sử dụng bộ nhớ RAM để lưu vết và quay lui (Traceback) g�
 
 Mỗi trạng thái ($S_0, S_1, S_2, S_3$) quản lý một thanh ghi dịch lịch sử dài 15 bit.
 \begin{lstlisting}[language=Verilog, caption=Cơ chế Register Exchange trong TBU]
-// Ví dụ logic cập nhật cho trạng thái S0
+// Update logic example for state S0
 if (dec_bits_i[0] == 0) 
-    history_s0 <= {history_s0[TBL-2:0], 1'b0}; // Chọn đường từ S0 cũ
+    history_s0 <= {history_s0[TBL-2:0], 1'b0}; // Select path from previous S0
 else                    
-    history_s0 <= {history_s1[TBL-2:0], 1'b0}; // Chọn đường từ S1 cũ
+    history_s0 <= {history_s1[TBL-2:0], 1'b0}; // Select path from previous S1
 \end{lstlisting}
 
 Nhờ cơ chế này, sau khi pipeline được điền đầy (15 chu kỳ), đầu ra dữ liệu là liên tục (streaming) với năng suất (throughput) cao nhất (1 bit/cycle).
@@ -237,17 +246,17 @@ Dưới đây là kết quả mô phỏng chi tiết cho từng khối chức n�
 \subsection{Khối đệm dữ liệu (FIFO)}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{fifo_log_part1.png}
+    \includegraphics[width=0.75\textwidth]{fifo_log_part1.png}
     \caption{Log mô phỏng FIFO - Phần 1}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{fifo_log_part2.png}
+    \includegraphics[width=0.75\textwidth]{fifo_log_part2.png}
     \caption{Log mô phỏng FIFO - Phần 2}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{fifo_wave.png}
+    \includegraphics[width=0.85\textwidth]{fifo_wave.png}
     \caption{Giản đồ sóng tín hiệu FIFO}
 \end{figure}
 
@@ -255,17 +264,17 @@ Dưới đây là kết quả mô phỏng chi tiết cho từng khối chức n�
 \subsection{Khối chuyển đổi song song sang nối tiếp (PISO)}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{piso_log_part1.png}
+    \includegraphics[width=0.75\textwidth]{piso_log_part1.png}
     \caption{Log mô phỏng PISO - Phần 1}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{piso_log_part2.png}
+    \includegraphics[width=0.75\textwidth]{piso_log_part2.png}
     \caption{Log mô phỏng PISO - Phần 2}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{piso_wave.png}
+    \includegraphics[width=0.85\textwidth]{piso_wave.png}
     \caption{Giản đồ sóng tín hiệu PISO}
 \end{figure}
 
@@ -273,17 +282,17 @@ Dưới đây là kết quả mô phỏng chi tiết cho từng khối chức n�
 \subsection{Khối tính toán nhánh (BMU)}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{bmu_log_part1.png}
+    \includegraphics[width=0.75\textwidth]{bmu_log_part1.png}
     \caption{Log mô phỏng BMU - Phần 1}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{bmu_log_part2.png}
+    \includegraphics[width=0.75\textwidth]{bmu_log_part2.png}
     \caption{Log mô phỏng BMU - Phần 2}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{bmu_wave.png}
+    \includegraphics[width=0.85\textwidth]{bmu_wave.png}
     \caption{Giản đồ sóng tín hiệu BMU}
 \end{figure}
 
@@ -291,17 +300,17 @@ Dưới đây là kết quả mô phỏng chi tiết cho từng khối chức n�
 \subsection{Khối Cộng - So sánh - Chọn (ACSU)}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{acsu_log_part1.png}
+    \includegraphics[width=0.75\textwidth]{acsu_log_part1.png}
     \caption{Log mô phỏng ACSU - Phần 1}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{acsu_log_part2.png}
+    \includegraphics[width=0.75\textwidth]{acsu_log_part2.png}
     \caption{Log mô phỏng ACSU - Phần 2}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{acsu_wave.png}
+    \includegraphics[width=0.85\textwidth]{acsu_wave.png}
     \caption{Giản đồ sóng tín hiệu ACSU}
 \end{figure}
 
@@ -309,17 +318,17 @@ Dưới đây là kết quả mô phỏng chi tiết cho từng khối chức n�
 \subsection{Khối quản lý Metric (PMU)}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{pmu_log_part1.png}
+    \includegraphics[width=0.75\textwidth]{pmu_log_part1.png}
     \caption{Log mô phỏng PMU - Phần 1}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{pmu_log_part2.png}
+    \includegraphics[width=0.75\textwidth]{pmu_log_part2.png}
     \caption{Log mô phỏng PMU - Phần 2}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{pmu_wave.png}
+    \includegraphics[width=0.85\textwidth]{pmu_wave.png}
     \caption{Giản đồ sóng tín hiệu PMU}
 \end{figure}
 
@@ -327,17 +336,17 @@ Dưới đây là kết quả mô phỏng chi tiết cho từng khối chức n�
 \subsection{Khối truy vết (TBU)}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{tbu_log_part1.png}
+    \includegraphics[width=0.75\textwidth]{tbu_log_part1.png}
     \caption{Log mô phỏng TBU - Phần 1}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{tbu_log_part2.png}
+    \includegraphics[width=0.75\textwidth]{tbu_log_part2.png}
     \caption{Log mô phỏng TBU - Phần 2}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{tbu_wave.png}
+    \includegraphics[width=0.85\textwidth]{tbu_wave.png}
     \caption{Giản đồ sóng tín hiệu TBU}
 \end{figure}
 
@@ -345,20 +354,104 @@ Dưới đây là kết quả mô phỏng chi tiết cho từng khối chức n�
 \subsection{Khối chuyển đổi nối tiếp sang song song (SIPO)}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{sipo_log_part1.png}
+    \includegraphics[width=0.75\textwidth]{sipo_log_part1.png}
     \caption{Log mô phỏng SIPO - Phần 1}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{sipo_log_part2.png}
+    \includegraphics[width=0.75\textwidth]{sipo_log_part2.png}
     \caption{Log mô phỏng SIPO - Phần 2}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{sipo_wave.png}
+    \includegraphics[width=0.85\textwidth]{sipo_wave.png}
     \caption{Giản đồ sóng tín hiệu SIPO}
 \end{figure}
+% ====================================================================
+% SECTION 3.2.8: SYSTEM VERIFICATION
+% ====================================================================
+\subsection{Kiểm chứng toàn hệ thống (System Integration)}
 
+Sau khi các khối đơn lẻ (Unit Level) đã hoạt động đúng, nhóm thực hiện tích hợp toàn bộ hệ thống và tiến hành kiểm thử mức hệ thống (System Level Verification). Mục tiêu là đảm bảo luồng dữ liệu từ FIFO $\rightarrow$ PISO $\rightarrow$ Viterbi Core $\rightarrow$ SIPO hoạt động đồng bộ, đúng timing và quan trọng nhất là khả năng sửa lỗi của thuật toán.
+
+\subsubsection{Kịch bản kiểm thử (Testcases)}
+
+Hệ thống được kiểm tra với bộ Test Suite gồm 8 kịch bản chính, bao phủ từ hoạt động bình thường, khả năng sửa lỗi bit đến các trường hợp chịu tải cao (Stress test).
+
+\begin{table}[H]
+    \centering
+    \caption{Tổng hợp kết quả các kịch bản kiểm thử hệ thống}
+    \begin{tabularx}{\textwidth}{|l|l|X|l|}
+    \hline
+    \textbf{ID} & \textbf{Tên Testcase} & \textbf{Mô tả kịch bản} & \textbf{Kết quả} \\ \hline
+    SYS\_01 & Sanity Check & Kiểm tra cơ bản: Gửi gói tin chuẩn, không lỗi. & \textbf{Pass} \\ \hline
+    SYS\_02 & Full Range Sweep & Quét toàn bộ dải giá trị đầu vào (0x0000 - 0xFFFF). & \textbf{Pass} \\ \hline
+    SYS\_03 & Single Bit Error & Gây nhiễu sai 1 bit ngẫu nhiên. Hệ thống phải tự sửa lại đúng. & \textbf{Pass} \\ \hline
+    SYS\_04 & Multi-bit Error & Gây nhiễu sai 2-3 bit (Vượt quá khả năng sửa lỗi lý thuyết). & Mixed \\ \hline
+    SYS\_05 & Burst Error & Kiểm tra khả năng chịu lỗi chùm (sai 4 bit liên tiếp). & Fail (Expected) \\ \hline
+    SYS\_06 & Busy Ignore & Gửi dữ liệu khi cờ Busy=1 (FIFO đầy). & \textbf{Pass} \\ \hline
+    SYS\_07 & Continuous Stress & Gửi dữ liệu liên tục tốc độ cao (Back-to-back transaction). & \textbf{Pass} \\ \hline
+    SYS\_08 & Reset Recovery & Reset hệ thống giữa chừng khi đang xử lý. & \textbf{Pass} \\ \hline
+    \end{tabularx}
+\end{table}
+
+\subsubsection{Mã nguồn Testbench (Trích đoạn)}
+
+Module kiểm thử tự động (\texttt{tb\_system\_top.sv}) được xây dựng với cơ chế "Self-checking". Dưới đây là trích đoạn Task gửi dữ liệu có hỗ trợ tiêm lỗi (Error Injection):
+
+\begin{lstlisting}[language=Verilog, caption=Task gửi dữ liệu và tiêm lỗi trong Testbench]
+// Task: Send 16-bit data packet
+task send_packet(input [15:0] data, input [2:0] error_count);
+    logic [15:0] corrupted_data;
+    begin
+        // Inject artificial error to test error correction capability
+        corrupted_data = inject_error(data, error_count);
+        
+        // Handshake protocol with the system
+        wait(!busy_o);      // Wait for system ready
+        @(posedge clk);
+        dvalid_i = 1'b1;    // Assert Valid
+        data_i   = corrupted_data;
+        @(posedge clk);
+        dvalid_i = 1'b0;
+    end
+endtask
+\end{lstlisting}
+
+\subsubsection{Kết quả mô phỏng}
+
+Hình \ref{fig:test_summary} dưới đây là báo cáo tổng hợp tự động từ Testbench. Hệ thống đạt tỷ lệ thành công tuyệt đối (100\%) với các trường hợp dữ liệu sạch (Clean) và lỗi 1 bit (Error 1b).
+
+\begin{figure}[H]
+    \centering
+    % Rename file 2dfaac... to test_summary.jpg
+    \includegraphics[width=0.8\textwidth]{test_summary.jpg} 
+    \caption{Bảng tổng kết (Test Summary Report) từ Simulation Log}
+    \label{fig:test_summary}
+\end{figure}
+
+Chi tiết log mô phỏng của một số trường hợp tiêu biểu:
+
+\begin{figure}[H]
+    \centering
+    % Rename file 0efb0a... to log_sys01.jpg
+    \includegraphics[width=0.75\textwidth]{log_sys01.jpg}
+    \caption{[SYS\_01] Sanity Check: Hệ thống giải mã chính xác dữ liệu chuẩn}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    % Rename file 2985d1... to log_sys03.jpg
+    \includegraphics[width=0.75\textwidth]{log_sys03.jpg}
+    \caption{[SYS\_03] Single Bit Error: Hệ thống tự động sửa sai khi đầu vào bị lỗi 1 bit}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    % Rename file f4e0ca... to log_sys07.jpg
+    \includegraphics[width=0.75\textwidth]{log_sys07.jpg}
+    \caption{[SYS\_07] Continuous Stress: Hoạt động ổn định dưới tải liên tục}
+\end{figure}
 % ====================================================================
 % CHƯƠNG 4
 % ====================================================================

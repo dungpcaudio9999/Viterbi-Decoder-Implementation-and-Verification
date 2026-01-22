@@ -1,55 +1,33 @@
-\xpginauxfiletrue 
+\babel@toc {vietnamese}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\setforeignlanguage {vietnamese}
-\setforeignlanguage {vietnamese}
-\setforeignlanguage {vietnamese}
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Sơ đồ khối hệ thống System Top}}{6}{figure.caption.7}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Sơ đồ khối chi tiết hệ thống Viterbi Decoder SoC}}{7}{figure.caption.7}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Lưu đồ thuật toán điều khiển luồng dữ liệu hệ thống}}{8}{figure.caption.8}%
 \addvspace {10\p@ }
-\setforeignlanguage {vietnamese}
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Log mô phỏng FIFO - Phần 1}}{9}{figure.caption.8}%
-\setforeignlanguage {vietnamese}
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Log mô phỏng FIFO - Phần 2}}{10}{figure.caption.9}%
-\setforeignlanguage {vietnamese}
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Giản đồ sóng tín hiệu FIFO}}{11}{figure.caption.10}%
-\setforeignlanguage {vietnamese}
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Log mô phỏng PISO - Phần 1}}{12}{figure.caption.11}%
-\setforeignlanguage {vietnamese}
-\contentsline {figure}{\numberline {3.5}{\ignorespaces Log mô phỏng PISO - Phần 2}}{13}{figure.caption.12}%
-\setforeignlanguage {vietnamese}
-\contentsline {figure}{\numberline {3.6}{\ignorespaces Giản đồ sóng tín hiệu PISO}}{13}{figure.caption.13}%
-\setforeignlanguage {vietnamese}
-\contentsline {figure}{\numberline {3.7}{\ignorespaces Log mô phỏng BMU - Phần 1}}{14}{figure.caption.14}%
-\setforeignlanguage {vietnamese}
-\contentsline {figure}{\numberline {3.8}{\ignorespaces Log mô phỏng BMU - Phần 2}}{15}{figure.caption.15}%
-\setforeignlanguage {vietnamese}
-\contentsline {figure}{\numberline {3.9}{\ignorespaces Giản đồ sóng tín hiệu BMU}}{16}{figure.caption.16}%
-\setforeignlanguage {vietnamese}
-\contentsline {figure}{\numberline {3.10}{\ignorespaces Log mô phỏng ACSU - Phần 1}}{17}{figure.caption.17}%
-\setforeignlanguage {vietnamese}
-\contentsline {figure}{\numberline {3.11}{\ignorespaces Log mô phỏng ACSU - Phần 2}}{18}{figure.caption.18}%
-\setforeignlanguage {vietnamese}
-\contentsline {figure}{\numberline {3.12}{\ignorespaces Giản đồ sóng tín hiệu ACSU}}{18}{figure.caption.19}%
-\setforeignlanguage {vietnamese}
-\contentsline {figure}{\numberline {3.13}{\ignorespaces Log mô phỏng PMU - Phần 1}}{19}{figure.caption.20}%
-\setforeignlanguage {vietnamese}
-\contentsline {figure}{\numberline {3.14}{\ignorespaces Log mô phỏng PMU - Phần 2}}{20}{figure.caption.21}%
-\setforeignlanguage {vietnamese}
-\contentsline {figure}{\numberline {3.15}{\ignorespaces Giản đồ sóng tín hiệu PMU}}{20}{figure.caption.22}%
-\setforeignlanguage {vietnamese}
-\contentsline {figure}{\numberline {3.16}{\ignorespaces Log mô phỏng TBU - Phần 1}}{21}{figure.caption.23}%
-\setforeignlanguage {vietnamese}
-\contentsline {figure}{\numberline {3.17}{\ignorespaces Log mô phỏng TBU - Phần 2}}{22}{figure.caption.24}%
-\setforeignlanguage {vietnamese}
-\contentsline {figure}{\numberline {3.18}{\ignorespaces Giản đồ sóng tín hiệu TBU}}{22}{figure.caption.25}%
-\setforeignlanguage {vietnamese}
-\contentsline {figure}{\numberline {3.19}{\ignorespaces Log mô phỏng SIPO - Phần 1}}{23}{figure.caption.26}%
-\setforeignlanguage {vietnamese}
-\contentsline {figure}{\numberline {3.20}{\ignorespaces Log mô phỏng SIPO - Phần 2}}{24}{figure.caption.27}%
-\setforeignlanguage {vietnamese}
-\contentsline {figure}{\numberline {3.21}{\ignorespaces Giản đồ sóng tín hiệu SIPO}}{24}{figure.caption.28}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Log mô phỏng FIFO - Phần 1}}{10}{figure.caption.9}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Log mô phỏng FIFO - Phần 2}}{11}{figure.caption.10}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Giản đồ sóng tín hiệu FIFO}}{11}{figure.caption.11}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Log mô phỏng PISO - Phần 1}}{12}{figure.caption.12}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Log mô phỏng PISO - Phần 2}}{13}{figure.caption.13}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Giản đồ sóng tín hiệu PISO}}{13}{figure.caption.14}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Log mô phỏng BMU - Phần 1}}{14}{figure.caption.15}%
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Log mô phỏng BMU - Phần 2}}{15}{figure.caption.16}%
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Giản đồ sóng tín hiệu BMU}}{15}{figure.caption.17}%
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Log mô phỏng ACSU - Phần 1}}{16}{figure.caption.18}%
+\contentsline {figure}{\numberline {3.11}{\ignorespaces Log mô phỏng ACSU - Phần 2}}{17}{figure.caption.19}%
+\contentsline {figure}{\numberline {3.12}{\ignorespaces Giản đồ sóng tín hiệu ACSU}}{17}{figure.caption.20}%
+\contentsline {figure}{\numberline {3.13}{\ignorespaces Log mô phỏng PMU - Phần 1}}{18}{figure.caption.21}%
+\contentsline {figure}{\numberline {3.14}{\ignorespaces Log mô phỏng PMU - Phần 2}}{18}{figure.caption.22}%
+\contentsline {figure}{\numberline {3.15}{\ignorespaces Giản đồ sóng tín hiệu PMU}}{19}{figure.caption.23}%
+\contentsline {figure}{\numberline {3.16}{\ignorespaces Log mô phỏng TBU - Phần 1}}{19}{figure.caption.24}%
+\contentsline {figure}{\numberline {3.17}{\ignorespaces Log mô phỏng TBU - Phần 2}}{20}{figure.caption.25}%
+\contentsline {figure}{\numberline {3.18}{\ignorespaces Giản đồ sóng tín hiệu TBU}}{20}{figure.caption.26}%
+\contentsline {figure}{\numberline {3.19}{\ignorespaces Log mô phỏng SIPO - Phần 1}}{21}{figure.caption.27}%
+\contentsline {figure}{\numberline {3.20}{\ignorespaces Log mô phỏng SIPO - Phần 2}}{22}{figure.caption.28}%
+\contentsline {figure}{\numberline {3.21}{\ignorespaces Giản đồ sóng tín hiệu SIPO}}{22}{figure.caption.29}%
+\contentsline {figure}{\numberline {3.22}{\ignorespaces Bảng tổng kết (Test Summary Report) từ Simulation Log}}{24}{figure.caption.34}%
+\contentsline {figure}{\numberline {3.23}{\ignorespaces [SYS\_01] Sanity Check: Hệ thống giải mã chính xác dữ liệu chuẩn}}{24}{figure.caption.35}%
+\contentsline {figure}{\numberline {3.24}{\ignorespaces [SYS\_03] Single Bit Error: Hệ thống tự động sửa sai khi đầu vào bị lỗi 1 bit}}{25}{figure.caption.36}%
+\contentsline {figure}{\numberline {3.25}{\ignorespaces [SYS\_07] Continuous Stress: Hoạt động ổn định dưới tải liên tục}}{25}{figure.caption.37}%
 \addvspace {10\p@ }
-\setforeignlanguage {vietnamese}
-\setforeignlanguage {vietnamese}
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Hình ảnh Layout GDSII cuối cùng của hệ thống}}{26}{figure.caption.30}%
-\xpginauxfilefalse 
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Hình ảnh Layout GDSII cuối cùng của hệ thống}}{27}{figure.caption.39}%

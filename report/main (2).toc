@@ -1,5 +1,4 @@
-\xpginauxfiletrue 
-\selectlanguage *{vietnamese}
+\babel@toc {vietnamese}{}\relax 
 \contentsline {chapter}{TÓM TẮT NỘI DUNG}{1}{chapter*.1}%
 \contentsline {chapter}{\numberline {1}TỔNG QUAN VỀ MÃ TÍCH CHẬP VÀ GIẢI MÃ VITERBI}{5}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Giới thiệu mã tích chập}{5}{section.1.1}%
@@ -8,22 +7,25 @@
 \contentsline {section}{\numberline {2.1}Đặc tả kỹ thuật (Specifications)}{6}{section.2.1}%
 \contentsline {section}{\numberline {2.2}Kiến trúc hệ thống (System Architecture)}{6}{section.2.2}%
 \contentsline {section}{\numberline {2.3}Triển khai RTL (RTL Implementation)}{7}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Khối tính toán nhánh (BMU)}{7}{subsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.3.2}Khối Cộng-So sánh-Chọn (ACSU)}{7}{subsection.2.3.2}%
-\contentsline {subsection}{\numberline {2.3.3}Khối truy vết Survivor Memory (TBU)}{7}{subsection.2.3.3}%
-\contentsline {chapter}{\numberline {3}KIỂM TRA CHỨC NĂNG MẠCH}{8}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Môi trường kiểm chứng (Testbench Environment)}{8}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Kết quả mô phỏng (Simulation Results)}{8}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Khối đệm dữ liệu (FIFO)}{9}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {2.3.1}Khối tính toán nhánh (BMU)}{8}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Khối Cộng-So sánh-Chọn (ACSU)}{8}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Khối truy vết Survivor Memory (TBU)}{9}{subsection.2.3.3}%
+\contentsline {chapter}{\numberline {3}KIỂM TRA CHỨC NĂNG MẠCH}{10}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Môi trường kiểm chứng (Testbench Environment)}{10}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Kết quả mô phỏng (Simulation Results)}{10}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Khối đệm dữ liệu (FIFO)}{10}{subsection.3.2.1}%
 \contentsline {subsection}{\numberline {3.2.2}Khối chuyển đổi song song sang nối tiếp (PISO)}{12}{subsection.3.2.2}%
 \contentsline {subsection}{\numberline {3.2.3}Khối tính toán nhánh (BMU)}{14}{subsection.3.2.3}%
-\contentsline {subsection}{\numberline {3.2.4}Khối Cộng - So sánh - Chọn (ACSU)}{17}{subsection.3.2.4}%
-\contentsline {subsection}{\numberline {3.2.5}Khối quản lý Metric (PMU)}{19}{subsection.3.2.5}%
-\contentsline {subsection}{\numberline {3.2.6}Khối truy vết (TBU)}{21}{subsection.3.2.6}%
-\contentsline {subsection}{\numberline {3.2.7}Khối chuyển đổi nối tiếp sang song song (SIPO)}{23}{subsection.3.2.7}%
-\contentsline {chapter}{\numberline {4}TỔNG HỢP VÀ THIẾT KẾ VẬT LÝ}{25}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Quy trình OpenLane Flow}{25}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Kết quả tổng hợp (Synthesis Results)}{25}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Kết quả thiết kế vật lý (Physical Layout)}{25}{section.4.3}%
-\contentsline {chapter}{KẾT LUẬN}{27}{chapter*.31}%
-\xpginauxfilefalse 
+\contentsline {subsection}{\numberline {3.2.4}Khối Cộng - So sánh - Chọn (ACSU)}{16}{subsection.3.2.4}%
+\contentsline {subsection}{\numberline {3.2.5}Khối quản lý Metric (PMU)}{18}{subsection.3.2.5}%
+\contentsline {subsection}{\numberline {3.2.6}Khối truy vết (TBU)}{19}{subsection.3.2.6}%
+\contentsline {subsection}{\numberline {3.2.7}Khối chuyển đổi nối tiếp sang song song (SIPO)}{21}{subsection.3.2.7}%
+\contentsline {subsection}{\numberline {3.2.8}Kiểm chứng toàn hệ thống (System Integration)}{22}{subsection.3.2.8}%
+\contentsline {subsubsection}{Kịch bản kiểm thử (Testcases)}{23}{subsubsection*.30}%
+\contentsline {subsubsection}{Mã nguồn Testbench (Trích đoạn)}{23}{subsubsection*.32}%
+\contentsline {subsubsection}{Kết quả mô phỏng}{24}{subsubsection*.33}%
+\contentsline {chapter}{\numberline {4}TỔNG HỢP VÀ THIẾT KẾ VẬT LÝ}{26}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Quy trình OpenLane Flow}{26}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Kết quả tổng hợp (Synthesis Results)}{26}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Kết quả thiết kế vật lý (Physical Layout)}{26}{section.4.3}%
+\contentsline {chapter}{KẾT LUẬN}{28}{chapter*.40}%

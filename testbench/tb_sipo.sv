@@ -2,7 +2,7 @@
 
 module sipo_tb();
 
-    // Tín hi?u k?t n?i
+    // Tin hieu ket noi
     reg clk, rst_n, data_serial_i, valid_serial_i;
     wire [7:0] data_parallel_o;
     wire byte_ready_o;
@@ -10,7 +10,7 @@ module sipo_tb();
     integer i, j, error_count;
     reg [7:0] expected_byte;
 
-    // Kh?i t?o DUT
+    // Khoi tao DUT
     sipo uut (
         .clk(clk), .rst_n(rst_n),
         .data_serial_i(data_serial_i),
@@ -23,7 +23,7 @@ module sipo_tb();
     initial clk = 0;
     always #5 clk = ~clk;
 
-    // Task hi?n th? báo cáo (S?a l?i ?? l?y giá tr? ngay khi Ready)
+    // Task hien thi bao cao (Sua loi de lay gia tri ngay khi Ready)
     task display_report;
         input [8*30:1] scenario;
         input [7:0] exp_data;
@@ -32,7 +32,7 @@ module sipo_tb();
             $display("      --------------------------------------------------");
             $display("      Signal      |   Got    | Expected | Status");
             $display("      ------------|----------|----------|---------");
-            // T?i ?ây byte_ready_o ch?c ch?n ph?i là 1 vì task g?i ?ã ??i nó
+            // Tai day byte_ready_o chac chan phai la 1 vi task goi da doi no
             $display("      Byte Ready  |    %b     |    1     | %s", byte_ready_o, (byte_ready_o === 1'b1) ? "OK" : "ERR");
             $display("      Parallel Out| %b | %b | %s", data_parallel_o, exp_data, (data_parallel_o === exp_data) ? "OK" : "ERR");
             $display("      --------------------------------------------------");
@@ -42,22 +42,22 @@ module sipo_tb();
         end
     endtask
 
-    // Task g?i byte thông minh: T? ??ng ??i tín hi?u Ready
+    // Task gui byte thong minh: Tu dong doi tin hieu Ready
     task send_byte;
         input [7:0] byte_to_send;
         begin
             for (i = 0; i < 8; i = i + 1) begin
-                @(negedge clk); // ??a d? li?u vào c?nh xu?ng ?? module b?t ? c?nh lên ti?p theo
+                @(negedge clk); // Dua du lieu vao canh xuong de module bat o canh len tiep theo
                 data_serial_i = byte_to_send[i];
                 valid_serial_i = 1'b1;
             end
             @(negedge clk);
-            valid_serial_i = 1'b0; // T?t valid sau 8 bit
+            valid_serial_i = 1'b0; // Tat valid sau 8 bit
             
-            // ??I CHO ??N KHI BYTE_READY_O LÊN CAO
-            // ?ây là cách duy nh?t ?? tránh l?i l?ch pha clock
+            // DOI CHO DEN KHI BYTE_READY_O LEN CAO
+            // Day la cach duy nhat de tranh loi lech pha clock
             wait(byte_ready_o === 1'b1); 
-            #1; // ??i 1ns ?? d? li?u ?n ??nh h?n
+            #1; // Doi 1ns de du lieu on dinh hon
         end
     endtask
 
@@ -80,15 +80,15 @@ module sipo_tb();
         send_byte(8'hA5);
         display_report("Scenario 1: 0xA5 Received", 8'hA5);
 
-        // 3. Scenario 2: 0xFF (T?t c? bit 1)
+        // 3. Scenario 2: 0xFF (Tat ca bit 1)
         send_byte(8'hFF);
         display_report("Scenario 2: 0xFF Received", 8'hFF);
 
-        // 4. Scenario 3: 0x00 (T?t c? bit 0)
+        // 4. Scenario 3: 0x00 (Tat ca bit 0)
         send_byte(8'h00);
         display_report("Scenario 3: 0x00 Received", 8'h00);
 
-        // 5. Scenario 4: D? li?u ng?u nhiên (5 l?n)
+        // 5. Scenario 4: Du lieu ngau nhien (5 lan)
         for (j = 1; j <= 5; j = j + 1) begin
             expected_byte = $random;
             send_byte(expected_byte);
@@ -106,8 +106,9 @@ module sipo_tb();
         #100;
         $finish;
     end
-initial begin
-    $dumpfile("sipo.vcd"); // Ten file du lieu song
-    $dumpvars(0, sipo_tb); 
-end
+
+    initial begin
+        $dumpfile("sipo.vcd"); // Ten file du lieu song
+        $dumpvars(0, sipo_tb); 
+    end
 endmodule

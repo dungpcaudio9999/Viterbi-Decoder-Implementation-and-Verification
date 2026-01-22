@@ -7,7 +7,7 @@ module tb_fifo;
     wire  [15:0] dout;
     wire  full, empty;
 
-    fifo #(.WIDTH(16), .DEPTH(4)) dut ( // Test depth nhỏ cho nhanh đầy
+    fifo #(.WIDTH(16), .DEPTH(4)) dut ( // Test depth nho cho nhanh day
         .clk(clk), .rst_n(rst_n),
         .wr_en(wr_en), .din(din), .full(full),
         .rd_en(rd_en), .dout(dout), .empty(empty)
@@ -20,10 +20,10 @@ module tb_fifo;
         clk = 0; rst_n = 0; wr_en = 0; rd_en = 0; din = 0;
         #15 rst_n = 1;
 
-        // 1. Kiểm tra Empty sau reset
+        // 1. Kiem tra Empty sau reset
         if(empty === 1) $display("[PASS] Reset -> Empty OK");
 
-        // 2. Ghi 4 gói (Làm đầy)
+        // 2. Ghi 4 goi (Lam đay)
         $display("[INFO] Filling FIFO...");
         repeat(4) begin
             @(posedge clk);
@@ -34,7 +34,7 @@ module tb_fifo;
         #1;
         if(full === 1) $display("[PASS] FIFO Full OK");
 
-        // 3. Đọc ra
+        // 3. Đoc ra
         $display("[INFO] Reading FIFO...");
         @(posedge clk); rd_en <= 1;
         @(posedge clk);

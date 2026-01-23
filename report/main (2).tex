@@ -155,24 +155,236 @@ Dựa trên yêu cầu của đề tài, hệ thống Viterbi Decoder được t
 
 Bảng tín hiệu giao tiếp của khối Top-Level (\texttt{system\_top}):
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{system_top.png}
+    \caption{Sơ đồ khối Top-Level System}
+    \label{fig:system_top_block}
+\end{figure}
+
 \begin{table}[H]
     \centering
     \caption{Đặc tả giao diện System Top}
-    \begin{tabularx}{\textwidth}{|l|l|l|X|}
+    \begin{tabularx}{\textwidth}{|l|c|c|X|}
     \hline
-    \textbf{Port Name} & \textbf{Width} & \textbf{Dir} & \textbf{Description} \\ \hline
-    \texttt{clk} & 1 & Input & System Clock (Positve Edge) \\ \hline
-    \texttt{rst\_n} & 1 & Input & System Reset (Active Low) \\ \hline
-    \texttt{dvalid\_i} & 1 & Input & Valid signal for input data (FIFO Write Enable) \\ \hline
-    \texttt{data\_i} & 16 & Input & Input Data Word (16-bit) \\ \hline
-    \texttt{data\_o} & 8 & Output & Decoded Data Byte (8-bit) \\ \hline
-    \texttt{valid\_o} & 1 & Output & Valid signal for output data \\ \hline
-    \texttt{busy\_o} & 1 & Output & Busy Flag (Indicates FIFO Full) \\ \hline
+    \textbf{Tên tín hiệu} & \textbf{Độ rộng} & \textbf{Hướng} & \textbf{Mô tả} \\ \hline
+    \texttt{clk} & 1 & I & Xung clock hệ thống (Cạnh dương). \\ \hline
+    \texttt{rst\_n} & 1 & I & Reset hệ thống (Tích cực thấp). \\ \hline
+    \texttt{dvalid\_i} & 1 & I & Tín hiệu báo dữ liệu đầu vào hợp lệ (FIFO WrEn). \\ \hline
+    \texttt{data\_i} & 16 & I & Gói dữ liệu đầu vào (16-bit). \\ \hline
+    \texttt{data\_o} & 8 & O & Dữ liệu byte đã giải mã (8-bit). \\ \hline
+    \texttt{valid\_o} & 1 & O & Tín hiệu báo dữ liệu đầu ra đã sẵn sàng. \\ \hline
+    \texttt{busy\_o} & 1 & O & Báo bận khi bộ đệm FIFO đầy. \\ \hline
     \end{tabularx}
 \end{table}
 
-\section{Kiến trúc hệ thống (System Architecture)}
-Để đảm bảo khả năng tích hợp thực tế, hệ thống được thiết kế dạng SoC thu nhỏ với luồng dữ liệu Pipeline:
+\section{Kiến trúc hệ thống và Chi tiết I/O từng khối}
+Hệ thống được thiết kế theo luồng dữ liệu Pipeline để tối ưu hóa hiệu năng. Dưới đây là mô tả chi tiết các chân tín hiệu của từng thực thể chức năng.
+
+\subsection{Khối đệm dữ liệu (FIFO)}
+Khối này lưu trữ tạm thời dữ liệu 16-bit từ bên ngoài trước khi đưa vào bộ giải mã.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{fifo.png}
+    \caption{Sơ đồ khối FIFO}
+    \label{fig:fifo_block}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \caption{Giao diện khối Sync FIFO}
+    \begin{tabularx}{\textwidth}{|l|c|c|X|}
+    \hline
+    \textbf{Tên tín hiệu} & \textbf{Độ rộng} & \textbf{Hướng} & \textbf{Mô tả} \\ \hline
+    \texttt{clk} & 1 & I & Xung clock hệ thống. \\ \hline
+    \texttt{rst\_n} & 1 & I & Reset hệ thống (Tích cực thấp). \\ \hline
+    \texttt{wr\_en\_i} & 1 & I & Lệnh ghi dữ liệu vào FIFO. \\ \hline
+    \texttt{wr\_data\_i} & 16 & I & Dữ liệu 16-bit ghi vào. \\ \hline
+    \texttt{full\_o} & 1 & O & Cờ báo bộ đệm đã đầy. \\ \hline
+    \texttt{rd\_en\_i} & 1 & I & Lệnh đọc dữ liệu ra (từ PISO). \\ \hline
+    \texttt{rd\_data\_o} & 16 & O & Dữ liệu 16-bit đọc ra. \\ \hline
+    \texttt{empty\_o} & 1 & O & Cờ báo bộ đệm rỗng. \\ \hline
+    \end{tabularx}
+\end{table}
+
+\subsection{Khối chuyển đổi song song sang nối tiếp (PISO)}
+Chuyển đổi gói 16-bit thành các cặp 2-bit (symbol) để nạp vào Viterbi Core.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{piso.png}
+    \caption{Sơ đồ khối PISO}
+    \label{fig:piso_block}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \caption{Giao diện khối PISO}
+    \begin{tabularx}{\textwidth}{|l|c|c|X|}
+    \hline
+    \textbf{Tên tín hiệu} & \textbf{Độ rộng} & \textbf{Hướng} & \textbf{Mô tả} \\ \hline
+    \texttt{clk} & 1 & I & Xung clock hệ thống. \\ \hline
+    \texttt{rst\_n} & 1 & I & Reset hệ thống (Tích cực thấp). \\ \hline
+    \texttt{fifo\_data\_i} & 16 & I & Dữ liệu nhận từ FIFO. \\ \hline
+    \texttt{fifo\_empty\_i} & 1 & I & Trạng thái rỗng của FIFO. \\ \hline
+    \texttt{fifo\_rd\_en\_o} & 1 & O & Lệnh yêu cầu FIFO xuất dữ liệu. \\ \hline
+    \texttt{data\_serial\_o} & 2 & O & Cặp bit symbol gửi tới Core. \\ \hline
+    \texttt{valid\_serial\_o}& 1 & O & Báo symbol hiện tại hợp lệ. \\ \hline
+    \end{tabularx}
+\end{table}
+
+\subsection{Khối tính toán chi phí nhánh (BMU)}
+Tính khoảng cách Hamming giữa cặp bit nhận được và các nhánh kỳ vọng trong đồ thị lưới.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{bmu.png}
+    \caption{Sơ đồ khối BMU}
+    \label{fig:bmu_block}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \caption{Giao diện khối BMU}
+    \begin{tabularx}{\textwidth}{|l|c|c|X|}
+    \hline
+    \textbf{Tên tín hiệu} & \textbf{Độ rộng} & \textbf{Hướng} & \textbf{Mô tả} \\ \hline
+    \texttt{piso\_data\_i} & 2 & I & Dữ liệu 2-bit từ PISO. \\ \hline
+    \texttt{bm\_s0\_s0\_o} & 2 & O & Chi phí nhánh từ S0 đến S0. \\ \hline
+    \texttt{bm\_s0\_s2\_o} & 2 & O & Chi phí nhánh từ S0 đến S2. \\ \hline
+    \texttt{bm\_s1\_s0\_o} & 2 & O & Chi phí nhánh từ S1 đến S0. \\ \hline
+    \texttt{bm\_s1\_s2\_o} & 2 & O & Chi phí nhánh từ S1 đến S2. \\ \hline
+    \texttt{bm\_s2\_s1\_o} & 2 & O & Chi phí nhánh từ S2 đến S1. \\ \hline
+    \texttt{bm\_s2\_s3\_o} & 2 & O & Chi phí nhánh từ S2 đến S3. \\ \hline
+    \texttt{bm\_s3\_s1\_o} & 2 & O & Chi phí nhánh từ S3 đến S1. \\ \hline
+    \texttt{bm\_s3\_s3\_o} & 2 & O & Chi phí nhánh từ S3 đến S3. \\ \hline
+    \end{tabularx}
+\end{table}
+
+\subsection{Khối Cộng - So sánh - Chọn (ACSU)}
+Cập nhật Path Metric cho 4 trạng thái và đưa ra quyết định chọn đường dẫn (Survivor Path).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{ascu.png}
+    \caption{Sơ đồ khối ACSU}
+    \label{fig:acsu_block}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \caption{Giao diện khối ACSU}
+    \begin{tabularx}{\textwidth}{|l|c|c|X|}
+    \hline
+    \textbf{Tên tín hiệu} & \textbf{Độ rộng} & \textbf{Hướng} & \textbf{Mô tả} \\ \hline
+    \texttt{bm\_s0\_s0\_i} & 2 & I & Chi phí nhánh từ S0 đến S0. \\ \hline
+    \texttt{bm\_s0\_s2\_i} & 2 & I & Chi phí nhánh từ S0 đến S2. \\ \hline
+    \texttt{bm\_s1\_s0\_i} & 2 & I & Chi phí nhánh từ S1 đến S0. \\ \hline
+    \texttt{bm\_s1\_s2\_i} & 2 & I & Chi phí nhánh từ S1 đến S2. \\ \hline
+    \texttt{bm\_s2\_s1\_i} & 2 & I & Chi phí nhánh từ S2 đến S1. \\ \hline
+    \texttt{bm\_s2\_s3\_i} & 2 & I & Chi phí nhánh từ S2 đến S3. \\ \hline
+    \texttt{bm\_s3\_s1\_i} & 2 & I & Chi phí nhánh từ S3 đến S1. \\ \hline
+    \texttt{bm\_s3\_s3\_i} & 2 & I & Chi phí nhánh từ S3 đến S3. \\ \hline
+    \texttt{pm\_s0\_i} & 8 & I & Chi phí đường đi hiện tại của S0. \\ \hline
+    \texttt{pm\_s1\_i} & 8 & I & Chi phí đường đi hiện tại của S1. \\ \hline
+    \texttt{pm\_s2\_i} & 8 & I & Chi phí đường đi hiện tại của S2. \\ \hline
+    \texttt{pm\_s3\_i} & 8 & I & Chi phí đường đi hiện tại của S3. \\ \hline
+    \texttt{pm\_s0\_o} & 8 & O & Chi phí đường đi mới của S0. \\ \hline
+    \texttt{pm\_s1\_o} & 8 & O & Chi phí đường đi mới của S1. \\ \hline
+    \texttt{pm\_s2\_o} & 8 & O & Chi phí đường đi mới của S2. \\ \hline
+    \texttt{pm\_s3\_o} & 8 & O & Chi phí đường đi mới của S3. \\ \hline
+    \texttt{dec\_bits\_o} & 4 & O & 4 bit quyết định chọn nhánh (1 bit mỗi trạng thái). \\ \hline
+    \end{tabularx}
+\end{table}
+
+\subsection{Khối quản lý Path Metric (PMU)}
+Lưu trữ và phản hồi chi phí tích lũy của các trạng thái.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{pmu.png}
+    \caption{Sơ đồ khối PMU}
+    \label{fig:pmu_block}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \caption{Giao diện khối PMU}
+    \begin{tabularx}{\textwidth}{|l|c|c|X|}
+    \hline
+    \textbf{Tên tín hiệu} & \textbf{Độ rộng} & \textbf{Hướng} & \textbf{Mô tả} \\ \hline
+    \texttt{clk} & 1 & I & Xung clock hệ thống. \\ \hline
+    \texttt{rst\_n} & 1 & I & Reset hệ thống (Tích cực thấp). \\ \hline
+    \texttt{valid\_i} & 1 & I & Cho phép cập nhật giá trị mới. \\ \hline
+    \texttt{pm\_new\_s0\_i} & 8 & I & Giá trị mới từ ACSU cho S0. \\ \hline
+    \texttt{pm\_new\_s1\_i} & 8 & I & Giá trị mới từ ACSU cho S1. \\ \hline
+    \texttt{pm\_new\_s2\_i} & 8 & I & Giá trị mới từ ACSU cho S2. \\ \hline
+    \texttt{pm\_new\_s3\_i} & 8 & I & Giá trị mới từ ACSU cho S3. \\ \hline
+    \texttt{pm\_current\_s0\_o} & 8 & O & Giá trị hiện tại của S0 gửi ACSU. \\ \hline
+    \texttt{pm\_current\_s1\_o} & 8 & O & Giá trị hiện tại của S1 gửi ACSU. \\ \hline
+    \texttt{pm\_current\_s2\_o} & 8 & O & Giá trị hiện tại của S2 gửi ACSU. \\ \hline
+    \texttt{pm\_current\_s3\_o} & 8 & O & Giá trị hiện tại của S3 gửi ACSU. \\ \hline
+    \end{tabularx}
+\end{table}
+
+\subsection{Khối truy vết Survivor Memory (TBU - Register Exchange)}
+Thực hiện kỹ thuật Register Exchange để khôi phục bit gốc từ các bit quyết định.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{tbu.png}
+    \caption{Sơ đồ khối TBU}
+    \label{fig:tbu_block}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \caption{Giao diện khối TBU}
+    \begin{tabularx}{\textwidth}{|l|c|c|X|}
+    \hline
+    \textbf{Tên tín hiệu} & \textbf{Độ rộng} & \textbf{Hướng} & \textbf{Mô tả} \\ \hline
+    \texttt{clk} & 1 & I & Xung clock hệ thống. \\ \hline
+    \texttt{rst\_n} & 1 & I & Reset hệ thống (Tích cực thấp). \\ \hline
+    \texttt{valid\_i} & 1 & I & Tín hiệu cho phép cập nhật. \\ \hline
+    \texttt{dec\_bits\_i} & 4 & I & Các bit quyết định từ ACSU. \\ \hline
+    \texttt{pm\_new\_s0\_i} & 8 & I & Chi phí đường dẫn mới của S0 (để so sánh). \\ \hline
+    \texttt{pm\_new\_s1\_i} & 8 & I & Chi phí đường dẫn mới của S1 (để so sánh). \\ \hline
+    \texttt{pm\_new\_s2\_i} & 8 & I & Chi phí đường dẫn mới của S2 (để so sánh). \\ \hline
+    \texttt{pm\_new\_s3\_i} & 8 & I & Chi phí đường dẫn mới của S3 (để so sánh). \\ \hline
+    \texttt{decoded\_bit\_o}& 1 & O & Bit dữ liệu đã giải mã thành công. \\ \hline
+    \texttt{valid\_o} & 1 & O & Báo bit giải mã hợp lệ. \\ \hline
+    \end{tabularx}
+\end{table}
+
+\subsection{Khối chuyển đổi nối tiếp sang song song (SIPO)}
+Gom các bit đơn lẻ từ TBU thành byte 8-bit hoàn chỉnh trước khi xuất ra ngoài hệ thống.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{sipo.png}
+    \caption{Sơ đồ khối SIPO}
+    \label{fig:sipo_block}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \caption{Giao diện khối SIPO}
+    \begin{tabularx}{\textwidth}{|l|c|c|X|}
+    \hline
+    \textbf{Tên tín hiệu} & \textbf{Độ rộng} & \textbf{Hướng} & \textbf{Mô tả} \\ \hline
+    \texttt{clk} & 1 & I & Xung clock hệ thống. \\ \hline
+    \texttt{rst\_n} & 1 & I & Reset hệ thống (Tích cực thấp). \\ \hline
+    \texttt{data\_serial\_i} & 1 & I & Bit nhận từ TBU. \\ \hline
+    \texttt{valid\_serial\_i}& 1 & I & Cờ báo bit đầu vào hợp lệ. \\ \hline
+    \texttt{data\_parallel\_o}& 8 & O & Dữ liệu byte hoàn chỉnh. \\ \hline
+    \texttt{byte\_ready\_o} & 1 & O & Báo hiệu đã đủ 8 bit (Byte Valid). \\ \hline
+    \end{tabularx}
+\end{table}
+
+\section{Triển khai RTL (RTL Implementation)}
+Mã nguồn RTL được viết bằng Verilog HDL.
+Trước khi đi vào chi tiết, sơ đồ khối hệ thống (Hình \ref{fig:system_block}) và lưu đồ thuật toán (Hình \ref{fig:algo_flow}) minh họa luồng xử lý tổng quan.
 
 \begin{figure}[H]
     \centering
@@ -181,17 +393,7 @@ Bảng tín hiệu giao tiếp của khối Top-Level (\texttt{system\_top}):
     \label{fig:system_block}
 \end{figure}
 
-Luồng dữ liệu di chuyển như sau:
-\begin{enumerate}
-    \item \textbf{Input}: Dữ liệu 16-bit được nạp vào \texttt{Sync FIFO}.
-    \item \textbf{FIFO}: Đệm dữ liệu để tách biệt miền tần số/tốc độ của nguồn phát và bộ giải mã.
-    \item \textbf{PISO}: Lấy 16-bit từ FIFO, tách thành từng cặp 2-bit (Symbol) truyền cho Core.
-    \item \textbf{Viterbi Core}: Thực hiện giải mã và trả về từng bit kết quả (1-bit).
-    \item \textbf{SIPO}: Gom 8 bit kết quả thành 1 Byte và đẩy ra \texttt{data\_o}.
-\end{enumerate}
-
-\section{Triển khai RTL (RTL Implementation)}
-Mã nguồn RTL được viết bằng Verilog HDL, tuân thủ các quy tắc thiết kế đồng bộ. Trước khi đi vào chi tiết từng khối, lưu đồ thuật toán dưới đây mô tả quá trình điều khiển luồng dữ liệu từ khi nhận tín hiệu Valid đến khi xuất dữ liệu giải mã:
+Lưu đồ thuật toán điều khiển luồng dữ liệu:
 
 \begin{figure}[H]
     \centering
@@ -199,20 +401,9 @@ Mã nguồn RTL được viết bằng Verilog HDL, tuân thủ các quy tắc t
     \caption{Lưu đồ thuật toán điều khiển luồng dữ liệu hệ thống}
     \label{fig:algo_flow}
 \end{figure}
+\newpage
 
-\subsection{Khối tính toán nhánh (BMU)}
-BMU (\texttt{bmu.v}) nhận cặp bit đầu vào và tính khoảng cách Hamming cho 8 trường hợp chuyển đổi của 4 trạng thái. Logic thực hiện hoàn toàn tổ hợp.
-
-\subsection{Khối Cộng-So sánh-Chọn (ACSU)}
-ACSU (\texttt{acsu.v}) là trái tim của bộ giải mã. Tại mỗi chu kỳ xung nhịp, nó thực hiện:
-\begin{itemize}
-    \item Cộng Metric nhánh vào Path Metric cũ.
-    \item So sánh hai đường dẫn đến cùng một trạng thái.
-    \item Chọn đường dẫn bé hơn và lưu lại bit quyết định (0 hoặc 1).
-\end{itemize}
-
-\subsection{Khối truy vết Survivor Memory (TBU)}
-Thay vì sử dụng bộ nhớ RAM để lưu vết và quay lui (Traceback) gây độ trễ lớn, nhóm sử dụng kỹ thuật \textbf{Register Exchange (RE)}. 
+Thay vì sử dụng bộ nhớ RAM để lưu vết và quay lui (Traceback) gây độ trễ lớn, nhóm sử dụng kỹ thuật \textbf{Register Exchange (RE)} trong khối TBU. 
 
 Mỗi trạng thái ($S_0, S_1, S_2, S_3$) quản lý một thanh ghi dịch lịch sử dài 15 bit.
 \begin{lstlisting}[language=Verilog, caption=Cơ chế Register Exchange trong TBU]

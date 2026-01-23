@@ -1,31 +1,35 @@
 \babel@toc {vietnamese}{}\relax 
 \contentsline {chapter}{TÓM TẮT NỘI DUNG}{1}{chapter*.1}%
-\contentsline {chapter}{\numberline {1}TỔNG QUAN VỀ MÃ TÍCH CHẬP VÀ GIẢI MÃ VITERBI}{5}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Giới thiệu mã tích chập}{5}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Nguyên lý giải mã Viterbi}{5}{section.1.2}%
-\contentsline {chapter}{\numberline {2}ĐẶC TẢ KỸ THUẬT VÀ THIẾT KẾ RTL}{6}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Đặc tả kỹ thuật (Specifications)}{6}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Kiến trúc hệ thống (System Architecture)}{6}{section.2.2}%
-\contentsline {section}{\numberline {2.3}Triển khai RTL (RTL Implementation)}{7}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Khối tính toán nhánh (BMU)}{8}{subsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.3.2}Khối Cộng-So sánh-Chọn (ACSU)}{8}{subsection.2.3.2}%
-\contentsline {subsection}{\numberline {2.3.3}Khối truy vết Survivor Memory (TBU)}{9}{subsection.2.3.3}%
-\contentsline {chapter}{\numberline {3}KIỂM TRA CHỨC NĂNG MẠCH}{10}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Môi trường kiểm chứng (Testbench Environment)}{10}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Kết quả mô phỏng (Simulation Results)}{10}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Khối đệm dữ liệu (FIFO)}{10}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Khối chuyển đổi song song sang nối tiếp (PISO)}{12}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Khối tính toán nhánh (BMU)}{14}{subsection.3.2.3}%
-\contentsline {subsection}{\numberline {3.2.4}Khối Cộng - So sánh - Chọn (ACSU)}{16}{subsection.3.2.4}%
-\contentsline {subsection}{\numberline {3.2.5}Khối quản lý Metric (PMU)}{18}{subsection.3.2.5}%
-\contentsline {subsection}{\numberline {3.2.6}Khối truy vết (TBU)}{19}{subsection.3.2.6}%
-\contentsline {subsection}{\numberline {3.2.7}Khối chuyển đổi nối tiếp sang song song (SIPO)}{21}{subsection.3.2.7}%
-\contentsline {subsection}{\numberline {3.2.8}Kiểm chứng toàn hệ thống (System Integration)}{22}{subsection.3.2.8}%
-\contentsline {subsubsection}{Kịch bản kiểm thử (Testcases)}{23}{subsubsection*.30}%
-\contentsline {subsubsection}{Mã nguồn Testbench (Trích đoạn)}{23}{subsubsection*.32}%
-\contentsline {subsubsection}{Kết quả mô phỏng}{24}{subsubsection*.33}%
-\contentsline {chapter}{\numberline {4}TỔNG HỢP VÀ THIẾT KẾ VẬT LÝ}{26}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Quy trình OpenLane Flow}{26}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Kết quả tổng hợp (Synthesis Results)}{26}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Kết quả thiết kế vật lý (Physical Layout)}{26}{section.4.3}%
-\contentsline {chapter}{KẾT LUẬN}{28}{chapter*.40}%
+\contentsline {chapter}{\numberline {1}TỔNG QUAN VỀ MÃ TÍCH CHẬP VÀ GIẢI MÃ VITERBI}{6}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Giới thiệu mã tích chập}{6}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Nguyên lý giải mã Viterbi}{6}{section.1.2}%
+\contentsline {chapter}{\numberline {2}ĐẶC TẢ KỸ THUẬT VÀ THIẾT KẾ RTL}{7}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Đặc tả kỹ thuật (Specifications)}{7}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Kiến trúc hệ thống và Chi tiết I/O từng khối}{8}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Khối đệm dữ liệu (FIFO)}{8}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Khối chuyển đổi song song sang nối tiếp (PISO)}{9}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Khối tính toán chi phí nhánh (BMU)}{9}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}Khối Cộng - So sánh - Chọn (ACSU)}{10}{subsection.2.2.4}%
+\contentsline {subsection}{\numberline {2.2.5}Khối quản lý Path Metric (PMU)}{11}{subsection.2.2.5}%
+\contentsline {subsection}{\numberline {2.2.6}Khối truy vết Survivor Memory (TBU - Register Exchange)}{12}{subsection.2.2.6}%
+\contentsline {subsection}{\numberline {2.2.7}Khối chuyển đổi nối tiếp sang song song (SIPO)}{13}{subsection.2.2.7}%
+\contentsline {section}{\numberline {2.3}Triển khai RTL (RTL Implementation)}{14}{section.2.3}%
+\contentsline {chapter}{\numberline {3}KIỂM TRA CHỨC NĂNG MẠCH}{18}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Môi trường kiểm chứng (Testbench Environment)}{18}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Kết quả mô phỏng (Simulation Results)}{18}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Khối đệm dữ liệu (FIFO)}{18}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Khối chuyển đổi song song sang nối tiếp (PISO)}{20}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Khối tính toán nhánh (BMU)}{22}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}Khối Cộng - So sánh - Chọn (ACSU)}{24}{subsection.3.2.4}%
+\contentsline {subsection}{\numberline {3.2.5}Khối quản lý Metric (PMU)}{26}{subsection.3.2.5}%
+\contentsline {subsection}{\numberline {3.2.6}Khối truy vết (TBU)}{27}{subsection.3.2.6}%
+\contentsline {subsection}{\numberline {3.2.7}Khối chuyển đổi nối tiếp sang song song (SIPO)}{29}{subsection.3.2.7}%
+\contentsline {subsection}{\numberline {3.2.8}Kiểm chứng toàn hệ thống (System Integration)}{30}{subsection.3.2.8}%
+\contentsline {subsubsection}{Kịch bản kiểm thử (Testcases)}{31}{subsubsection*.45}%
+\contentsline {subsubsection}{Mã nguồn Testbench (Trích đoạn)}{31}{subsubsection*.47}%
+\contentsline {subsubsection}{Kết quả mô phỏng}{32}{subsubsection*.48}%
+\contentsline {chapter}{\numberline {4}TỔNG HỢP VÀ THIẾT KẾ VẬT LÝ}{34}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Quy trình OpenLane Flow}{34}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Kết quả tổng hợp (Synthesis Results)}{34}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Kết quả thiết kế vật lý (Physical Layout)}{34}{section.4.3}%
+\contentsline {chapter}{KẾT LUẬN}{36}{chapter*.55}%

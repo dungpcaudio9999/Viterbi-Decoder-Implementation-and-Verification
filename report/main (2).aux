@@ -8,82 +8,109 @@
 \babel@aux{vietnamese}{}
 \HyPL@Entry{1<</S/D>>}
 \@writefile{toc}{\contentsline {chapter}{TÓM TẮT NỘI DUNG}{1}{chapter*.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {1}TỔNG QUAN VỀ MÃ TÍCH CHẬP VÀ GIẢI MÃ VITERBI}{5}{chapter.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {1}TỔNG QUAN VỀ MÃ TÍCH CHẬP VÀ GIẢI MÃ VITERBI}{6}{chapter.1}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {1.1}Giới thiệu mã tích chập}{5}{section.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.2}Nguyên lý giải mã Viterbi}{5}{section.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {2}ĐẶC TẢ KỸ THUẬT VÀ THIẾT KẾ RTL}{6}{chapter.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.1}Giới thiệu mã tích chập}{6}{section.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.2}Nguyên lý giải mã Viterbi}{6}{section.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}ĐẶC TẢ KỸ THUẬT VÀ THIẾT KẾ RTL}{7}{chapter.2}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {2.1}Đặc tả kỹ thuật (Specifications)}{6}{section.2.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces Các thông số thiết kế chính}}{6}{table.caption.5}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {2.2}{\ignorespaces Đặc tả giao diện System Top}}{6}{table.caption.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.2}Kiến trúc hệ thống (System Architecture)}{6}{section.2.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Sơ đồ khối chi tiết hệ thống Viterbi Decoder SoC}}{7}{figure.caption.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}Đặc tả kỹ thuật (Specifications)}{7}{section.2.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces Các thông số thiết kế chính}}{7}{table.caption.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Sơ đồ khối Top-Level System}}{7}{figure.caption.6}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:system_block}{{2.1}{7}{Sơ đồ khối chi tiết hệ thống Viterbi Decoder SoC}{figure.caption.7}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.3}Triển khai RTL (RTL Implementation)}{7}{section.2.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Lưu đồ thuật toán điều khiển luồng dữ liệu hệ thống}}{8}{figure.caption.8}\protected@file@percent }
-\newlabel{fig:algo_flow}{{2.2}{8}{Lưu đồ thuật toán điều khiển luồng dữ liệu hệ thống}{figure.caption.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.1}Khối tính toán nhánh (BMU)}{8}{subsection.2.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.2}Khối Cộng-So sánh-Chọn (ACSU)}{8}{subsection.2.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.3}Khối truy vết Survivor Memory (TBU)}{9}{subsection.2.3.3}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {2.1}{\ignorespaces Cơ chế Register Exchange trong TBU}}{9}{lstlisting.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}KIỂM TRA CHỨC NĂNG MẠCH}{10}{chapter.3}\protected@file@percent }
+\newlabel{fig:system_top_block}{{2.1}{7}{Sơ đồ khối Top-Level System}{figure.caption.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.2}{\ignorespaces Đặc tả giao diện System Top}}{8}{table.caption.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}Kiến trúc hệ thống và Chi tiết I/O từng khối}{8}{section.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}Khối đệm dữ liệu (FIFO)}{8}{subsection.2.2.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Sơ đồ khối FIFO}}{8}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:fifo_block}{{2.2}{8}{Sơ đồ khối FIFO}{figure.caption.8}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.3}{\ignorespaces Giao diện khối Sync FIFO}}{9}{table.caption.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Khối chuyển đổi song song sang nối tiếp (PISO)}{9}{subsection.2.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces Sơ đồ khối PISO}}{9}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:piso_block}{{2.3}{9}{Sơ đồ khối PISO}{figure.caption.10}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.4}{\ignorespaces Giao diện khối PISO}}{9}{table.caption.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.3}Khối tính toán chi phí nhánh (BMU)}{9}{subsection.2.2.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces Sơ đồ khối BMU}}{10}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:bmu_block}{{2.4}{10}{Sơ đồ khối BMU}{figure.caption.12}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.5}{\ignorespaces Giao diện khối BMU}}{10}{table.caption.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.4}Khối Cộng - So sánh - Chọn (ACSU)}{10}{subsection.2.2.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.5}{\ignorespaces Sơ đồ khối ACSU}}{11}{figure.caption.14}\protected@file@percent }
+\newlabel{fig:acsu_block}{{2.5}{11}{Sơ đồ khối ACSU}{figure.caption.14}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.6}{\ignorespaces Giao diện khối ACSU}}{11}{table.caption.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.5}Khối quản lý Path Metric (PMU)}{11}{subsection.2.2.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.6}{\ignorespaces Sơ đồ khối PMU}}{12}{figure.caption.16}\protected@file@percent }
+\newlabel{fig:pmu_block}{{2.6}{12}{Sơ đồ khối PMU}{figure.caption.16}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.7}{\ignorespaces Giao diện khối PMU}}{12}{table.caption.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.6}Khối truy vết Survivor Memory (TBU - Register Exchange)}{12}{subsection.2.2.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.7}{\ignorespaces Sơ đồ khối TBU}}{13}{figure.caption.18}\protected@file@percent }
+\newlabel{fig:tbu_block}{{2.7}{13}{Sơ đồ khối TBU}{figure.caption.18}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.8}{\ignorespaces Giao diện khối TBU}}{13}{table.caption.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.7}Khối chuyển đổi nối tiếp sang song song (SIPO)}{13}{subsection.2.2.7}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.8}{\ignorespaces Sơ đồ khối SIPO}}{14}{figure.caption.20}\protected@file@percent }
+\newlabel{fig:sipo_block}{{2.8}{14}{Sơ đồ khối SIPO}{figure.caption.20}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.9}{\ignorespaces Giao diện khối SIPO}}{14}{table.caption.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}Triển khai RTL (RTL Implementation)}{14}{section.2.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.9}{\ignorespaces Sơ đồ khối chi tiết hệ thống Viterbi Decoder SoC}}{15}{figure.caption.22}\protected@file@percent }
+\newlabel{fig:system_block}{{2.9}{15}{Sơ đồ khối chi tiết hệ thống Viterbi Decoder SoC}{figure.caption.22}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.10}{\ignorespaces Lưu đồ thuật toán điều khiển luồng dữ liệu hệ thống}}{16}{figure.caption.23}\protected@file@percent }
+\newlabel{fig:algo_flow}{{2.10}{16}{Lưu đồ thuật toán điều khiển luồng dữ liệu hệ thống}{figure.caption.23}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2.1}{\ignorespaces Cơ chế Register Exchange trong TBU}}{17}{lstlisting.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}KIỂM TRA CHỨC NĂNG MẠCH}{18}{chapter.3}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}Môi trường kiểm chứng (Testbench Environment)}{10}{section.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Kết quả mô phỏng (Simulation Results)}{10}{section.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Khối đệm dữ liệu (FIFO)}{10}{subsection.3.2.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Log mô phỏng FIFO - Phần 1}}{10}{figure.caption.9}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Log mô phỏng FIFO - Phần 2}}{11}{figure.caption.10}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Giản đồ sóng tín hiệu FIFO}}{11}{figure.caption.11}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Khối chuyển đổi song song sang nối tiếp (PISO)}{12}{subsection.3.2.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Log mô phỏng PISO - Phần 1}}{12}{figure.caption.12}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces Log mô phỏng PISO - Phần 2}}{13}{figure.caption.13}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Giản đồ sóng tín hiệu PISO}}{13}{figure.caption.14}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.3}Khối tính toán nhánh (BMU)}{14}{subsection.3.2.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Log mô phỏng BMU - Phần 1}}{14}{figure.caption.15}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces Log mô phỏng BMU - Phần 2}}{15}{figure.caption.16}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.9}{\ignorespaces Giản đồ sóng tín hiệu BMU}}{15}{figure.caption.17}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.4}Khối Cộng - So sánh - Chọn (ACSU)}{16}{subsection.3.2.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.10}{\ignorespaces Log mô phỏng ACSU - Phần 1}}{16}{figure.caption.18}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.11}{\ignorespaces Log mô phỏng ACSU - Phần 2}}{17}{figure.caption.19}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.12}{\ignorespaces Giản đồ sóng tín hiệu ACSU}}{17}{figure.caption.20}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.5}Khối quản lý Metric (PMU)}{18}{subsection.3.2.5}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.13}{\ignorespaces Log mô phỏng PMU - Phần 1}}{18}{figure.caption.21}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.14}{\ignorespaces Log mô phỏng PMU - Phần 2}}{18}{figure.caption.22}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.15}{\ignorespaces Giản đồ sóng tín hiệu PMU}}{19}{figure.caption.23}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.6}Khối truy vết (TBU)}{19}{subsection.3.2.6}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.16}{\ignorespaces Log mô phỏng TBU - Phần 1}}{19}{figure.caption.24}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.17}{\ignorespaces Log mô phỏng TBU - Phần 2}}{20}{figure.caption.25}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.18}{\ignorespaces Giản đồ sóng tín hiệu TBU}}{20}{figure.caption.26}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.7}Khối chuyển đổi nối tiếp sang song song (SIPO)}{21}{subsection.3.2.7}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.19}{\ignorespaces Log mô phỏng SIPO - Phần 1}}{21}{figure.caption.27}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.20}{\ignorespaces Log mô phỏng SIPO - Phần 2}}{22}{figure.caption.28}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.21}{\ignorespaces Giản đồ sóng tín hiệu SIPO}}{22}{figure.caption.29}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.8}Kiểm chứng toàn hệ thống (System Integration)}{22}{subsection.3.2.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Kịch bản kiểm thử (Testcases)}{23}{subsubsection*.30}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Tổng hợp kết quả các kịch bản kiểm thử hệ thống}}{23}{table.caption.31}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Mã nguồn Testbench (Trích đoạn)}{23}{subsubsection*.32}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.1}{\ignorespaces Task gửi dữ liệu và tiêm lỗi trong Testbench}}{23}{lstlisting.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Kết quả mô phỏng}{24}{subsubsection*.33}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.22}{\ignorespaces Bảng tổng kết (Test Summary Report) từ Simulation Log}}{24}{figure.caption.34}\protected@file@percent }
-\newlabel{fig:test_summary}{{3.22}{24}{Bảng tổng kết (Test Summary Report) từ Simulation Log}{figure.caption.34}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.23}{\ignorespaces [SYS\_01] Sanity Check: Hệ thống giải mã chính xác dữ liệu chuẩn}}{24}{figure.caption.35}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.24}{\ignorespaces [SYS\_03] Single Bit Error: Hệ thống tự động sửa sai khi đầu vào bị lỗi 1 bit}}{25}{figure.caption.36}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.25}{\ignorespaces [SYS\_07] Continuous Stress: Hoạt động ổn định dưới tải liên tục}}{25}{figure.caption.37}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}TỔNG HỢP VÀ THIẾT KẾ VẬT LÝ}{26}{chapter.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Môi trường kiểm chứng (Testbench Environment)}{18}{section.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Kết quả mô phỏng (Simulation Results)}{18}{section.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Khối đệm dữ liệu (FIFO)}{18}{subsection.3.2.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Log mô phỏng FIFO - Phần 1}}{18}{figure.caption.24}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Log mô phỏng FIFO - Phần 2}}{19}{figure.caption.25}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Giản đồ sóng tín hiệu FIFO}}{19}{figure.caption.26}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Khối chuyển đổi song song sang nối tiếp (PISO)}{20}{subsection.3.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Log mô phỏng PISO - Phần 1}}{20}{figure.caption.27}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces Log mô phỏng PISO - Phần 2}}{21}{figure.caption.28}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Giản đồ sóng tín hiệu PISO}}{21}{figure.caption.29}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.3}Khối tính toán nhánh (BMU)}{22}{subsection.3.2.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Log mô phỏng BMU - Phần 1}}{22}{figure.caption.30}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces Log mô phỏng BMU - Phần 2}}{23}{figure.caption.31}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.9}{\ignorespaces Giản đồ sóng tín hiệu BMU}}{23}{figure.caption.32}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.4}Khối Cộng - So sánh - Chọn (ACSU)}{24}{subsection.3.2.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.10}{\ignorespaces Log mô phỏng ACSU - Phần 1}}{24}{figure.caption.33}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.11}{\ignorespaces Log mô phỏng ACSU - Phần 2}}{25}{figure.caption.34}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.12}{\ignorespaces Giản đồ sóng tín hiệu ACSU}}{25}{figure.caption.35}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.5}Khối quản lý Metric (PMU)}{26}{subsection.3.2.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.13}{\ignorespaces Log mô phỏng PMU - Phần 1}}{26}{figure.caption.36}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.14}{\ignorespaces Log mô phỏng PMU - Phần 2}}{26}{figure.caption.37}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.15}{\ignorespaces Giản đồ sóng tín hiệu PMU}}{27}{figure.caption.38}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.6}Khối truy vết (TBU)}{27}{subsection.3.2.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.16}{\ignorespaces Log mô phỏng TBU - Phần 1}}{27}{figure.caption.39}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.17}{\ignorespaces Log mô phỏng TBU - Phần 2}}{28}{figure.caption.40}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.18}{\ignorespaces Giản đồ sóng tín hiệu TBU}}{28}{figure.caption.41}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.7}Khối chuyển đổi nối tiếp sang song song (SIPO)}{29}{subsection.3.2.7}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.19}{\ignorespaces Log mô phỏng SIPO - Phần 1}}{29}{figure.caption.42}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.20}{\ignorespaces Log mô phỏng SIPO - Phần 2}}{30}{figure.caption.43}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.21}{\ignorespaces Giản đồ sóng tín hiệu SIPO}}{30}{figure.caption.44}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.8}Kiểm chứng toàn hệ thống (System Integration)}{30}{subsection.3.2.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Kịch bản kiểm thử (Testcases)}{31}{subsubsection*.45}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Tổng hợp kết quả các kịch bản kiểm thử hệ thống}}{31}{table.caption.46}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Mã nguồn Testbench (Trích đoạn)}{31}{subsubsection*.47}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3.1}{\ignorespaces Task gửi dữ liệu và tiêm lỗi trong Testbench}}{31}{lstlisting.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Kết quả mô phỏng}{32}{subsubsection*.48}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.22}{\ignorespaces Bảng tổng kết (Test Summary Report) từ Simulation Log}}{32}{figure.caption.49}\protected@file@percent }
+\newlabel{fig:test_summary}{{3.22}{32}{Bảng tổng kết (Test Summary Report) từ Simulation Log}{figure.caption.49}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.23}{\ignorespaces [SYS\_01] Sanity Check: Hệ thống giải mã chính xác dữ liệu chuẩn}}{32}{figure.caption.50}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.24}{\ignorespaces [SYS\_03] Single Bit Error: Hệ thống tự động sửa sai khi đầu vào bị lỗi 1 bit}}{33}{figure.caption.51}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.25}{\ignorespaces [SYS\_07] Continuous Stress: Hoạt động ổn định dưới tải liên tục}}{33}{figure.caption.52}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}TỔNG HỢP VÀ THIẾT KẾ VẬT LÝ}{34}{chapter.4}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Quy trình OpenLane Flow}{26}{section.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Kết quả tổng hợp (Synthesis Results)}{26}{section.4.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Tài nguyên phần cứng sau tổng hợp}}{26}{table.caption.38}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Kết quả thiết kế vật lý (Physical Layout)}{26}{section.4.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Hình ảnh Layout GDSII cuối cùng của hệ thống}}{27}{figure.caption.39}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{KẾT LUẬN}{28}{chapter*.40}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Quy trình OpenLane Flow}{34}{section.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Kết quả tổng hợp (Synthesis Results)}{34}{section.4.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Tài nguyên phần cứng sau tổng hợp}}{34}{table.caption.53}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Kết quả thiết kế vật lý (Physical Layout)}{34}{section.4.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Hình ảnh Layout GDSII cuối cùng của hệ thống}}{35}{figure.caption.54}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{KẾT LUẬN}{36}{chapter*.55}\protected@file@percent }
 \bibcite{viterbi}{1}
 \bibcite{openlane}{2}
 \bibcite{sky130}{3}
-\gdef \@abspage@last{30}
+\gdef \@abspage@last{38}

@@ -1,9 +1,16 @@
 \babel@toc {vietnamese}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {2.1}{\ignorespaces Các thông số thiết kế chính}}{6}{table.caption.5}%
-\contentsline {table}{\numberline {2.2}{\ignorespaces Đặc tả giao diện System Top}}{6}{table.caption.6}%
+\contentsline {table}{\numberline {2.1}{\ignorespaces Các thông số thiết kế chính}}{7}{table.caption.5}%
+\contentsline {table}{\numberline {2.2}{\ignorespaces Đặc tả giao diện System Top}}{8}{table.caption.7}%
+\contentsline {table}{\numberline {2.3}{\ignorespaces Giao diện khối Sync FIFO}}{9}{table.caption.9}%
+\contentsline {table}{\numberline {2.4}{\ignorespaces Giao diện khối PISO}}{9}{table.caption.11}%
+\contentsline {table}{\numberline {2.5}{\ignorespaces Giao diện khối BMU}}{10}{table.caption.13}%
+\contentsline {table}{\numberline {2.6}{\ignorespaces Giao diện khối ACSU}}{11}{table.caption.15}%
+\contentsline {table}{\numberline {2.7}{\ignorespaces Giao diện khối PMU}}{12}{table.caption.17}%
+\contentsline {table}{\numberline {2.8}{\ignorespaces Giao diện khối TBU}}{13}{table.caption.19}%
+\contentsline {table}{\numberline {2.9}{\ignorespaces Giao diện khối SIPO}}{14}{table.caption.21}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces Tổng hợp kết quả các kịch bản kiểm thử hệ thống}}{23}{table.caption.31}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces Tổng hợp kết quả các kịch bản kiểm thử hệ thống}}{31}{table.caption.46}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Tài nguyên phần cứng sau tổng hợp}}{26}{table.caption.38}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Tài nguyên phần cứng sau tổng hợp}}{34}{table.caption.53}%

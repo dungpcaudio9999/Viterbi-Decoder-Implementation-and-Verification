@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (MiKTeX 24.1) (preloaded format=xelatex 2026.1.9)  23 JAN 2026 01:26
+This is XeTeX, Version 3.141592653-2.6-0.999995 (MiKTeX 24.1) (preloaded format=xelatex 2026.1.9)  23 JAN 2026 23:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -790,23 +790,110 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
  [3
 
-] (main (2).lot)
+]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 15.0434pt, for example:
+(fancyhdr)                \setlength{\headheight}{15.0434pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
+
+[4] (main (2).lot)
 \tf@lot=\write6
 \openout6 = `"main (2).lot"'.
 
- [4
+ [5
 
 ]
 Chương 1.
-[5
-
-]
-Chương 2.
-File: images/so_do_khoi.drawio.png Graphic file (type bmp)
-<images/so_do_khoi.drawio.png>
 [6
 
 ]
+Chương 2.
+File: images/system_top.png Graphic file (type bmp)
+<images/system_top.png>
+[7
+
+]
+File: images/fifo.png Graphic file (type bmp)
+<images/fifo.png>
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 15.0434pt, for example:
+(fancyhdr)                \setlength{\headheight}{15.0434pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
+
+[8]
+File: images/piso.png Graphic file (type bmp)
+<images/piso.png>
+File: images/bmu.png Graphic file (type bmp)
+<images/bmu.png>
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 15.0434pt, for example:
+(fancyhdr)                \setlength{\headheight}{15.0434pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
+
+[9]
+File: images/ascu.png Graphic file (type bmp)
+<images/ascu.png>
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 15.0434pt, for example:
+(fancyhdr)                \setlength{\headheight}{15.0434pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
+
+[10]
+File: images/pmu.png Graphic file (type bmp)
+<images/pmu.png>
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 15.0434pt, for example:
+(fancyhdr)                \setlength{\headheight}{15.0434pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
+
+[11]
+File: images/tbu.png Graphic file (type bmp)
+<images/tbu.png>
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 15.0434pt, for example:
+(fancyhdr)                \setlength{\headheight}{15.0434pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
+
+[12]
+File: images/sipo.png Graphic file (type bmp)
+<images/sipo.png>
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 15.0434pt, for example:
+(fancyhdr)                \setlength{\headheight}{15.0434pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
+
+[13]
+File: images/so_do_khoi.drawio.png Graphic file (type bmp)
+<images/so_do_khoi.drawio.png>
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 15.0434pt, for example:
+(fancyhdr)                \setlength{\headheight}{15.0434pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
+
+[14]
 File: images/luu_do_thuat_toan.drawio.png Graphic file (type bmp)
 <images/luu_do_thuat_toan.drawio.png>
 
@@ -817,7 +904,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
 
-[7]
+[15]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 15.0434pt, for example:
@@ -825,7 +912,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
 
-[8]
+[16]
 (C:\Users\truong pc\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.s
 ty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
@@ -839,7 +926,7 @@ ty
 File: lstlang3.sty 2023/02/27 1.9 listings language file
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 218.
+nput line 409.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -848,7 +935,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
 
-[9]
+[17]
 Chương 3.
 File: images/fifo_log_part1.png Graphic file (type bmp)
 <images/fifo_log_part1.png>
@@ -856,7 +943,7 @@ File: images/fifo_log_part2.png Graphic file (type bmp)
 <images/fifo_log_part2.png>
 File: images/fifo_wave.png Graphic file (type bmp)
 <images/fifo_wave.png>
-[10
+[18
 
 ]
 File: images/piso_log_part1.png Graphic file (type bmp)
@@ -871,7 +958,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
 
-[11]
+[19]
 File: images/piso_wave.png Graphic file (type bmp)
 <images/piso_wave.png>
 
@@ -882,7 +969,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
 
-[12]
+[20]
 File: images/bmu_log_part1.png Graphic file (type bmp)
 <images/bmu_log_part1.png>
 File: images/bmu_log_part2.png Graphic file (type bmp)
@@ -895,7 +982,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
 
-[13]
+[21]
 File: images/bmu_wave.png Graphic file (type bmp)
 <images/bmu_wave.png>
 
@@ -906,7 +993,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
 
-[14]
+[22]
 File: images/acsu_log_part1.png Graphic file (type bmp)
 <images/acsu_log_part1.png>
 File: images/acsu_log_part2.png Graphic file (type bmp)
@@ -919,7 +1006,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
 
-[15]
+[23]
 File: images/acsu_wave.png Graphic file (type bmp)
 <images/acsu_wave.png>
 
@@ -930,7 +1017,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
 
-[16]
+[24]
 File: images/pmu_log_part1.png Graphic file (type bmp)
 <images/pmu_log_part1.png>
 File: images/pmu_log_part2.png Graphic file (type bmp)
@@ -943,7 +1030,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
 
-[17]
+[25]
 File: images/pmu_wave.png Graphic file (type bmp)
 <images/pmu_wave.png>
 
@@ -954,7 +1041,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
 
-[18]
+[26]
 File: images/tbu_log_part1.png Graphic file (type bmp)
 <images/tbu_log_part1.png>
 File: images/tbu_log_part2.png Graphic file (type bmp)
@@ -969,7 +1056,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
 
-[19]
+[27]
 File: images/sipo_log_part1.png Graphic file (type bmp)
 <images/sipo_log_part1.png>
 File: images/sipo_log_part2.png Graphic file (type bmp)
@@ -982,7 +1069,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
 
-[20]
+[28]
 File: images/sipo_wave.png Graphic file (type bmp)
 <images/sipo_wave.png>
 
@@ -993,7 +1080,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
 
-[21]
+[29]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 15.0434pt, for example:
@@ -1001,8 +1088,8 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
 
-[22]
-Overfull \hbox (1.61136pt too wide) in paragraph at lines 400--401
+[30]
+Overfull \hbox (1.61136pt too wide) in paragraph at lines 591--592
 []\TU/TimesNewRoman(0)/m/n/12 Module kiểm thử tự động (\TU/Consolas(0)/m/n/12 t
 b_system_top.sv\TU/TimesNewRoman(0)/m/n/12 ) được xây dựng với cơ chế ”Self-che
 cking”.
@@ -1015,7 +1102,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
 
-[23]
+[31]
 File: images/test_summary.jpg Graphic file (type bmp)
 <images/test_summary.jpg>
 File: images/log_sys01.jpg Graphic file (type bmp)
@@ -1030,7 +1117,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
 
-[24]
+[32]
 File: images/log_sys07.jpg Graphic file (type bmp)
 <images/log_sys07.jpg>
 
@@ -1041,9 +1128,9 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
 
-[25]
+[33]
 Chương 4.
-[26
+[34
 
 ]
 
@@ -1053,25 +1140,29 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-3.0434pt}.
 
-[27] [28
+[35] [36
 
-] [29
+] [37
 
 ] (main (2).aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package rerunfilecheck Info: File `"main (2)".out' has not changed.
 (rerunfilecheck)             Checksum: <no file>.
  ) 
 Here is how much of TeX's memory you used:
- 17646 strings out of 409617
- 330728 string characters out of 5773202
+ 17742 strings out of 409617
+ 332524 string characters out of 5773202
  2059191 words of memory out of 5000000
- 39474 multiletter control sequences out of 15000+600000
+ 39562 multiletter control sequences out of 15000+600000
  563370 words of font info for 92 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  79i,12n,93p,493b,1813s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main (2).pdf (30 pages).
+Output written on main (2).pdf (38 pages).

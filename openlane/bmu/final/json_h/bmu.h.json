@@ -1,0 +1,509 @@
+{
+  "creator": "Yosys 0.46 (git sha1 e97731b9dda91fa5fa53ed87df7c34163ba59a41, clang++ 17.0.6 -fPIC -O3)",
+  "modules": {
+    "bmu": {
+      "attributes": {
+        "hdlname": "bmu",
+        "top": "00000000000000000000000000000001",
+        "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:1.1-37.10"
+      },
+      "ports": {
+        "piso_data_i": {
+          "direction": "input",
+          "bits": [ 2, 3 ]
+        },
+        "bm_s0_s0_o": {
+          "direction": "output",
+          "bits": [ 4, 5 ]
+        },
+        "bm_s0_s2_o": {
+          "direction": "output",
+          "bits": [ 6, 7 ]
+        },
+        "bm_s1_s0_o": {
+          "direction": "output",
+          "bits": [ 8, 9 ]
+        },
+        "bm_s1_s2_o": {
+          "direction": "output",
+          "bits": [ 10, 11 ]
+        },
+        "bm_s2_s1_o": {
+          "direction": "output",
+          "bits": [ 12, 13 ]
+        },
+        "bm_s2_s3_o": {
+          "direction": "output",
+          "bits": [ 14, 15 ]
+        },
+        "bm_s3_s1_o": {
+          "direction": "output",
+          "bits": [ 16, 17 ]
+        },
+        "bm_s3_s3_o": {
+          "direction": "output",
+          "bits": [ 18, 19 ]
+        }
+      },
+      "cells": {
+        "$add$/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:20$23": {
+          "hide_name": 1,
+          "type": "$add",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000010",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000010",
+            "Y_WIDTH": "00000000000000000000000000000010"
+          },
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:20.28-20.83"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 2, "0" ],
+            "B": [ 3, "0" ],
+            "Y": [ 4, 5 ]
+          }
+        },
+        "$add$/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:20$30": {
+          "hide_name": 1,
+          "type": "$add",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000010",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000010",
+            "Y_WIDTH": "00000000000000000000000000000010"
+          },
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:20.28-20.83"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 20, "0" ],
+            "B": [ 21, "0" ],
+            "Y": [ 6, 7 ]
+          }
+        },
+        "$add$/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:20$37": {
+          "hide_name": 1,
+          "type": "$add",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000010",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000010",
+            "Y_WIDTH": "00000000000000000000000000000010"
+          },
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:20.28-20.83"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 22, "0" ],
+            "B": [ 23, "0" ],
+            "Y": [ 8, 9 ]
+          }
+        },
+        "$add$/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:20$44": {
+          "hide_name": 1,
+          "type": "$add",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000010",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000010",
+            "Y_WIDTH": "00000000000000000000000000000010"
+          },
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:20.28-20.83"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 2, "0" ],
+            "B": [ 3, "0" ],
+            "Y": [ 10, 11 ]
+          }
+        },
+        "$add$/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:20$51": {
+          "hide_name": 1,
+          "type": "$add",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000010",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000010",
+            "Y_WIDTH": "00000000000000000000000000000010"
+          },
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:20.28-20.83"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 2, "0" ],
+            "B": [ 24, "0" ],
+            "Y": [ 12, 13 ]
+          }
+        },
+        "$add$/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:20$58": {
+          "hide_name": 1,
+          "type": "$add",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000010",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000010",
+            "Y_WIDTH": "00000000000000000000000000000010"
+          },
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:20.28-20.83"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 25, "0" ],
+            "B": [ 3, "0" ],
+            "Y": [ 14, 15 ]
+          }
+        },
+        "$add$/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:20$65": {
+          "hide_name": 1,
+          "type": "$add",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000010",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000010",
+            "Y_WIDTH": "00000000000000000000000000000010"
+          },
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:20.28-20.83"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 26, "0" ],
+            "B": [ 3, "0" ],
+            "Y": [ 16, 17 ]
+          }
+        },
+        "$add$/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:20$72": {
+          "hide_name": 1,
+          "type": "$add",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000010",
+            "B_SIGNED": "00000000000000000000000000000000",
+            "B_WIDTH": "00000000000000000000000000000010",
+            "Y_WIDTH": "00000000000000000000000000000010"
+          },
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:20.28-20.83"
+          },
+          "port_directions": {
+            "A": "input",
+            "B": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 2, "0" ],
+            "B": [ 27, "0" ],
+            "Y": [ 18, 19 ]
+          }
+        },
+        "$auto$opt_expr.cc:615:replace_const_cells$73": {
+          "hide_name": 1,
+          "type": "$not",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+          },
+          "port_directions": {
+            "A": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 2 ],
+            "Y": [ 20 ]
+          }
+        },
+        "$auto$opt_expr.cc:615:replace_const_cells$75": {
+          "hide_name": 1,
+          "type": "$not",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+          },
+          "port_directions": {
+            "A": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 3 ],
+            "Y": [ 21 ]
+          }
+        },
+        "$auto$opt_expr.cc:615:replace_const_cells$77": {
+          "hide_name": 1,
+          "type": "$not",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+          },
+          "port_directions": {
+            "A": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 2 ],
+            "Y": [ 22 ]
+          }
+        },
+        "$auto$opt_expr.cc:615:replace_const_cells$79": {
+          "hide_name": 1,
+          "type": "$not",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+          },
+          "port_directions": {
+            "A": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 3 ],
+            "Y": [ 23 ]
+          }
+        },
+        "$auto$opt_expr.cc:615:replace_const_cells$81": {
+          "hide_name": 1,
+          "type": "$not",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+          },
+          "port_directions": {
+            "A": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 3 ],
+            "Y": [ 24 ]
+          }
+        },
+        "$auto$opt_expr.cc:615:replace_const_cells$83": {
+          "hide_name": 1,
+          "type": "$not",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+          },
+          "port_directions": {
+            "A": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 2 ],
+            "Y": [ 25 ]
+          }
+        },
+        "$auto$opt_expr.cc:615:replace_const_cells$85": {
+          "hide_name": 1,
+          "type": "$not",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+          },
+          "port_directions": {
+            "A": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 2 ],
+            "Y": [ 26 ]
+          }
+        },
+        "$auto$opt_expr.cc:615:replace_const_cells$87": {
+          "hide_name": 1,
+          "type": "$not",
+          "parameters": {
+            "A_SIGNED": "00000000000000000000000000000000",
+            "A_WIDTH": "00000000000000000000000000000001",
+            "Y_WIDTH": "00000000000000000000000000000001"
+          },
+          "attributes": {
+          },
+          "port_directions": {
+            "A": "input",
+            "Y": "output"
+          },
+          "connections": {
+            "A": [ 3 ],
+            "Y": [ 27 ]
+          }
+        }
+      },
+      "netnames": {
+        "$auto$rtlil.cc:2493:Not$74": {
+          "hide_name": 1,
+          "bits": [ 20 ],
+          "attributes": {
+          }
+        },
+        "$auto$rtlil.cc:2493:Not$76": {
+          "hide_name": 1,
+          "bits": [ 21 ],
+          "attributes": {
+          }
+        },
+        "$auto$rtlil.cc:2493:Not$78": {
+          "hide_name": 1,
+          "bits": [ 22 ],
+          "attributes": {
+          }
+        },
+        "$auto$rtlil.cc:2493:Not$80": {
+          "hide_name": 1,
+          "bits": [ 23 ],
+          "attributes": {
+          }
+        },
+        "$auto$rtlil.cc:2493:Not$82": {
+          "hide_name": 1,
+          "bits": [ 24 ],
+          "attributes": {
+          }
+        },
+        "$auto$rtlil.cc:2493:Not$84": {
+          "hide_name": 1,
+          "bits": [ 25 ],
+          "attributes": {
+          }
+        },
+        "$auto$rtlil.cc:2493:Not$86": {
+          "hide_name": 1,
+          "bits": [ 26 ],
+          "attributes": {
+          }
+        },
+        "$auto$rtlil.cc:2493:Not$88": {
+          "hide_name": 1,
+          "bits": [ 27 ],
+          "attributes": {
+          }
+        },
+        "bm_s0_s0_o": {
+          "hide_name": 0,
+          "bits": [ 4, 5 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:5.23-5.33"
+          }
+        },
+        "bm_s0_s2_o": {
+          "hide_name": 0,
+          "bits": [ 6, 7 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:6.23-6.33"
+          }
+        },
+        "bm_s1_s0_o": {
+          "hide_name": 0,
+          "bits": [ 8, 9 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:7.23-7.33"
+          }
+        },
+        "bm_s1_s2_o": {
+          "hide_name": 0,
+          "bits": [ 10, 11 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:8.23-8.33"
+          }
+        },
+        "bm_s2_s1_o": {
+          "hide_name": 0,
+          "bits": [ 12, 13 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:9.23-9.33"
+          }
+        },
+        "bm_s2_s3_o": {
+          "hide_name": 0,
+          "bits": [ 14, 15 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:10.23-10.33"
+          }
+        },
+        "bm_s3_s1_o": {
+          "hide_name": 0,
+          "bits": [ 16, 17 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:11.23-11.33"
+          }
+        },
+        "bm_s3_s3_o": {
+          "hide_name": 0,
+          "bits": [ 18, 19 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:12.23-12.33"
+          }
+        },
+        "piso_data_i": {
+          "hide_name": 0,
+          "bits": [ 2, 3 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/bmu.v:2.23-2.34"
+          }
+        }
+      }
+    }
+  }
+}

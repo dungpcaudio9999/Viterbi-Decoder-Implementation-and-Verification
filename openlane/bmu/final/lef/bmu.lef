@@ -1,0 +1,260 @@
+VERSION 5.7 ;
+  NOWIREEXTENSIONATPIN ON ;
+  DIVIDERCHAR "/" ;
+  BUSBITCHARS "[]" ;
+MACRO bmu
+  CLASS BLOCK ;
+  FOREIGN bmu ;
+  ORIGIN 0.000 0.000 ;
+  SIZE 150.000 BY 150.000 ;
+  PIN bm_s0_s0_o[0]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.891000 ;
+    PORT
+      LAYER met3 ;
+        RECT 146.000 12.280 150.000 12.880 ;
+    END
+  END bm_s0_s0_o[0]
+  PIN bm_s0_s0_o[1]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.891000 ;
+    PORT
+      LAYER met3 ;
+        RECT 146.000 20.440 150.000 21.040 ;
+    END
+  END bm_s0_s0_o[1]
+  PIN bm_s0_s2_o[0]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.891000 ;
+    PORT
+      LAYER met3 ;
+        RECT 146.000 28.600 150.000 29.200 ;
+    END
+  END bm_s0_s2_o[0]
+  PIN bm_s0_s2_o[1]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.891000 ;
+    PORT
+      LAYER met3 ;
+        RECT 146.000 36.760 150.000 37.360 ;
+    END
+  END bm_s0_s2_o[1]
+  PIN bm_s1_s0_o[0]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.891000 ;
+    PORT
+      LAYER met3 ;
+        RECT 146.000 44.920 150.000 45.520 ;
+    END
+  END bm_s1_s0_o[0]
+  PIN bm_s1_s0_o[1]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.891000 ;
+    PORT
+      LAYER met3 ;
+        RECT 146.000 53.080 150.000 53.680 ;
+    END
+  END bm_s1_s0_o[1]
+  PIN bm_s1_s2_o[0]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.891000 ;
+    PORT
+      LAYER met3 ;
+        RECT 146.000 61.240 150.000 61.840 ;
+    END
+  END bm_s1_s2_o[0]
+  PIN bm_s1_s2_o[1]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.891000 ;
+    PORT
+      LAYER met3 ;
+        RECT 146.000 69.400 150.000 70.000 ;
+    END
+  END bm_s1_s2_o[1]
+  PIN bm_s2_s1_o[0]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.891000 ;
+    PORT
+      LAYER met3 ;
+        RECT 146.000 77.560 150.000 78.160 ;
+    END
+  END bm_s2_s1_o[0]
+  PIN bm_s2_s1_o[1]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.891000 ;
+    PORT
+      LAYER met3 ;
+        RECT 146.000 85.720 150.000 86.320 ;
+    END
+  END bm_s2_s1_o[1]
+  PIN bm_s2_s3_o[0]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.891000 ;
+    PORT
+      LAYER met3 ;
+        RECT 146.000 93.880 150.000 94.480 ;
+    END
+  END bm_s2_s3_o[0]
+  PIN bm_s2_s3_o[1]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.891000 ;
+    PORT
+      LAYER met3 ;
+        RECT 146.000 102.040 150.000 102.640 ;
+    END
+  END bm_s2_s3_o[1]
+  PIN bm_s3_s1_o[0]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.891000 ;
+    PORT
+      LAYER met3 ;
+        RECT 146.000 110.200 150.000 110.800 ;
+    END
+  END bm_s3_s1_o[0]
+  PIN bm_s3_s1_o[1]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.891000 ;
+    PORT
+      LAYER met3 ;
+        RECT 146.000 118.360 150.000 118.960 ;
+    END
+  END bm_s3_s1_o[1]
+  PIN bm_s3_s3_o[0]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.891000 ;
+    PORT
+      LAYER met3 ;
+        RECT 146.000 126.520 150.000 127.120 ;
+    END
+  END bm_s3_s3_o[0]
+  PIN bm_s3_s3_o[1]
+    DIRECTION OUTPUT ;
+    USE SIGNAL ;
+    ANTENNADIFFAREA 0.891000 ;
+    PORT
+      LAYER met3 ;
+        RECT 146.000 134.680 150.000 135.280 ;
+    END
+  END bm_s3_s3_o[1]
+  PIN piso_data_i[0]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    ANTENNAGATEAREA 0.213000 ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 36.760 4.000 37.360 ;
+    END
+  END piso_data_i[0]
+  PIN piso_data_i[1]
+    DIRECTION INPUT ;
+    USE SIGNAL ;
+    ANTENNAGATEAREA 0.213000 ;
+    PORT
+      LAYER met3 ;
+        RECT 0.000 111.560 4.000 112.160 ;
+    END
+  END piso_data_i[1]
+  PIN vccd1
+    DIRECTION INOUT ;
+    USE POWER ;
+    PORT
+      LAYER met4 ;
+        RECT 9.720 10.640 11.320 138.960 ;
+    END
+    PORT
+      LAYER met4 ;
+        RECT 49.720 10.640 51.320 138.960 ;
+    END
+    PORT
+      LAYER met4 ;
+        RECT 89.720 10.640 91.320 138.960 ;
+    END
+    PORT
+      LAYER met4 ;
+        RECT 129.720 10.640 131.320 138.960 ;
+    END
+  END vccd1
+  PIN vssd1
+    DIRECTION INOUT ;
+    USE GROUND ;
+    PORT
+      LAYER met4 ;
+        RECT 13.020 10.640 14.620 138.960 ;
+    END
+    PORT
+      LAYER met4 ;
+        RECT 53.020 10.640 54.620 138.960 ;
+    END
+    PORT
+      LAYER met4 ;
+        RECT 93.020 10.640 94.620 138.960 ;
+    END
+    PORT
+      LAYER met4 ;
+        RECT 133.020 10.640 134.620 138.960 ;
+    END
+  END vssd1
+  OBS
+      LAYER nwell ;
+        RECT 5.330 10.795 144.630 138.910 ;
+      LAYER li1 ;
+        RECT 5.520 10.795 144.440 138.805 ;
+      LAYER met1 ;
+        RECT 4.210 10.640 144.440 138.960 ;
+      LAYER met2 ;
+        RECT 4.230 10.695 142.050 138.905 ;
+      LAYER met3 ;
+        RECT 3.990 135.680 146.000 138.885 ;
+        RECT 3.990 134.280 145.600 135.680 ;
+        RECT 3.990 127.520 146.000 134.280 ;
+        RECT 3.990 126.120 145.600 127.520 ;
+        RECT 3.990 119.360 146.000 126.120 ;
+        RECT 3.990 117.960 145.600 119.360 ;
+        RECT 3.990 112.560 146.000 117.960 ;
+        RECT 4.400 111.200 146.000 112.560 ;
+        RECT 4.400 111.160 145.600 111.200 ;
+        RECT 3.990 109.800 145.600 111.160 ;
+        RECT 3.990 103.040 146.000 109.800 ;
+        RECT 3.990 101.640 145.600 103.040 ;
+        RECT 3.990 94.880 146.000 101.640 ;
+        RECT 3.990 93.480 145.600 94.880 ;
+        RECT 3.990 86.720 146.000 93.480 ;
+        RECT 3.990 85.320 145.600 86.720 ;
+        RECT 3.990 78.560 146.000 85.320 ;
+        RECT 3.990 77.160 145.600 78.560 ;
+        RECT 3.990 70.400 146.000 77.160 ;
+        RECT 3.990 69.000 145.600 70.400 ;
+        RECT 3.990 62.240 146.000 69.000 ;
+        RECT 3.990 60.840 145.600 62.240 ;
+        RECT 3.990 54.080 146.000 60.840 ;
+        RECT 3.990 52.680 145.600 54.080 ;
+        RECT 3.990 45.920 146.000 52.680 ;
+        RECT 3.990 44.520 145.600 45.920 ;
+        RECT 3.990 37.760 146.000 44.520 ;
+        RECT 4.400 36.360 145.600 37.760 ;
+        RECT 3.990 29.600 146.000 36.360 ;
+        RECT 3.990 28.200 145.600 29.600 ;
+        RECT 3.990 21.440 146.000 28.200 ;
+        RECT 3.990 20.040 145.600 21.440 ;
+        RECT 3.990 13.280 146.000 20.040 ;
+        RECT 3.990 11.880 145.600 13.280 ;
+        RECT 3.990 10.715 146.000 11.880 ;
+  END
+END bmu
+END LIBRARY
+

@@ -6,7 +6,6 @@ iverilog -g2012 -o sim.out tb_piso.sv
 vvp sim.out
 
 iverilog -g2012 -o sim.out -I ../design/ tb_system_top.sv ../design/system_top.v
-iverilog -g2012 -o sim.out tb_file_io.sv
 
 # questasim
 # làm 1 lần để tạo thư viện

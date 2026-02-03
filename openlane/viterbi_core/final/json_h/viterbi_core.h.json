@@ -1,0 +1,353 @@
+{
+  "creator": "Yosys 0.46 (git sha1 e97731b9dda91fa5fa53ed87df7c34163ba59a41, clang++ 17.0.6 -fPIC -O3)",
+  "modules": {
+    "viterbi_core": {
+      "attributes": {
+        "hdlname": "viterbi_core",
+        "top": "00000000000000000000000000000001",
+        "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:2.1-65.10"
+      },
+      "ports": {
+        "clk": {
+          "direction": "input",
+          "bits": [ 2 ]
+        },
+        "rst_n": {
+          "direction": "input",
+          "bits": [ 3 ]
+        },
+        "piso_data_i": {
+          "direction": "input",
+          "bits": [ 4, 5 ]
+        },
+        "valid_i": {
+          "direction": "input",
+          "bits": [ 6 ]
+        },
+        "core_data_o": {
+          "direction": "output",
+          "bits": [ 7 ]
+        },
+        "core_valid_o": {
+          "direction": "output",
+          "bits": [ 8 ]
+        }
+      },
+      "cells": {
+        "u_acsu": {
+          "hide_name": 0,
+          "type": "acsu",
+          "parameters": {
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:29.10-39.6"
+          },
+          "port_directions": {
+            "bm_s0_s0_i": "input",
+            "bm_s0_s2_i": "input",
+            "bm_s1_s0_i": "input",
+            "bm_s1_s2_i": "input",
+            "bm_s2_s1_i": "input",
+            "bm_s2_s3_i": "input",
+            "bm_s3_s1_i": "input",
+            "bm_s3_s3_i": "input",
+            "dec_bits_o": "output",
+            "pm_s0_i": "input",
+            "pm_s0_o": "output",
+            "pm_s1_i": "input",
+            "pm_s1_o": "output",
+            "pm_s2_i": "input",
+            "pm_s2_o": "output",
+            "pm_s3_i": "input",
+            "pm_s3_o": "output"
+          },
+          "connections": {
+            "bm_s0_s0_i": [ 9, 10 ],
+            "bm_s0_s2_i": [ 11, 12 ],
+            "bm_s1_s0_i": [ 13, 14 ],
+            "bm_s1_s2_i": [ 15, 16 ],
+            "bm_s2_s1_i": [ 17, 18 ],
+            "bm_s2_s3_i": [ 19, 20 ],
+            "bm_s3_s1_i": [ 21, 22 ],
+            "bm_s3_s3_i": [ 23, 24 ],
+            "dec_bits_o": [ 25, 26, 27, 28 ],
+            "pm_s0_i": [ 29, 30, 31, 32, 33, 34, 35, 36 ],
+            "pm_s0_o": [ 37, 38, 39, 40, 41, 42, 43, 44 ],
+            "pm_s1_i": [ 45, 46, 47, 48, 49, 50, 51, 52 ],
+            "pm_s1_o": [ 53, 54, 55, 56, 57, 58, 59, 60 ],
+            "pm_s2_i": [ 61, 62, 63, 64, 65, 66, 67, 68 ],
+            "pm_s2_o": [ 69, 70, 71, 72, 73, 74, 75, 76 ],
+            "pm_s3_i": [ 77, 78, 79, 80, 81, 82, 83, 84 ],
+            "pm_s3_o": [ 85, 86, 87, 88, 89, 90, 91, 92 ]
+          }
+        },
+        "u_bmu": {
+          "hide_name": 0,
+          "type": "bmu",
+          "parameters": {
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:20.9-26.6"
+          },
+          "port_directions": {
+            "bm_s0_s0_o": "output",
+            "bm_s0_s2_o": "output",
+            "bm_s1_s0_o": "output",
+            "bm_s1_s2_o": "output",
+            "bm_s2_s1_o": "output",
+            "bm_s2_s3_o": "output",
+            "bm_s3_s1_o": "output",
+            "bm_s3_s3_o": "output",
+            "piso_data_i": "input"
+          },
+          "connections": {
+            "bm_s0_s0_o": [ 9, 10 ],
+            "bm_s0_s2_o": [ 11, 12 ],
+            "bm_s1_s0_o": [ 13, 14 ],
+            "bm_s1_s2_o": [ 15, 16 ],
+            "bm_s2_s1_o": [ 17, 18 ],
+            "bm_s2_s3_o": [ 19, 20 ],
+            "bm_s3_s1_o": [ 21, 22 ],
+            "bm_s3_s3_o": [ 23, 24 ],
+            "piso_data_i": [ 4, 5 ]
+          }
+        },
+        "u_pmu": {
+          "hide_name": 0,
+          "type": "pmu",
+          "parameters": {
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:42.9-50.6"
+          },
+          "port_directions": {
+            "clk": "input",
+            "pm_current_s0_o": "output",
+            "pm_current_s1_o": "output",
+            "pm_current_s2_o": "output",
+            "pm_current_s3_o": "output",
+            "pm_new_s0_i": "input",
+            "pm_new_s1_i": "input",
+            "pm_new_s2_i": "input",
+            "pm_new_s3_i": "input",
+            "rst_n": "input",
+            "valid_i": "input"
+          },
+          "connections": {
+            "clk": [ 2 ],
+            "pm_current_s0_o": [ 29, 30, 31, 32, 33, 34, 35, 36 ],
+            "pm_current_s1_o": [ 45, 46, 47, 48, 49, 50, 51, 52 ],
+            "pm_current_s2_o": [ 61, 62, 63, 64, 65, 66, 67, 68 ],
+            "pm_current_s3_o": [ 77, 78, 79, 80, 81, 82, 83, 84 ],
+            "pm_new_s0_i": [ 37, 38, 39, 40, 41, 42, 43, 44 ],
+            "pm_new_s1_i": [ 53, 54, 55, 56, 57, 58, 59, 60 ],
+            "pm_new_s2_i": [ 69, 70, 71, 72, 73, 74, 75, 76 ],
+            "pm_new_s3_i": [ 85, 86, 87, 88, 89, 90, 91, 92 ],
+            "rst_n": [ 3 ],
+            "valid_i": [ 6 ]
+          }
+        },
+        "u_tbu": {
+          "hide_name": 0,
+          "type": "tbu",
+          "parameters": {
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:53.9-63.6"
+          },
+          "port_directions": {
+            "clk": "input",
+            "dec_bits_i": "input",
+            "decoded_bit_o": "output",
+            "pm_new_s0_i": "input",
+            "pm_new_s1_i": "input",
+            "pm_new_s2_i": "input",
+            "pm_new_s3_i": "input",
+            "rst_n": "input",
+            "valid_i": "input",
+            "valid_o": "output"
+          },
+          "connections": {
+            "clk": [ 2 ],
+            "dec_bits_i": [ 25, 26, 27, 28 ],
+            "decoded_bit_o": [ 7 ],
+            "pm_new_s0_i": [ 37, 38, 39, 40, 41, 42, 43, 44 ],
+            "pm_new_s1_i": [ 53, 54, 55, 56, 57, 58, 59, 60 ],
+            "pm_new_s2_i": [ 69, 70, 71, 72, 73, 74, 75, 76 ],
+            "pm_new_s3_i": [ 85, 86, 87, 88, 89, 90, 91, 92 ],
+            "rst_n": [ 3 ],
+            "valid_i": [ 6 ],
+            "valid_o": [ 8 ]
+          }
+        }
+      },
+      "netnames": {
+        "bm_s0_s0": {
+          "hide_name": 0,
+          "bits": [ 9, 10 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:12.16-12.24"
+          }
+        },
+        "bm_s0_s2": {
+          "hide_name": 0,
+          "bits": [ 11, 12 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:12.26-12.34"
+          }
+        },
+        "bm_s1_s0": {
+          "hide_name": 0,
+          "bits": [ 13, 14 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:12.36-12.44"
+          }
+        },
+        "bm_s1_s2": {
+          "hide_name": 0,
+          "bits": [ 15, 16 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:12.46-12.54"
+          }
+        },
+        "bm_s2_s1": {
+          "hide_name": 0,
+          "bits": [ 17, 18 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:13.16-13.24"
+          }
+        },
+        "bm_s2_s3": {
+          "hide_name": 0,
+          "bits": [ 19, 20 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:13.26-13.34"
+          }
+        },
+        "bm_s3_s1": {
+          "hide_name": 0,
+          "bits": [ 21, 22 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:13.36-13.44"
+          }
+        },
+        "bm_s3_s3": {
+          "hide_name": 0,
+          "bits": [ 23, 24 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:13.46-13.54"
+          }
+        },
+        "clk": {
+          "hide_name": 0,
+          "bits": [ 2 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:3.23-3.26"
+          }
+        },
+        "core_data_o": {
+          "hide_name": 0,
+          "bits": [ 7 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:7.23-7.34"
+          }
+        },
+        "core_valid_o": {
+          "hide_name": 0,
+          "bits": [ 8 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:8.23-8.35"
+          }
+        },
+        "dec_bits_new": {
+          "hide_name": 0,
+          "bits": [ 25, 26, 27, 28 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:16.16-16.28"
+          }
+        },
+        "piso_data_i": {
+          "hide_name": 0,
+          "bits": [ 4, 5 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:5.23-5.34"
+          }
+        },
+        "pm_curr_s0": {
+          "hide_name": 0,
+          "bits": [ 29, 30, 31, 32, 33, 34, 35, 36 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:17.16-17.26"
+          }
+        },
+        "pm_curr_s1": {
+          "hide_name": 0,
+          "bits": [ 45, 46, 47, 48, 49, 50, 51, 52 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:17.28-17.38"
+          }
+        },
+        "pm_curr_s2": {
+          "hide_name": 0,
+          "bits": [ 61, 62, 63, 64, 65, 66, 67, 68 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:17.40-17.50"
+          }
+        },
+        "pm_curr_s3": {
+          "hide_name": 0,
+          "bits": [ 77, 78, 79, 80, 81, 82, 83, 84 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:17.52-17.62"
+          }
+        },
+        "pm_new_s0": {
+          "hide_name": 0,
+          "bits": [ 37, 38, 39, 40, 41, 42, 43, 44 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:15.16-15.25"
+          }
+        },
+        "pm_new_s1": {
+          "hide_name": 0,
+          "bits": [ 53, 54, 55, 56, 57, 58, 59, 60 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:15.27-15.36"
+          }
+        },
+        "pm_new_s2": {
+          "hide_name": 0,
+          "bits": [ 69, 70, 71, 72, 73, 74, 75, 76 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:15.38-15.47"
+          }
+        },
+        "pm_new_s3": {
+          "hide_name": 0,
+          "bits": [ 85, 86, 87, 88, 89, 90, 91, 92 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:15.49-15.58"
+          }
+        },
+        "rst_n": {
+          "hide_name": 0,
+          "bits": [ 3 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:4.23-4.28"
+          }
+        },
+        "valid_i": {
+          "hide_name": 0,
+          "bits": [ 6 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/viterbi_core.v:6.23-6.30"
+          }
+        }
+      }
+    }
+  }
+}

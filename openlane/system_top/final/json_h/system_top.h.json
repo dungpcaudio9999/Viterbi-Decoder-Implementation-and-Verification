@@ -1,0 +1,254 @@
+{
+  "creator": "Yosys 0.46 (git sha1 e97731b9dda91fa5fa53ed87df7c34163ba59a41, clang++ 17.0.6 -fPIC -O3)",
+  "modules": {
+    "system_top": {
+      "attributes": {
+        "hdlname": "system_top",
+        "top": "00000000000000000000000000000001",
+        "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/system_top.v:6.1-84.10"
+      },
+      "ports": {
+        "clk": {
+          "direction": "input",
+          "bits": [ 2 ]
+        },
+        "rst_n": {
+          "direction": "input",
+          "bits": [ 3 ]
+        },
+        "dvalid_i": {
+          "direction": "input",
+          "bits": [ 4 ]
+        },
+        "data_i": {
+          "direction": "input",
+          "bits": [ 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
+        },
+        "data_o": {
+          "direction": "output",
+          "bits": [ 21, 22, 23, 24, 25, 26, 27, 28 ]
+        },
+        "valid_o": {
+          "direction": "output",
+          "bits": [ 29 ]
+        },
+        "busy_o": {
+          "direction": "output",
+          "bits": [ 30 ]
+        }
+      },
+      "cells": {
+        "u_input_fifo": {
+          "hide_name": 0,
+          "type": "sync_fifo",
+          "parameters": {
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/system_top.v:32.15-43.6"
+          },
+          "port_directions": {
+            "clk": "input",
+            "empty_o": "output",
+            "full_o": "output",
+            "rd_data_o": "output",
+            "rd_en_i": "input",
+            "rst_n": "input",
+            "wr_data_i": "input",
+            "wr_en_i": "input"
+          },
+          "connections": {
+            "clk": [ 2 ],
+            "empty_o": [ 31 ],
+            "full_o": [ 30 ],
+            "rd_data_o": [ 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47 ],
+            "rd_en_i": [ 48 ],
+            "rst_n": [ 3 ],
+            "wr_data_i": [ 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ],
+            "wr_en_i": [ 4 ]
+          }
+        },
+        "u_piso": {
+          "hide_name": 0,
+          "type": "piso",
+          "parameters": {
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/system_top.v:46.10-56.6"
+          },
+          "port_directions": {
+            "clk": "input",
+            "data_serial_o": "output",
+            "fifo_data_i": "input",
+            "fifo_empty_i": "input",
+            "fifo_rd_en_o": "output",
+            "rst_n": "input",
+            "valid_serial_o": "output"
+          },
+          "connections": {
+            "clk": [ 2 ],
+            "data_serial_o": [ 49, 50 ],
+            "fifo_data_i": [ 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47 ],
+            "fifo_empty_i": [ 31 ],
+            "fifo_rd_en_o": [ 48 ],
+            "rst_n": [ 3 ],
+            "valid_serial_o": [ 51 ]
+          }
+        },
+        "u_sipo": {
+          "hide_name": 0,
+          "type": "sipo",
+          "parameters": {
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/system_top.v:70.10-77.6"
+          },
+          "port_directions": {
+            "byte_ready_o": "output",
+            "clk": "input",
+            "data_parallel_o": "output",
+            "data_serial_i": "input",
+            "rst_n": "input",
+            "valid_serial_i": "input"
+          },
+          "connections": {
+            "byte_ready_o": [ 29 ],
+            "clk": [ 2 ],
+            "data_parallel_o": [ 21, 22, 23, 24, 25, 26, 27, 28 ],
+            "data_serial_i": [ 52 ],
+            "rst_n": [ 3 ],
+            "valid_serial_i": [ 53 ]
+          }
+        },
+        "u_viterbi_core": {
+          "hide_name": 0,
+          "type": "viterbi_core",
+          "parameters": {
+          },
+          "attributes": {
+            "module_not_derived": "00000000000000000000000000000001",
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/system_top.v:60.18-67.6"
+          },
+          "port_directions": {
+            "clk": "input",
+            "core_data_o": "output",
+            "core_valid_o": "output",
+            "piso_data_i": "input",
+            "rst_n": "input",
+            "valid_i": "input"
+          },
+          "connections": {
+            "clk": [ 2 ],
+            "core_data_o": [ 52 ],
+            "core_valid_o": [ 53 ],
+            "piso_data_i": [ 49, 50 ],
+            "rst_n": [ 3 ],
+            "valid_i": [ 51 ]
+          }
+        }
+      },
+      "netnames": {
+        "busy_o": {
+          "hide_name": 0,
+          "bits": [ 30 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/system_top.v:13.24-13.30"
+          }
+        },
+        "clk": {
+          "hide_name": 0,
+          "bits": [ 2 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/system_top.v:7.24-7.27"
+          }
+        },
+        "core_to_sipo_data": {
+          "hide_name": 0,
+          "bits": [ 52 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/system_top.v:27.17-27.34"
+          }
+        },
+        "core_to_sipo_valid": {
+          "hide_name": 0,
+          "bits": [ 53 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/system_top.v:28.17-28.35"
+          }
+        },
+        "data_i": {
+          "hide_name": 0,
+          "bits": [ 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/system_top.v:10.24-10.30"
+          }
+        },
+        "data_o": {
+          "hide_name": 0,
+          "bits": [ 21, 22, 23, 24, 25, 26, 27, 28 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/system_top.v:11.24-11.30"
+          }
+        },
+        "dvalid_i": {
+          "hide_name": 0,
+          "bits": [ 4 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/system_top.v:9.24-9.32"
+          }
+        },
+        "fifo_data_out": {
+          "hide_name": 0,
+          "bits": [ 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/system_top.v:20.17-20.30"
+          }
+        },
+        "fifo_empty": {
+          "hide_name": 0,
+          "bits": [ 31 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/system_top.v:18.17-18.27"
+          }
+        },
+        "piso_rd_en": {
+          "hide_name": 0,
+          "bits": [ 48 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/system_top.v:19.17-19.27"
+          }
+        },
+        "piso_to_core_data": {
+          "hide_name": 0,
+          "bits": [ 49, 50 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/system_top.v:23.17-23.34"
+          }
+        },
+        "piso_to_core_valid": {
+          "hide_name": 0,
+          "bits": [ 51 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/system_top.v:24.17-24.35"
+          }
+        },
+        "rst_n": {
+          "hide_name": 0,
+          "bits": [ 3 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/system_top.v:8.24-8.29"
+          }
+        },
+        "valid_o": {
+          "hide_name": 0,
+          "bits": [ 29 ],
+          "attributes": {
+            "src": "/home/dungchi/projects/viterbi_decoder_ver1/rtl/system_top.v:12.24-12.31"
+          }
+        }
+      }
+    }
+  }
+}

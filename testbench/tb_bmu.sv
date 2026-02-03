@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-
+`include "../design/bmu.sv"
 module bmu_tb();
 
     // Tin hieu ket noi

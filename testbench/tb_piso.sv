@@ -1,4 +1,5 @@
 `timescale 1ns / 1ps
+`include "../design/piso.v"
 
 module piso_tb();
 

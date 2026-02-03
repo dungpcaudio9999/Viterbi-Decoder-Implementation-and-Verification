@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-
+`include "../design/sipo.v"
 module sipo_tb();
 
     // Tin hieu ket noi

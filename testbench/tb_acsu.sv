@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-
+`include "../design/acsu.v"
 module acsu_full_check_tb();
 
     // Tin hieu ket noi

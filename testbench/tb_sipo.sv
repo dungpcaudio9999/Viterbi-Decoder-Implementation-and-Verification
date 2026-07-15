@@ -2,7 +2,7 @@
 `include "../design/sipo.v"
 module sipo_tb();
 
-    // Tin hieu ket noi
+    // Connection signals
     reg clk, rst_n, data_serial_i, valid_serial_i;
     wire [7:0] data_parallel_o;
     wire byte_ready_o;
@@ -10,7 +10,7 @@ module sipo_tb();
     integer i, j, error_count;
     reg [7:0] expected_byte;
 
-    // Khoi tao DUT
+    // Initialize DUT
     sipo uut (
         .clk(clk), .rst_n(rst_n),
         .data_serial_i(data_serial_i),
@@ -19,11 +19,11 @@ module sipo_tb();
         .byte_ready_o(byte_ready_o)
     );
 
-    // Clock 100MHz
+    // 100MHz Clock
     initial clk = 0;
     always #5 clk = ~clk;
 
-    // Task hien thi bao cao (Sua loi de lay gia tri ngay khi Ready)
+    // Task to display report (Fix to get value as soon as Ready)
     task display_report;
         input [8*30:1] scenario;
         input [7:0] exp_data;
@@ -32,7 +32,7 @@ module sipo_tb();
             $display("      --------------------------------------------------");
             $display("      Signal      |   Got    | Expected | Status");
             $display("      ------------|----------|----------|---------");
-            // Tai day byte_ready_o chac chan phai la 1 vi task goi da doi no
+            // Here byte_ready_o must be 1 because the calling task waited for it
             $display("      Byte Ready  |    %b     |    1     | %s", byte_ready_o, (byte_ready_o === 1'b1) ? "OK" : "ERR");
             $display("      Parallel Out| %b | %b | %s", data_parallel_o, exp_data, (data_parallel_o === exp_data) ? "OK" : "ERR");
             $display("      --------------------------------------------------");
@@ -42,22 +42,22 @@ module sipo_tb();
         end
     endtask
 
-    // Task gui byte thong minh: Tu dong doi tin hieu Ready
+    // Smart byte send task: Automatically wait for Ready signal
     task send_byte;
         input [7:0] byte_to_send;
         begin
             for (i = 0; i < 8; i = i + 1) begin
-                @(negedge clk); // Dua du lieu vao canh xuong de module bat o canh len tiep theo
+                @(negedge clk); // Input data on falling edge so module catches on next rising edge
                 data_serial_i = byte_to_send[i];
                 valid_serial_i = 1'b1;
             end
             @(negedge clk);
-            valid_serial_i = 1'b0; // Tat valid sau 8 bit
+            valid_serial_i = 1'b0; // Disable valid after 8 bits
             
-            // DOI CHO DEN KHI BYTE_READY_O LEN CAO
-            // Day la cach duy nhat de tranh loi lech pha clock
+            // WAIT UNTIL BYTE_READY_O GOES HIGH
+            // This is the only way to avoid clock phase skew errors
             wait(byte_ready_o === 1'b1); 
-            #1; // Doi 1ns de du lieu on dinh hon
+            #1; // Wait 1ns for data to be more stable
         end
     endtask
 
@@ -80,15 +80,15 @@ module sipo_tb();
         send_byte(8'hA5);
         display_report("Scenario 1: 0xA5 Received", 8'hA5);
 
-        // 3. Scenario 2: 0xFF (Tat ca bit 1)
+        // 3. Scenario 2: 0xFF (All bits 1)
         send_byte(8'hFF);
         display_report("Scenario 2: 0xFF Received", 8'hFF);
 
-        // 4. Scenario 3: 0x00 (Tat ca bit 0)
+        // 4. Scenario 3: 0x00 (All bits 0)
         send_byte(8'h00);
         display_report("Scenario 3: 0x00 Received", 8'h00);
 
-        // 5. Scenario 4: Du lieu ngau nhien (5 lan)
+        // 5. Scenario 4: Random data (5 times)
         for (j = 1; j <= 5; j = j + 1) begin
             expected_byte = $random;
             send_byte(expected_byte);
@@ -98,9 +98,9 @@ module sipo_tb();
 
         $display("\n=========================================================");
         if (error_count == 0)
-            $display("TONG KET: TAT CA PASS (0 LOI)");
+            $display("SUMMARY: ALL PASS (0 ERRORS)");
         else
-            $display("TONG KET: PHAT HIEN %0d LOI", error_count);
+            $display("SUMMARY: %0d ERRORS DETECTED", error_count);
         $display("=========================================================");
         
         #100;
@@ -108,7 +108,7 @@ module sipo_tb();
     end
 
     initial begin
-        $dumpfile("sipo.vcd"); // Ten file du lieu song
+        $dumpfile("sipo.vcd"); // Waveform data file name
         $dumpvars(0, sipo_tb); 
     end
 endmodule

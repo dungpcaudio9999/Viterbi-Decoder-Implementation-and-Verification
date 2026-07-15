@@ -16,7 +16,7 @@ module sync_fifo #(
     output wire                    empty_o
 );
 
-    // Bo nho RAM
+    // RAM Memory
     reg [DATA_WIDTH-1:0] mem [0:DEPTH-1];
     
     reg [$clog2(DEPTH)-1:0] wr_ptr;
@@ -34,7 +34,7 @@ module sync_fifo #(
             mem[wr_ptr] <= wr_data_i;
             wr_ptr <= wr_ptr + 1;
         end else begin
-            // Giu nguyen gia tri khi khong ghi
+            // Keep value unchanged when not writing
             wr_ptr <= wr_ptr;
         end
     end
@@ -48,7 +48,7 @@ module sync_fifo #(
             rd_data_o <= mem[rd_ptr];
             rd_ptr <= rd_ptr + 1;
         end else begin
-            // Giu nguyen gia tri khi khong doc
+            // Keep value unchanged when not reading
             rd_ptr <= rd_ptr;
             rd_data_o <= rd_data_o;
         end
@@ -60,11 +60,11 @@ module sync_fifo #(
             count <= 0;
         end else begin
             case ({wr_en_i && !full_o, rd_en_i && !empty_o})
-                2'b10: count <= count + 1; // Chi Ghi
-                2'b01: count <= count - 1; // Chi Doc
-                2'b11: count <= count;     // Vua Ghi vua Doc
-                2'b00: count <= count;     // Khong Ghi khong Doc
-                default: count <= count;   // Dam bao cover moi truong hop (X, Z)
+                2'b10: count <= count + 1; // Write Only
+                2'b01: count <= count - 1; // Read Only
+                2'b11: count <= count;     // Write and Read
+                2'b00: count <= count;     // No Write no Read
+                default: count <= count;   // Ensure cover all cases (X, Z)
             endcase
         end
     end

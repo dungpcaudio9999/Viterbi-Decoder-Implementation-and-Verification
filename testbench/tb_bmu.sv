@@ -2,7 +2,7 @@
 `include "../design/bmu.sv"
 module bmu_tb();
 
-    // Tin hieu ket noi
+    // Connection signals
     reg [1:0] piso_data_i;
     wire [1:0] bm_s0_s0_o, bm_s0_s2_o, bm_s1_s0_o, bm_s1_s2_o;
     wire [1:0] bm_s2_s1_o, bm_s2_s3_o, bm_s3_s1_o, bm_s3_s3_o;
@@ -10,7 +10,7 @@ module bmu_tb();
     integer i, j, error_count;
     reg [1:0] exp_bm [0:7];
 
-    // Khoi tao DUT (Device Under Test)
+    // Initialize DUT (Device Under Test)
     bmu uut (
         .piso_data_i(piso_data_i),
         .bm_s0_s0_o(bm_s0_s0_o), .bm_s0_s2_o(bm_s0_s2_o),
@@ -19,7 +19,7 @@ module bmu_tb();
         .bm_s3_s1_o(bm_s3_s1_o), .bm_s3_s3_o(bm_s3_s3_o)
     );
 
-    // Ham mau tinh khoang cach Hamming trong Testbench de doi chieu
+    // Reference function to calculate Hamming distance in Testbench for comparison
     function [1:0] calc_hamming;
         input [1:0] a;
         input [1:0] b;
@@ -28,11 +28,11 @@ module bmu_tb();
         end
     endfunction
 
-    // Task hien thi bao cao chi tiet cho toan bo 8 dau ra
+    // Task to display detailed report for all 8 outputs
     task display_report;
         input [8*25:1] scenario;
         begin
-            // Tinh toan gia tri ky vong (Golden Model)
+            // Calculate expected values (Golden Model)
             exp_bm[0] = calc_hamming(piso_data_i, 2'b00); // s0s0
             exp_bm[1] = calc_hamming(piso_data_i, 2'b11); // s0s2
             exp_bm[2] = calc_hamming(piso_data_i, 2'b11); // s10
@@ -42,7 +42,7 @@ module bmu_tb();
             exp_bm[6] = calc_hamming(piso_data_i, 2'b01); // s31
             exp_bm[7] = calc_hamming(piso_data_i, 2'b10); // s33
 
-            #1; // Doi mach to hop cap nhat
+            #1; // Wait for combinational logic update
             $display("[%0t ns] SCENARIO: %s (Input: %b)", $time, scenario, piso_data_i);
             $display("      --------------------------------------------------");
             $display("      Branch  |  Got  | Expected | Status");
@@ -55,7 +55,7 @@ module bmu_tb();
         end
     endtask
 
-    // Task phu de kiem tra tung nhanh
+    // Sub-task to check each branch
     task check_and_print;
         input [8*5:1] name;
         input [1:0] got;
@@ -78,31 +78,31 @@ module bmu_tb();
         $display("START BMU TEST: HAMMING DISTANCE VERIFICATION");
         $display("=========================================================");
 
-        // Kich ban 1: Input 00 (Lap 5 lan)
+        // Scenario 1: Input 00 (Repeat 5 times)
         for (j=1; j<=5; j=j+1) begin
             piso_data_i = 2'b00; #10;
             display_report("Ideal Case (00)");
         end
 
-        // Kich ban 2: Input 11 (Lap 5 lan)
+        // Scenario 2: Input 11 (Repeat 5 times)
         for (j=1; j<=5; j=j+1) begin
             piso_data_i = 2'b11; #10;
             display_report("Inverse Case (11)");
         end
 
-        // Kich ban 3: Input 01 (Lap 5 lan)
+        // Scenario 3: Input 01 (Repeat 5 times)
         for (j=1; j<=5; j=j+1) begin
             piso_data_i = 2'b01; #10;
             display_report("Error 1-bit (01)");
         end
 
-        // Kich ban 4: Input 10 (Lap 5 lan)
+        // Scenario 4: Input 10 (Repeat 5 times)
         for (j=1; j<=5; j=j+1) begin
             piso_data_i = 2'b10; #10;
             display_report("Error 1-bit (10)");
         end
 
-        // Kich ban 5: Ngau nhien (Lap 5 lan)
+        // Scenario 5: Random (Repeat 5 times)
         for (j=1; j<=5; j=j+1) begin
             piso_data_i = $random % 4; #10;
             display_report("Random Stress");
@@ -118,7 +118,7 @@ module bmu_tb();
     end
 
 initial begin
-    $dumpfile("bmu.vcd"); // Ten file du lieu song (waveform)
+    $dumpfile("bmu.vcd"); // Waveform data file name
     $dumpvars(0, bmu_tb); 
 end
 

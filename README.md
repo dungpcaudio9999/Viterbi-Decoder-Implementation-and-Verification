@@ -52,3 +52,57 @@ The Viterbi decoder (K=3, r=1/2) successfully corrects all single-bit errors as 
 
 > [!NOTE]
 > The decoder is architecturally designed to correct 1-bit errors per discrete window. Random multi-bit errors exceeding this capacity are expected to cause failures, consistent with the Viterbi algorithm's theoretical limits for this constraint length.
+
+## How to Run
+
+### Simulation with Icarus Verilog (iverilog)
+To run the simulation for the top-level system using `iverilog`, navigate to the `testbench` directory and run the following commands:
+```bash
+cd testbench
+iverilog -g2012 -o sim.out -I ../design/ tb_system_top.sv ../design/system_top.v
+vvp sim.out
+```
+
+### Physical Design with OpenLane
+
+This project utilizes a **Hierarchical Physical Design (PD) Flow** with OpenLane. Instead of hardening the entire `system_top` at once (flat flow), we build the system bottom-up by creating individual macros and assembling them.
+
+#### Hierarchical Flow Overview
+1. **Block-Level Hardening**: First, the 4 internal sub-blocks of the Viterbi Decoder (`bmu`, `acsu`, `pmu`, `tbu`) are hardened individually into macros.
+2. **Core Assembly**: The 4 hardened macros are integrated to form the `viterbi_core` macro.
+3. **Top-Level Integration**: Finally, the `viterbi_core` macro is combined with the remaining top-level modules (`sync_fifo`, `piso`, `sipo`) to harden the full `system_top` design.
+
+#### Configuration and Constraints (`config.json` and `.sdc`)
+
+Each macro in the `openlane` directory has its own configuration:
+- **`config.json`**: This file defines the synthesis, floorplanning, placement, and routing parameters. Key variables include:
+  - `"DESIGN_NAME"`: The name of the module.
+  - `"VERILOG_FILES"`: Paths to the RTL source files.
+  - `"CLOCK_PORT"` & `"CLOCK_PERIOD"`: Clock definitions.
+  - For higher-level integration (like `viterbi_core` and `system_top`), variables such as `"MACRO_PLACEMENT_CFG"`, `"EXTRA_LEFS"`, and `"EXTRA_GDS_FILES"` are used to instantiate and place the pre-hardened sub-macros.
+- **`.sdc` (Synopsys Design Constraints)**: Used for advanced timing constraints. While simple clocks can be defined in `config.json`, an `.sdc` file allows you to specify input/output delays, false paths, and multi-cycle paths to ensure the design meets timing requirements across the hierarchy.
+
+#### Running the Flow
+To run the synthesis and physical design flow, ensure you have the OpenLane environment set up. Run the following command inside the OpenLane docker container to synthesize a specific design:
+```bash
+./flow.tcl -design <path_to_project>/openlane/<module_name>
+```
+
+**Execution Order**:
+Due to the hierarchical nature of the project, you **must** run the flow in the following order:
+
+1. Run the sub-blocks:
+   ```bash
+   ./flow.tcl -design <path_to_project>/openlane/bmu
+   ./flow.tcl -design <path_to_project>/openlane/acsu
+   ./flow.tcl -design <path_to_project>/openlane/pmu
+   ./flow.tcl -design <path_to_project>/openlane/tbu
+   ```
+2. Run the core integration:
+   ```bash
+   ./flow.tcl -design <path_to_project>/openlane/viterbi_core
+   ```
+3. Run the top-level integration:
+   ```bash
+   ./flow.tcl -design <path_to_project>/openlane/system_top
+   ```

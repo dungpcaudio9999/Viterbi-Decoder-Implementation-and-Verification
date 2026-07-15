@@ -1,11 +1,11 @@
 module acsu (
-    // Inputs tu BMU
+    // Inputs from BMU
     input wire [1:0] bm_s0_s0_i, bm_s0_s2_i,
     input wire [1:0] bm_s1_s0_i, bm_s1_s2_i,
     input wire [1:0] bm_s2_s1_i, bm_s2_s3_i,
     input wire [1:0] bm_s3_s1_i, bm_s3_s3_i,
 
-    // Inputs tu PMU (Chi phi cu)
+    // Inputs from PMU (Old path metrics)
     input wire [7:0] pm_s0_i, pm_s1_i, pm_s2_i, pm_s3_i,
 
     // Outputs
@@ -18,27 +18,27 @@ module acsu (
     reg [7:0] path2_cand0, path2_cand1;
     reg [7:0] path3_cand0, path3_cand1;
 
-    // Thay always @(*) bang danh sach nhay day du
+    // Replace always @(*) with full sensitivity list
     always @(bm_s0_s0_i, bm_s0_s2_i, bm_s1_s0_i, bm_s1_s0_i, 
              bm_s2_s1_i, bm_s2_s3_i, bm_s3_s1_i, bm_s3_s3_i,
              pm_s0_i, pm_s1_i, pm_s2_i, pm_s3_i,
              path0_cand0, path0_cand1, path1_cand0, path1_cand1,
              path2_cand0, path2_cand1, path3_cand0, path3_cand1) begin
 
-               // --- Tinh toan cho State 0 ---
+               // --- Calculation for State 0 ---
         path0_cand0 = pm_s0_i + bm_s0_s0_i;
         path0_cand1 = pm_s1_i + bm_s1_s0_i;
-                // --- Tinh toan cho State 1 ---
+                // --- Calculation for State 1 ---
         path1_cand0 = pm_s2_i + bm_s2_s1_i;
         path1_cand1 = pm_s3_i + bm_s3_s1_i;
-                // --- Tinh toan cho State 2 ---
+                // --- Calculation for State 2 ---
         path2_cand0 = pm_s0_i + bm_s0_s2_i;
         path2_cand1 = pm_s1_i + bm_s1_s2_i;
-                // --- Tinh toan cho State 3 ---
+                // --- Calculation for State 3 ---
         path3_cand0 = pm_s2_i + bm_s2_s3_i;
         path3_cand1 = pm_s3_i + bm_s3_s3_i;
-        // Gan gia tri mac dinh (Tuong duong voi default trong case)
-        // Dam bao dau ra luon xac dinh ngay ca khi logic if-else co so ho
+        // Assign default values (Equivalent to default in case)
+        // Ensure output is always defined even if if-else logic has gaps
         dec_bits_o = 4'b0000;
         pm_s0_o    = 8'hFF;
         pm_s1_o    = 8'hFF;

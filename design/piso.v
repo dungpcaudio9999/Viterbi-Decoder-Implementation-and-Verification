@@ -2,12 +2,12 @@ module piso (
     input  wire        clk,
     input  wire        rst_n,
     
-    // Giao tiep voi FIFO
-    input  wire [15:0] fifo_data_i,  // Du lieu tu FIFO
-    input  wire        fifo_empty_i, // Co bao FIFO rong
-    output reg         fifo_rd_en_o, // Lenh doc gui toi FIFO
+    // FIFO Interface
+    input  wire [15:0] fifo_data_i,  // Data from FIFO
+    input  wire        fifo_empty_i, // FIFO empty flag
+    output reg         fifo_rd_en_o, // Read command sent to FIFO
     
-    // Output toi Viterbi Core
+    // Output to Viterbi Core
     output reg  [1:0]  data_serial_o,
     output reg         valid_serial_o
 );
@@ -47,18 +47,18 @@ module piso (
                 end
 
                 READ_WAIT: begin
-                    fifo_rd_en_o   <= 1'b0; // Ngat lenh doc
+                    fifo_rd_en_o   <= 1'b0; // Disable read command
                     valid_serial_o <= 1'b1;
                     count          <= 4'd7; 
                     
-                    // Lay du lieu va thuc hien luot day dau tien (MSB)
+                    // Fetch data and perform first shift (MSB)
                     data_serial_o  <= fifo_data_i[15:14]; 
                     shift_reg      <= {fifo_data_i[13:0], 2'b00};
                     state          <= SHIFT;
                 end
 
                 SHIFT: begin
-                    fifo_rd_en_o <= 1'b0; // Dam bao luon tat lenh doc trong khi dich
+                    fifo_rd_en_o <= 1'b0; // Ensure read command is always disabled during shift
                     
                     if (count > 0) begin
                         data_serial_o  <= shift_reg[15:14];

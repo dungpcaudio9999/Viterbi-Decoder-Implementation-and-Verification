@@ -2,7 +2,7 @@
 `include "../design/acsu.v"
 module acsu_full_check_tb();
 
-    // Tin hieu ket noi
+    // Connection signals
     reg [1:0] bm_s0_s0, bm_s0_s2, bm_s1_s0, bm_s1_s2;
     reg [1:0] bm_s2_s1, bm_s2_s3, bm_s3_s1, bm_s3_s3;
     reg [7:0] pm_s0_i, pm_s1_i, pm_s2_i, pm_s3_i;
@@ -14,7 +14,7 @@ module acsu_full_check_tb();
     reg [7:0] exp_pm [0:3];
     reg [3:0] exp_dec;
 
-    // Khoi tao DUT
+    // Initialize DUT
     acsu uut (
         .bm_s0_s0_i(bm_s0_s0), .bm_s0_s2_i(bm_s0_s2), .bm_s1_s0_i(bm_s1_s0), .bm_s1_s2_i(bm_s1_s2),
         .bm_s2_s1_i(bm_s2_s1), .bm_s2_s3_i(bm_s2_s3), .bm_s3_s1_i(bm_s3_s1), .bm_s3_s3_i(bm_s3_s3),
@@ -41,12 +41,12 @@ module acsu_full_check_tb();
         end
     endtask
 
-    // Task hien thi chi tiet da PASS hay FAIL
+    // Task to display details if PASS or FAIL
     task verify_all;
         input [8*20:1] scenario;
         begin
             calculate_expected();
-            #1; // Cho mach to hop
+            #1; // Wait for combinational logic
             
             if (dec_bits_o === exp_dec && 
                 pm_s0_o === exp_pm[0] && pm_s1_o === exp_pm[1] && 
@@ -57,7 +57,7 @@ module acsu_full_check_tb();
                 error_count = error_count + 1;
             end
 
-            // Luon luon hien thi bang so sanh de chup anh bao cao
+            // Always display comparison table for report screenshot
             $display("      --------------------------------------------------");
             $display("      Output |   Got   | Expected | Status");
             $display("      -------|---------|----------|---------");
@@ -79,34 +79,34 @@ module acsu_full_check_tb();
         $display("START ACSU FULL REPORT: TIMING - GOT - EXPECTED");
         $display("=========================================================");
 
-        // Kich ban 1: Min Path (5 lan)
+        // Scenario 1: Min Path (5 times)
         for(j=1; j<=5; j=j+1) begin
             pm_s0_i=10*j; pm_s1_i=5*j; pm_s2_i=20*j; pm_s3_i=15*j;
             bm_s0_s0=1; bm_s1_s0=1; bm_s2_s1=1; bm_s3_s1=1;
             #10 verify_all("Min Path Case");
         end
 
-        // Kich ban 2: Toggling Winner (5 lan) - Doi tu nhanh 0 sang nhanh 1 thang
+        // Scenario 2: Toggling Winner (5 times) - Switch from branch 0 to branch 1 win
         for(j=1; j<=5; j=j+1) begin
             pm_s0_i=(j<3)? 5 : 50; pm_s1_i=(j<3)? 50 : 5;
             bm_s0_s0=2; bm_s1_s0=2;
             #10 verify_all("Switching Winner");
         end
 
-        // Kich ban 3: High Metric (Gan tran 8-bit)
+        // Scenario 3: High Metric (Near 8-bit overflow)
         for(j=1; j<=5; j=j+1) begin
             pm_s0_i=250; pm_s1_i=250; bm_s0_s0=j; bm_s1_s0=0;
             #10 verify_all("Boundary Case");
         end
 
-        // Kich ban 4: Zero Inputs
+        // Scenario 4: Zero Inputs
         for(j=1; j<=5; j=j+1) begin
             {pm_s0_i, pm_s1_i, pm_s2_i, pm_s3_i} = 32'h0;
             {bm_s0_s0, bm_s1_s0, bm_s2_s1, bm_s3_s1} = 8'h0;
             #10 verify_all("Zero Case");
         end
 
-        // Kich ban 5: Hoan toan ngau nhien
+        // Scenario 5: Completely random
         for(j=1; j<=5; j=j+1) begin
             pm_s0_i=$random; pm_s1_i=$random; pm_s2_i=$random; pm_s3_i=$random;
             bm_s0_s0=$random; bm_s1_s0=$random; bm_s2_s1=$random; bm_s3_s1=$random;
@@ -121,7 +121,7 @@ module acsu_full_check_tb();
     end
 
     initial begin
-        $dumpfile("acsu.vcd"); // Ten file du lieu song
+        $dumpfile("acsu.vcd"); // Waveform data file name
         $dumpvars(0, acsu_full_check_tb); 
     end
 endmodule

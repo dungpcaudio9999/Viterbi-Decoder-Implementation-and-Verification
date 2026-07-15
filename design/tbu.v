@@ -3,10 +3,10 @@ module tbu (
     input  wire        rst_n,
     input  wire        valid_i,
     
-    // 4 bit quyet dinh tu ACSU (de cap nhat history)
+    // 4 decision bits from ACSU (to update history)
     input  wire [3:0] dec_bits_i,
     
-    // Path Metrics MOI tu ACSU (de chon duong tot nhat khi xuat output)
+    // NEW Path Metrics from ACSU (to select best path for output)
     input  wire [7:0] pm_new_s0_i, pm_new_s1_i, pm_new_s2_i, pm_new_s3_i,
 
     // Outputs
@@ -14,13 +14,13 @@ module tbu (
     output reg         valid_o
 );
 
-    // Cau hinh: Do dai truy vet
+    // Configuration: Traceback length
     localparam TBL = 15;
 
-    // Cac thanh ghi lich su (Register Exchange)
+    // History registers (Register Exchange)
     reg [TBL-1:0] history_s0, history_s1, history_s2, history_s3;
     
-    // Quan ly do tre pipeline
+    // Pipeline latency management
     reg [3:0] latency_counter;
     reg       pipeline_full;
 
@@ -35,7 +35,7 @@ module tbu (
             valid_o <= 1'b0;
             decoded_bit_o <= 1'b0;
         end else if (valid_i) begin
-            // 1. Register Exchange Update (Cap nhat lich su)
+            // 1. Register Exchange Update (Update history)
             // S0
             if (dec_bits_i[0] == 0) history_s0 <= {history_s0[TBL-2:0], 1'b0};
             else                    history_s0 <= {history_s1[TBL-2:0], 1'b0};
@@ -56,7 +56,7 @@ module tbu (
                 valid_o <= 1'b0;
             end else begin
                 valid_o <= 1'b1;
-                // Tim Min Path Metric de chon bit dau ra tin cay nhat
+                // Find Min Path Metric to select the most reliable output bit
                 if (pm_new_s0_i <= pm_new_s1_i && pm_new_s0_i <= pm_new_s2_i && pm_new_s0_i <= pm_new_s3_i)
                     decoded_bit_o <= history_s0[TBL-1];
                 else if (pm_new_s1_i <= pm_new_s0_i && pm_new_s1_i <= pm_new_s2_i && pm_new_s1_i <= pm_new_s3_i)

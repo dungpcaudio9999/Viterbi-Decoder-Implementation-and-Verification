@@ -37,12 +37,12 @@ module viterbi_core (
         .bm_s3_s1_i(bm_s3_s1), .bm_s3_s3_i(bm_s3_s3),
         .pm_s0_i(pm_curr_s0), .pm_s1_i(pm_curr_s1),
         .pm_s2_i(pm_curr_s2), .pm_s3_i(pm_curr_s3),
-        .dec_bits_o(dec_bits_new),      // Gửi sang TBU
-        .pm_s0_o(pm_new_s0), .pm_s1_o(pm_new_s1), // Gửi sang PMU và TBU
+        .dec_bits_o(dec_bits_new),      // Send to TBU
+        .pm_s0_o(pm_new_s0), .pm_s1_o(pm_new_s1), // Send to PMU and TBU
         .pm_s2_o(pm_new_s2), .pm_s3_o(pm_new_s3)
     );
 
-    // 3. PMU (Chỉ lưu trữ Metric)
+    // 3. PMU (Metric storage only)
     pmu u_pmu (
         .clk(clk),
         .rst_n(rst_n),
@@ -53,13 +53,13 @@ module viterbi_core (
         .pm_current_s2_o(pm_curr_s2), .pm_current_s3_o(pm_curr_s3)
     );
 
-    // 4. TBU (Register Exchange Logic - Tách biệt)
+    // 4. TBU (Register Exchange Logic - Separated)
     tbu u_tbu (
         .clk(clk),
         .rst_n(rst_n),
         .valid_i(valid_i),
-        .dec_bits_i(dec_bits_new),     // Nhận quyết định từ ACSU
-        // Cũng nhận PM mới để biết đường nào tốt nhất
+        .dec_bits_i(dec_bits_new),     // Receive decision from ACSU
+        // Also receive new PM to know which path is best
         .pm_new_s0_i(pm_new_s0), .pm_new_s1_i(pm_new_s1),
         .pm_new_s2_i(pm_new_s2), .pm_new_s3_i(pm_new_s3),
         .decoded_bit_o(core_data_o),

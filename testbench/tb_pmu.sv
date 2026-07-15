@@ -3,7 +3,7 @@
 
 module pmu_tb();
 
-    // Tin hieu ket noi
+    // Connection signals
     reg clk;
     reg rst_n;
     reg valid_i;
@@ -13,7 +13,7 @@ module pmu_tb();
     integer j, error_count;
     reg [7:0] exp_s0, exp_s1, exp_s2, exp_s3;
 
-    // Khoi tao DUT
+    // Initialize DUT
     pmu uut (
         .clk(clk),
         .rst_n(rst_n),
@@ -24,11 +24,11 @@ module pmu_tb();
         .pm_current_s2_o(pm_cur_s2), .pm_current_s3_o(pm_cur_s3)
     );
 
-    // Tao xung clock 100MHz
+    // Generate 100MHz clock pulse
     initial clk = 0;
     always #5 clk = ~clk;
 
-    // Task hien thi bang so sanh chi tiet
+    // Task to display detailed comparison table
     task display_report;
         input [8*20:1] scenario;
         begin
@@ -65,13 +65,13 @@ module pmu_tb();
         for(j=1; j<=5; j=j+1) begin
             pm_new_s0 = 10*j; pm_new_s1 = 20*j; pm_new_s2 = 30*j; pm_new_s3 = 40*j;
             exp_s0 = 10*j; exp_s1 = 20*j; exp_s2 = 30*j; exp_s3 = 40*j;
-            @(posedge clk); #1; // Cho sau canh len 1ns
+            @(posedge clk); #1; // Wait 1ns after rising edge
             display_report("Update Enable");
         end
 
         // 3. Keep Data Test (valid_i = 0)
         valid_i = 0;
-        pm_new_s0 = 8'hFF; // Thay doi dau vao nhung valid=0
+        pm_new_s0 = 8'hFF; // Change input but valid=0
         repeat(5) @(posedge clk); #1;
         display_report("Keep Data (valid=0)");
 
@@ -97,7 +97,7 @@ module pmu_tb();
         $finish;
     end
     initial begin
-    $dumpfile("pmu.vcd"); // Tên file dữ liệu sóng
+    $dumpfile("pmu.vcd"); // Waveform data file name
     $dumpvars(0, pmu_tb); 
 end
 endmodule

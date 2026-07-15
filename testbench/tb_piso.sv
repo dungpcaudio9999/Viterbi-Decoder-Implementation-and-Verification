@@ -3,7 +3,7 @@
 
 module piso_tb();
 
-    // Tin hieu ket noi
+    // Connection signals
     reg clk;
     reg rst_n;
     reg [15:0] fifo_data_i;
@@ -16,7 +16,7 @@ module piso_tb();
     reg [15:0] test_val;
     reg [15:0] exp_shift_reg;
 
-    // Khoi tao DUT
+    // Initialize DUT
     piso uut (
         .clk(clk),
         .rst_n(rst_n),
@@ -27,21 +27,21 @@ module piso_tb();
         .valid_serial_o(valid_serial_o)
     );
 
-    // Tao xung Clock (10ns = 100MHz)
+    // Generate Clock pulse (10ns = 100MHz)
     initial clk = 0;
     always #5 clk = ~clk;
 
-    // Task kiem tra 1 chu ky PISO (8 cap bits)
+    // Task to check 1 PISO cycle (8 bit pairs)
     task check_piso_cycle;
         input [15:0] expected_data;
         begin
             exp_shift_reg = expected_data;
             
-            // Cho cho den khi valid_serial_o len 1
+            // Wait until valid_serial_o goes to 1
             wait(valid_serial_o == 1'b1);
             
             for (k = 0; k < 8; k = k + 1) begin
-                // So sanh ket qua thuc te va ky vong
+                // Compare actual and expected results
                 if (data_serial_o === exp_shift_reg[15:14]) begin
                     $display("[%0t ns] [PASS] Step %0d | Got: %b | Exp: %b", $time, k, data_serial_o, exp_shift_reg[15:14]);
                 end else begin
@@ -49,16 +49,16 @@ module piso_tb();
                     error_count = error_count + 1;
                 end
                 
-                // Cap nhat mo hinh dich bit de so sanh
+                // Update bit shift model for comparison
                 exp_shift_reg = {exp_shift_reg[13:0], 2'b00};
                 @(posedge clk);
-                #1; // Offset nho de kiem tra du lieu sau canh clock
+                #1; // Small offset to check data after clock edge
             end
         end
     endtask
 
     initial begin
-        // Khoi tao
+        // Initialize
         error_count = 0;
         rst_n = 0;
         fifo_empty_i = 1;
@@ -68,10 +68,10 @@ module piso_tb();
         $display("START PISO TEST: 5 SCENARIOS x 5 ITERATIONS");
         $display("=====================================================");
 
-        #25 rst_n = 1; // Giai phong Reset
+        #25 rst_n = 1; // Release Reset
         #10;
 
-        // --- Kich ban 1 den 5 ---
+        // --- Scenarios 1 to 5 ---
         for (i = 0; i < 5; i = i + 1) begin
             case(i)
                 0: test_val = 16'hAAAA;
@@ -83,20 +83,20 @@ module piso_tb();
 
             $display("\n---> SCENARIO %0d: Data 16'h%h", i+1, test_val);
 
-            // Lap lai moi kich ban 5 lan
+            // Repeat each scenario 5 times
             for (j = 1; j <= 5; j = j + 1) begin
                 $display("  Iteration %0d:", j);
                 
                 fifo_empty_i = 0;
                 fifo_data_i = test_val;
 
-                // Doi lenh doc tu module (fifo_rd_en_o)
+                // Wait for read command from module (fifo_rd_en_o)
                 wait(fifo_rd_en_o == 1'b1);
                 @(posedge clk);
-                #1 fifo_empty_i = 1; // Gia lap FIFO het du lieu sau khi doc
+                #1 fifo_empty_i = 1; // Simulate FIFO empty after reading
 
                 check_piso_cycle(test_val);
-                #20; // Nghi giua cac lan lap
+                #20; // Pause between iterations
             end
         end
 
@@ -112,7 +112,7 @@ module piso_tb();
     end
 
 initial begin
-    $dumpfile("piso.vcd"); // Ten file du lieu song
+    $dumpfile("piso.vcd"); // Waveform data file name
     $dumpvars(0, piso_tb); 
 end
 

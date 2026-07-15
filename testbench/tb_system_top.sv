@@ -10,7 +10,7 @@ module tb_system_top;
     string BLUE   = "\033[1;34m";
     string CYAN   = "\033[1;36m";
 
-    // Thống kê chi tiết: [0]=Clean, [1]=1bit, [2]=2bit, [3]=3bit, [4]=4+ bits
+    // Detailed statistics: [0]=Clean, [1]=1bit, [2]=2bit, [3]=3bit, [4]=4+ bits
     int stat_pass [0:4]; 
     int stat_fail [0:4];
     int total_tests = 0;
@@ -21,9 +21,9 @@ module tb_system_top;
     logic [7:0]  data_o;
 
     // --- 2. State & Queues ---
-    logic [7:0]  expected_queue [$];      // Hàng đợi kết quả mong đợi
-    logic [15:0] sent_packet_queue [$];   // Hàng đợi gói tin input (để in log)
-    int          error_count_queue [$];   // Hàng đợi số bit lỗi (để thống kê)
+    logic [7:0]  expected_queue [$];      // Expected result queue
+    logic [15:0] sent_packet_queue [$];   // Input packet queue (for logging)
+    int          error_count_queue [$];   // Error bit count queue (for statistics)
     
     logic [1:0] encoder_state; 
     bit first_byte_rcvd; 
@@ -48,12 +48,12 @@ module tb_system_top;
         print_separator();
     endtask
 
-    // Cập nhật: In thêm cột số lỗi và cộng dồn thống kê
+    // Update: Add error count column and accumulate statistics
     task print_row(input string status, input [15:0] input_val, input [7:0] recv, input [7:0] exp, input int err_cnt);
         string color;
         int idx;
         
-        // Clamp index về 4 nếu lỗi >= 4
+        // Clamp index to 4 if errors >= 4
         idx = (err_cnt > 4) ? 4 : err_cnt;
 
         if (status == "PASS") begin
@@ -79,7 +79,7 @@ module tb_system_top;
         int total_fail = 0;
         int i;
 
-        // --- FIX ERROR: Thay thế .sum() bằng vòng lặp thủ công ---
+        // --- FIX ERROR: Replace .sum() with manual loop ---
         for (i = 0; i <= 4; i++) begin
             total_pass = total_pass + stat_pass[i];
             total_fail = total_fail + stat_fail[i];
@@ -136,11 +136,11 @@ module tb_system_top;
                     if(expected_queue.size() > 0) begin
                         exp_data = expected_queue.pop_front();
                         
-                        // Lấy packet gốc
+                        // Get original packet
                         if(sent_packet_queue.size() > 0) orig_input = sent_packet_queue.pop_front();
                         else orig_input = 16'hXXXX;
 
-                        // Lấy số lỗi tương ứng
+                        // Get corresponding error count
                         if(error_count_queue.size() > 0) curr_err_cnt = error_count_queue.pop_front();
                         else curr_err_cnt = 0;
 
@@ -162,9 +162,9 @@ module tb_system_top;
         error_count_queue.delete(); 
         encoder_state = 0; first_byte_rcvd = 0; 
         
-        // Reset thống kê mảng về 0 thủ công (để an toàn với iverilog)
-        // Lưu ý: Ta KHÔNG reset thống kê giữa các phase để có bảng tổng hợp cuối cùng
-        // Chỉ reset queue và tín hiệu.
+        // Reset statistics array to 0 manually (for safety with iverilog)
+        // Note: We DO NOT reset statistics between phases to keep the final summary table
+        // Only reset queues and signals.
         
         repeat(10) @(posedge clk);
         rst_n = 1;
@@ -178,7 +178,7 @@ module tb_system_top;
                 #5000000; 
                 if(expected_queue.size() > 0) begin
                     $display("%s[TIMEOUT] %s timed out! Remaining: %0d%s", RED, name, expected_queue.size(), RESET);
-                    stat_fail[0]++; // Tính là lỗi chung
+                    stat_fail[0]++; // Count as general error
                     total_tests++;
                 end
             end
@@ -234,7 +234,7 @@ module tb_system_top;
         repeat(50) @(posedge clk);
     endtask
 
-    // --- TASK ĐẶC BIỆT: SỬA LỖI 1 BIT VỚI ZERO TAILING ---
+    // --- SPECIAL TASK: 1 BIT ERROR CORRECTION WITH ZERO TAILING ---
     task verify_full_single_bit_correction(input logic [7:0] byte_in);
         logic [15:0] encoded_packet;
         logic [15:0] corrupted_packet;
@@ -243,7 +243,7 @@ module tb_system_top;
         logic [1:0] temp_state;
         
         temp_state = 0; 
-        // 1. Mã hóa gói gốc
+        // 1. Encode original packet
         for (int i = 0; i < 8; i++) begin
             pair[0] = byte_in[i] ^ temp_state[1] ^ temp_state[0]; 
             pair[1] = byte_in[i] ^ temp_state[0];                     
@@ -251,7 +251,7 @@ module tb_system_top;
             encoded_packet[15 - (2*i)]     = pair[0]; 
             encoded_packet[15 - (2*i) - 1] = pair[1]; 
         end
-        // 2. Mã hóa gói đuôi
+        // 2. Encode tail packet
         for (int k = 0; k < 8; k++) begin
             pair[0] = 1'b0 ^ temp_state[1] ^ temp_state[0]; 
             pair[1] = 1'b0 ^ temp_state[0];                     
@@ -268,18 +268,18 @@ module tb_system_top;
             corrupted_packet = encoded_packet;
             corrupted_packet[err_pos] = ~corrupted_packet[err_pos]; 
             
-            // Gửi gói lỗi
+            // Send corrupted packet
             dvalid_i <= 1; data_i <= corrupted_packet; 
             expected_queue.push_back(byte_in);
             sent_packet_queue.push_back(corrupted_packet);
             error_count_queue.push_back(1); // 1-bit error
             @(posedge clk); 
             
-            // Gửi gói đuôi
+            // Send tail packet
             dvalid_i <= 1; data_i <= tail_packet;
             expected_queue.push_back(8'h00); 
             sent_packet_queue.push_back(tail_packet); 
-            error_count_queue.push_back(0); // Đuôi là Clean
+            error_count_queue.push_back(0); // Tail is Clean
             @(posedge clk); 
             dvalid_i <= 0;
             
@@ -387,7 +387,7 @@ module tb_system_top;
         print_header();
         repeat(20) encode_and_drive_noisy(8'hAA, 4); 
         flush_pipeline();
-        // Clear queue thủ công nếu quá nhiều lỗi
+        // Clear queue manually if too many errors
         fork 
             wait(expected_queue.size() == 0); 
             begin #100000; expected_queue.delete(); end 

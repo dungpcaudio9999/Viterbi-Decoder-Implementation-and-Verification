@@ -1,10 +1,10 @@
 module sipo (
     input  wire        clk,
     input  wire        rst_n,
-    input  wire        data_serial_i,  // Bit tu TBU
-    input  wire        valid_serial_i, // Co valid tu TBU
+    input  wire        data_serial_i,  // Bit from TBU
+    input  wire        valid_serial_i, // Valid flag from TBU
     output reg [7:0]   data_parallel_o,
-    output reg         byte_ready_o    // Bao da du 8 bit
+    output reg         byte_ready_o    // Indicates 8 bits are ready
 );
 
     reg [2:0] count;
@@ -15,29 +15,29 @@ module sipo (
             byte_ready_o    <= 1'b0;
             count           <= 3'b0;
         end else begin
-            byte_ready_o <= 1'b0; // Mac dinh muc thap
+            byte_ready_o <= 1'b0; // Default low
             if (valid_serial_i) begin
-                // Luu y: Traceback thuong tra ve bit theo thu tu nguoc (moi nhat -> cu nhat)
-                // Hoac xuoi tuy vao cach TBU ban ra.
-                // O TBU tren ta trace tu cuoi ve dau -> Bit nhan duoc la bit cuoi cung cua goi (LSB hay MSB tuy endian).
-                // Gia su ta dich bit vao tu MSB den LSB hoac nguoc lai.
-                // De dung thu tu goi tin goc (thuong gui bit 0 truoc), va TBU tra bit 7 truoc...
-                // Ta shift right:
+                // Note: Traceback usually returns bits in reverse order (newest -> oldest)
+                // Or forward depending on how TBU outputs.
+                // In the above TBU, we trace from end to start -> Received bit is the last bit of the packet (LSB or MSB depending on endianness).
+                // Assuming we shift bits from MSB to LSB or vice versa.
+                // To keep original packet order (usually sends bit 0 first), and TBU returns bit 7 first...
+                // We shift right:
                 data_parallel_o <= {data_serial_i, data_parallel_o[7:1]}; 
                 
-                // 3. Quan ly bo dem bit
+                // 3. Bit counter management
                 if (count == 3'd7) begin
                     byte_ready_o <= 1'b1;
-                    count        <= 3'b0; // Reset dem khi du 8 bit
+                    count        <= 3'b0; // Reset counter when 8 bits are received
                 end else begin
                     byte_ready_o <= 1'b0;
                     count        <= count + 1'b1;
                 end
             end else begin
-                // 4. Nhanh ELSE quan trong: Giu nguyen moi gia tri khi du lieu chua san sang
+                // 4. Important ELSE branch: Keep all values when data is not ready
                 data_parallel_o <= data_parallel_o;
                 count           <= count;
-                byte_ready_o    <= 1'b0; // Luon dam bao ready = 0 khi khong co bit moi
+                byte_ready_o    <= 1'b0; // Always ensure ready = 0 when there are no new bits
             end
         end
     end
